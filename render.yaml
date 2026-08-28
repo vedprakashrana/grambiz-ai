@@ -35,4 +35,3 @@ services:
           type: web
           name: grambiz-api
           property: host
-        value: https://${grambiz-api.host}/api/v1
