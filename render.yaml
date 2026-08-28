@@ -1,0 +1,38 @@
+services:
+  # 1. FastAPI Backend Web Service
+  - type: web
+    name: grambiz-api
+    env: python
+    region: oregon
+    plan: free
+    rootDir: apps/api
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: LLM_PROVIDER
+        value: mock
+      - key: CORS_ORIGINS
+        value: "*"
+
+  # 2. Next.js Frontend Web Service
+  - type: web
+    name: grambiz-web
+    env: node
+    region: oregon
+    plan: free
+    rootDir: apps/web
+    buildCommand: npm install && npm run build
+    startCommand: npm run start -- -p $PORT
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: grambiz-api
+          property: host
+        value: https://${grambiz-api.host}/api/v1
