@@ -371,6 +371,7 @@ def ai_chat(payload: AIChatRequest):
     
     result = AIOrchestrator.answer_query(
         message=payload.message,
+        conversation_id=conv_id,
         context_data=context,
         language=payload.preferred_language
     )

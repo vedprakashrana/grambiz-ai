@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Bot, 
   Send, 
@@ -11,7 +11,10 @@ import {
   MicOff, 
   BookOpen, 
   FileText, 
-  ChevronDown 
+  ChevronDown,
+  RotateCcw,
+  ShieldCheck,
+  AlertCircle
 } from 'lucide-react';
 import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../../context/LanguageContext';
 
@@ -22,10 +25,12 @@ interface Citation {
 }
 
 interface Message {
+  id: string;
   role: 'assistant' | 'user';
   content: string;
   citations?: Citation[];
   suggested_actions?: string[];
+  createdAt: string;
 }
 
 export default function AssistantPage() {
@@ -35,42 +40,48 @@ export default function AssistantPage() {
   const [loading, setLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [activeCitationModal, setActiveCitationModal] = useState<Citation | null>(null);
-  const [isSpeaking, setIsSpeaking] = useState<number | null>(null);
+  const [speakingMsgId, setSpeakingMsgId] = useState<string | null>(null);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [conversationId, setConversationId] = useState<string>('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize Welcome Message in the active language
+  // Initialize ONCE per conversation - NO duplicate messages on render
   useEffect(() => {
-    const welcomeTexts: Record<LanguageCode, string> = {
-      hi: 'नमस्ते! मैं ग्रामबिज़ एआई प्रो हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय सलाहकार। आप मुझसे हिंदी, English या अपनी भाषा में बोलकर प्रश्न पूछ सकते हैं।',
-      en: 'Hello! I am GramBiz AI Pro — your rural enterprise and financial advisory assistant. You can speak or type in any of 8 Indian languages.',
-      bn: 'নমস্কার! আমি গ্রামীণ ব্যবসা ও আর্থিক উপদেষ্টা গ্রামবিজ এআই প্রো। আপনি আমাকে যেকোনো সরকারি ঋণ ও প্রকল্প সম্পর্কে জিজ্ঞাসা করতে পারেন।',
-      mr: 'नमस्कार! मी ग्रामबिझ एआय प्रो आहे — तुमचा ग्रामीण व्यवसाय व वित्तीय सल्लागार. तुम्ही मला व्यवसाय कर्ज व योजनांबद्दल विचारू शकता.',
-      gu: 'નમસ્તે! હું ગ્રામબિઝ એઆઈ પ્રો છું — તમારો ગ્રામીણ વ્યવસાય અને નાણાકીય સહાયક. તમે લોન ગણતરી અને MoSJE યોજનાઓ વિશે પૂછી શકો છો.',
-      ta: 'வணக்கம்! நான் கிராம்Sync AI Pro — உங்கள் கிராமப்புற தொழில் மற்றும் நிதி ஆலோசகர். கடன் திட்டங்கள் மற்றும் வட்டி விவரங்களை என்னிடம் கேட்கலாம்.',
-      te: 'నమస్కారం! నేను గ్రాంబిజ్ ఏఐ ప్రో — మీ గ్రామీణ వ్యాపార మరియు ఆర్థిక సహాయకుడిని. ప్రభుత్వ పథకాలు మరియు రుణాల గురించి అడగండి.',
-      kn: 'ನಮಸ್ಕಾರ! ನಾನು ಗ್ರಾಂಬಿಜ್ ಎಐ ಪ್ರೊ — ನಿಮ್ಮ ಗ್ರಾಮೀಣ ಉದ್ಯಮ ಮತ್ತು ಆರ್ಥಿಕ ಸಲಹೆಗಾರ. ಸಾಲದ ಯೋಜನೆಗಳ ಬಗ್ಗೆ ಪ್ರಶ್ನೆಗಳನ್ನು ಕೇಳಿ.'
+    const initConvId = 'conv_' + Math.random().toString(36).substring(2, 11);
+    setConversationId(initConvId);
+
+    const welcomeMsg: Message = {
+      id: 'welcome-init-1',
+      role: 'assistant',
+      content: currentLang === 'en' 
+        ? "Hello! I am GramBiz AI — your rural enterprise and financial planning assistant. You can ask about business ideas, local market competition, loan eligibility, MoSJE schemes, operational risks, and financial structuring."
+        : "नमस्ते! मैं GramBiz AI हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय योजना सलाहकार। आप मुझसे बिजनेस आइडिया, लोकल मार्केट कॉम्पिटिशन, लोन पात्रता, MoSJE सरकारी योजनाओं, रिस्क और फाइनेंशियल प्लानिंग के बारे में पूछ सकते हैं।",
+      citations: [
+        { source: 'MoSJE Scheme Guidelines 2024 (NBCFDC Policy)', section: 'Section 4.1 - Eligibility & Margin Contribution', confidence: 'Verified' }
+      ],
+      suggested_actions: currentLang === 'en' ? [
+        'I have ₹1 Lakh margin for Dairy business',
+        'What are the key risks in poultry farming?',
+        'Compare Dairy and Tailoring business'
+      ] : [
+        'मेरे पास डेयरी के लिए ₹1 लाख मार्जिन है',
+        'पोल्ट्री फार्मिंग में क्या जोखिम हैं?',
+        'डेयरी और टेलरिंग बिजनेस की तुलना करें'
+      ],
+      createdAt: new Date().toISOString()
     };
 
-    setMessages([
-      {
-        role: 'assistant',
-        content: welcomeTexts[currentLang] || welcomeTexts['hi'],
-        citations: [
-          { source: 'MoSJE Scheme Guidelines 2024 (NBCFDC Policy)', section: 'Section 4.1 - Eligibility & Margin Contribution', confidence: 'Verified' }
-        ],
-        suggested_actions: [
-          'How much loan can I get for ₹1 lakh margin in Dairy?',
-          'What are the key risks in poultry farming?',
-          'Compare Dairy vs Tailoring business'
-        ]
-      }
-    ]);
+    setMessages([welcomeMsg]);
   }, [currentLang]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, loading]);
 
   // Speech Recognition Hook (Voice-In)
   const toggleListening = () => {
     if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert('Speech Recognition is supported in Chrome & Edge browsers.');
+      alert('Speech Recognition is supported in modern Chrome & Edge browsers.');
       return;
     }
 
@@ -98,36 +109,73 @@ export default function AssistantPage() {
     recognition.start();
   };
 
-  // Text-To-Speech Audio Synth (Voice-Out)
-  const speakText = (text: string, msgIdx: number) => {
+  // Text-To-Speech Audio Synth (Voice-Out) for the EXACT message
+  const speakText = (text: string, msgId: string) => {
     if (!('speechSynthesis' in window)) {
       alert('Speech synthesis is not supported on this browser.');
       return;
     }
 
-    if (isSpeaking === msgIdx) {
+    if (speakingMsgId === msgId) {
       window.speechSynthesis.cancel();
-      setIsSpeaking(null);
+      setSpeakingMsgId(null);
       return;
     }
 
     window.speechSynthesis.cancel();
-    const cleanText = text.replace(/[*_#]/g, '');
+    const cleanText = text.replace(/[*_#>`]/g, '');
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = currentOption.speechCode || 'hi-IN';
     utterance.rate = 0.95;
     
-    utterance.onend = () => setIsSpeaking(null);
-    utterance.onerror = () => setIsSpeaking(null);
+    utterance.onend = () => setSpeakingMsgId(null);
+    utterance.onerror = () => setSpeakingMsgId(null);
 
-    setIsSpeaking(msgIdx);
+    setSpeakingMsgId(msgId);
     window.speechSynthesis.speak(utterance);
   };
 
-  const sendMessage = async (text: string) => {
-    if (!text.trim()) return;
+  const handleResetChat = () => {
+    window.speechSynthesis?.cancel();
+    const newConvId = 'conv_' + Math.random().toString(36).substring(2, 11);
+    setConversationId(newConvId);
+    
+    const welcomeMsg: Message = {
+      id: 'welcome-' + Date.now(),
+      role: 'assistant',
+      content: currentLang === 'en'
+        ? "Hello! I am GramBiz AI — your rural enterprise and financial planning assistant. How can I help you today?"
+        : "नमस्ते! मैं GramBiz AI हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय योजना सलाहकार। आज मैं आपकी क्या सहायता कर सकता हूँ?",
+      citations: [
+        { source: 'MoSJE Scheme Guidelines 2024 (NBCFDC Policy)', section: 'Section 4.1 - Eligibility & Margin Contribution', confidence: 'Verified' }
+      ],
+      suggested_actions: currentLang === 'en' ? [
+        'I have ₹1 Lakh margin for Dairy business',
+        'What are the key risks in poultry farming?',
+        'Compare Dairy vs Tailoring'
+      ] : [
+        'मेरे पास डेयरी के लिए ₹1 लाख मार्जिन है',
+        'पोल्ट्री फार्मिंग में मुख्य रिस्क क्या हैं?',
+        'डेयरी और टेलरिंग की तुलना करें'
+      ],
+      createdAt: new Date().toISOString()
+    };
+    setMessages([welcomeMsg]);
+  };
 
-    const userMsg: Message = { role: 'user', content: text, citations: [], suggested_actions: [] };
+  const sendMessage = async (textToSend: string) => {
+    const trimmed = textToSend.trim();
+    if (!trimmed || loading) return;
+
+    const userMsgId = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+    const userMsg: Message = {
+      id: userMsgId,
+      role: 'user',
+      content: trimmed,
+      createdAt: new Date().toISOString()
+    };
+
+    // Functional update prevents state clobbering
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setLoading(true);
@@ -137,39 +185,40 @@ export default function AssistantPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: text,
+          conversation_id: conversationId,
+          message: trimmed,
           preferred_language: currentLang
         })
       });
 
       if (res.ok) {
         const data = await res.json();
+        const assistantMsgId = 'asst_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
         const newAssistantMsg: Message = {
+          id: assistantMsgId,
           role: 'assistant',
           content: data.reply,
           citations: data.citations || [],
-          suggested_actions: data.suggested_actions || []
+          suggested_actions: data.suggested_actions || [],
+          createdAt: new Date().toISOString()
         };
         setMessages(prev => [...prev, newAssistantMsg]);
       } else {
-        throw new Error();
+        throw new Error('API server returned error');
       }
     } catch (e) {
-      // Local fallback with natural multilingual responses
-      setTimeout(() => {
-        let reply = "₹1,00,000 मार्जिन पूंजी के साथ आपकी कुल परियोजना लागत ₹10,00,000 है। MoSJE टर्म लोन योजना के तहत आप 8.0% वार्षिक ब्याज और 6 महीने की मोरेटोरियम के साथ ₹9,00,000 तक का लोन पाने के पात्र हैं।";
-        if (currentLang === 'en') {
-          reply = "With ₹1,00,000 in margin capital, your total project outlay is ₹10,00,000. Under the MoSJE Term Loan Scheme, you are eligible for up to ₹9,00,000 at 8.0% p.a. interest with a 6-month moratorium.";
-        } else if (currentLang === 'bn') {
-          reply = "আপনার কাছে ₹১,০০,০০০ মার্জিন ক্যাপিটাল রয়েছে। সরকারের ৯০% অর্থায়ন সূত্রের অধীনে আপনার মোট প্রকল্প ব্যয় ₹১০,০০,০০০।";
-        }
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: reply,
-          citations: [{ source: 'MoSJE Term Loan Policy 2024', section: 'Concessional Credit', confidence: 'Verified' }],
-          suggested_actions: ['Start Business Assessment', 'Explore Dairy Strategy', 'Compare Business Ideas']
-        }]);
-      }, 400);
+      // Graceful error state without hardcoded canned answers
+      const errorMsgId = 'err_' + Date.now();
+      setMessages(prev => [...prev, {
+        id: errorMsgId,
+        role: 'assistant',
+        content: currentLang === 'en'
+          ? "Sorry, I couldn't process that request right now. Please check the backend connection and try again."
+          : "क्षमा करें, अभी इस अनुरोध को संसाधित करने में समस्या आई है। कृपया पुनः प्रयास करें।",
+        citations: [],
+        suggested_actions: ['Try again', 'Check Scheme Guidelines'],
+        createdAt: new Date().toISOString()
+      }]);
     } finally {
       setLoading(false);
     }
@@ -177,7 +226,7 @@ export default function AssistantPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto flex flex-col h-[84vh] bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="max-w-4xl mx-auto flex flex-col h-[85vh] bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         
         {/* Chat Header */}
         <div className="p-4 bg-emerald-900 text-white flex items-center justify-between shadow-md">
@@ -187,57 +236,69 @@ export default function AssistantPage() {
             </div>
             <div>
               <h2 className="text-base font-bold flex items-center gap-2">
-                GramBiz Voice & 8-Language AI Advisor
-                <span className="text-[10px] bg-amber-400 text-slate-950 font-extrabold px-2 py-0.5 rounded shadow-sm">8 LANGUAGES</span>
+                GramBiz Conversational AI Advisor
+                <span className="text-[10px] bg-amber-400 text-slate-950 font-extrabold px-2 py-0.5 rounded shadow-sm">ACTIVE MEMORY</span>
               </h2>
-              <p className="text-[11px] text-emerald-200">Grounded with MoSJE Scheme Knowledge Base in 8 Official Indian Languages</p>
+              <p className="text-[11px] text-emerald-200">Context-Aware Reasoning & Exact Tool-Grounded Calculations</p>
             </div>
           </div>
 
-          {/* Language Selector */}
-          <div className="relative">
+          {/* Action Buttons: Language + New Chat */}
+          <div className="flex items-center space-x-2">
             <button
-              onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-white border border-emerald-700 transition shadow-sm"
+              onClick={handleResetChat}
+              title="Start New Conversation"
+              className="flex items-center gap-1 text-xs font-bold px-2.5 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-white border border-emerald-700 transition shadow-sm"
             >
-              <span>{currentOption.flag}</span>
-              <span>{currentOption.nativeName}</span>
-              <ChevronDown className="w-3.5 h-3.5 text-emerald-300" />
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">New Chat</span>
             </button>
 
-            {langMenuOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 text-slate-900">
-                <div className="px-3 py-1 text-[10px] font-extrabold uppercase text-slate-400 border-b border-slate-100">
-                  Select Language
+            {/* Language Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-white border border-emerald-700 transition shadow-sm"
+              >
+                <span>{currentOption.flag}</span>
+                <span>{currentOption.nativeName}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-emerald-300" />
+              </button>
+
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 text-slate-900">
+                  <div className="px-3 py-1 text-[10px] font-extrabold uppercase text-slate-400 border-b border-slate-100">
+                    Select Language
+                  </div>
+                  {SUPPORTED_LANGUAGES.map(lang => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setLanguage(lang.code);
+                        setLangMenuOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-slate-50 transition ${
+                        currentLang === lang.code ? 'bg-emerald-50 text-emerald-900 font-extrabold' : 'text-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>{lang.flag}</span>
+                        <span>{lang.nativeName}</span>
+                      </div>
+                      <span className="text-[10px] text-slate-400 font-medium">{lang.name}</span>
+                    </button>
+                  ))}
                 </div>
-                {SUPPORTED_LANGUAGES.map(lang => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      setLanguage(lang.code);
-                      setLangMenuOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-slate-50 transition ${
-                      currentLang === lang.code ? 'bg-emerald-50 text-emerald-900 font-extrabold' : 'text-slate-700'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span>{lang.flag}</span>
-                      <span>{lang.nativeName}</span>
-                    </div>
-                    <span className="text-[10px] text-slate-400 font-medium">{lang.name}</span>
-                  </button>
-                ))}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
         {/* Message Stream */}
         <div className="flex-1 p-4 overflow-y-auto space-y-4">
-          {messages.map((m, idx) => (
+          {messages.map((m) => (
             <div
-              key={idx}
+              key={m.id}
               className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}
             >
               <div
@@ -248,20 +309,22 @@ export default function AssistantPage() {
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <p className="whitespace-pre-line flex-1">{m.content}</p>
+                  <div className="whitespace-pre-line flex-1 space-y-1.5">
+                    {m.content}
+                  </div>
                   
-                  {/* Text-to-Speech Button in active language voice */}
+                  {/* Text-to-Speech Button specifically for THIS message */}
                   {m.role === 'assistant' && (
                     <button
-                      onClick={() => speakText(m.content, idx)}
+                      onClick={() => speakText(m.content, m.id)}
                       title={`Audio Voice Output (${currentOption.nativeName})`}
                       className={`p-1.5 rounded-lg border transition ${
-                        isSpeaking === idx 
+                        speakingMsgId === m.id 
                           ? 'bg-amber-100 text-amber-900 border-amber-300 animate-pulse' 
                           : 'text-slate-500 hover:text-emerald-700 hover:bg-slate-200 border-slate-200'
                       }`}
                     >
-                      {isSpeaking === idx ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                      {speakingMsgId === m.id ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                     </button>
                   )}
                 </div>
@@ -283,7 +346,7 @@ export default function AssistantPage() {
                 )}
               </div>
 
-              {/* Suggested Action Buttons */}
+              {/* Dynamic Contextual Follow-Up Suggestions */}
               {m.suggested_actions && m.suggested_actions.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {m.suggested_actions.map((act, i) => (
@@ -301,13 +364,14 @@ export default function AssistantPage() {
           ))}
 
           {loading && (
-            <div className="flex items-center space-x-2 text-xs text-slate-500 italic p-2">
+            <div className="flex items-center space-x-2 text-xs text-slate-500 italic p-3 bg-slate-50 rounded-2xl w-fit border border-slate-200">
               <div className="w-2 h-2 rounded-full bg-emerald-700 animate-bounce"></div>
               <div className="w-2 h-2 rounded-full bg-emerald-700 animate-bounce [animation-delay:0.2s]"></div>
               <div className="w-2 h-2 rounded-full bg-emerald-700 animate-bounce [animation-delay:0.4s]"></div>
-              <span>GramBiz AI is analyzing in {currentOption.nativeName}...</span>
+              <span>GramBiz AI is analyzing calculations & local data...</span>
             </div>
           )}
+          <div ref={messagesEndRef} />
         </div>
 
         {/* Voice & Text Input Bar */}
@@ -322,7 +386,7 @@ export default function AssistantPage() {
             }`}
           >
             {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-amber-700" />}
-            <span className="hidden sm:inline">{isListening ? 'Listening...' : currentOption.nativeName}</span>
+            <span className="hidden sm:inline">{isListening ? 'Listening...' : 'Voice Mic'}</span>
           </button>
 
           <input
@@ -330,7 +394,7 @@ export default function AssistantPage() {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && sendMessage(input)}
-            placeholder={`Type or speak in ${currentOption.nativeName} (${currentOption.name})...`}
+            placeholder={`Type your question here (e.g. Mere paas ₹1 lakh hai...)...`}
             className="flex-1 px-4 py-2.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
           />
 
