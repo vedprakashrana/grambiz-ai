@@ -263,3 +263,26 @@ class AIChatResponse(BaseModel):
     reply: str
     citations: List[dict] = []
     suggested_actions: List[str] = []
+
+# ----------------- Pro Schemas -----------------
+class OCRScanRequest(BaseModel):
+    document_name: str
+    document_base64: Optional[str] = None
+    sample_text: Optional[str] = None
+
+class MLForecastRequest(BaseModel):
+    category: str = "Dairy"
+    current_unit_price: float = 42.0
+    monthly_base_volume: int = 1500
+    months_ahead: int = 6
+
+class AdminSchemeUpdateRequest(BaseModel):
+    scheme_code: str
+    scheme_name: str
+    interest_rate: Decimal
+    max_project_cost: Decimal
+    financing_ratio: Decimal = Decimal("0.90")
+    moratorium_months: int
+    tenure_months: int
+    source_document: str
+

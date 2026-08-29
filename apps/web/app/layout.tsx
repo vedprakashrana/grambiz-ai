@@ -1,12 +1,21 @@
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
-import type { Metadata } from 'next';
 import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
 import { AuthProvider } from '../context/AuthContext';
 
+const inter = Inter({ subsets: ['latin'] });
+
+export const viewport: Viewport = {
+  themeColor: '#064e3b',
+  width: 'device-width',
+  initialScale: 1
+};
+
 export const metadata: Metadata = {
-  title: 'GramBiz AI | AI-Driven Rural Business Advisory & Financial Structuring',
-  description: 'AI-powered hyper-local business feasibility and financial structuring assistant for rural micro-entrepreneurs. MoSJE Problem 2609.',
+  title: 'GramBiz AI Pro — Rural Enterprise & Financial Structuring Assistant',
+  description: 'AI-driven hyper-local rural business feasibility advisory and financial structuring engine under Ministry of Social Justice and Empowerment (MoSJE).',
+  manifest: '/manifest.json'
 };
 
 export default function RootLayout({
@@ -16,13 +25,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col antialiased bg-slate-50 text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+      </head>
+      <body className={`${inter.className} min-h-screen bg-slate-50 text-slate-900 antialiased`}>
         <AuthProvider>
           <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <main>{children}</main>
         </AuthProvider>
       </body>
     </html>

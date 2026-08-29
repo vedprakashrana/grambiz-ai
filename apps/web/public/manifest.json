@@ -1,0 +1,16 @@
+{
+  "name": "GramBiz AI Pro",
+  "short_name": "GramBiz",
+  "description": "AI-Driven Rural Enterprise Advisory and Financial Structuring Assistant",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#064e3b",
+  "theme_color": "#064e3b",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

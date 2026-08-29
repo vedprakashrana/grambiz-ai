@@ -1,9 +1,22 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Landmark, Languages, User as UserIcon, LogOut, Sparkles, LayoutDashboard } from 'lucide-react';
+import { 
+  Landmark, 
+  Languages, 
+  User as UserIcon, 
+  LogOut, 
+  Sparkles, 
+  LayoutDashboard,
+  FileSearch,
+  Store,
+  TrendingUp,
+  Database,
+  Layers,
+  Mic
+} from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Navbar() {
@@ -24,6 +37,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+          
           {/* Logo & MoSJE Endorsement */}
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="w-10 h-10 rounded-lg bg-emerald-800 flex items-center justify-center text-white shadow-md group-hover:bg-emerald-900 transition">
@@ -32,6 +46,7 @@ export default function Navbar() {
             <div>
               <span className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-1.5">
                 GramBiz <span className="text-emerald-700 font-extrabold">AI</span>
+                <span className="text-[9px] bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded shadow-sm">PRO</span>
               </span>
               <p className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">
                 Dept of Social Justice & Empowerment (MoSJE)
@@ -39,33 +54,39 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-700">
+          {/* Desktop Navigation with Pro Suite */}
+          <nav className="hidden lg:flex items-center space-x-5 text-xs font-semibold text-slate-700">
             <Link href="/" className="hover:text-emerald-700 transition">Home</Link>
-            <Link href="/assessment/new" className="hover:text-emerald-700 transition">Business Advisor</Link>
-            <Link href="/calculators/working-capital" className="hover:text-emerald-700 transition">Calculators</Link>
-            <Link href="/compare" className="hover:text-emerald-700 transition">Compare Ideas</Link>
-            <Link href="/assistant" className="hover:text-emerald-700 transition flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              AI Advisor
+            <Link href="/assessment/new" className="hover:text-emerald-700 transition">Advisor Wizard</Link>
+            <Link href="/ocr" className="hover:text-emerald-700 transition flex items-center gap-1">
+              <FileSearch className="w-3.5 h-3.5 text-emerald-700" />
+              OCR Scanner
             </Link>
-            {user && (
-              <Link href="/dashboard" className="text-emerald-800 font-bold hover:text-emerald-900 flex items-center gap-1">
-                <LayoutDashboard className="w-4 h-4" />
-                Dashboard
-              </Link>
-            )}
+            <Link href="/forecast" className="hover:text-emerald-700 transition flex items-center gap-1">
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
+              ML Forecast
+            </Link>
+            <Link href="/mandi" className="hover:text-emerald-700 transition flex items-center gap-1">
+              <Store className="w-3.5 h-3.5 text-emerald-700" />
+              Live Mandi
+            </Link>
+            <Link href="/compare" className="hover:text-emerald-700 transition flex items-center gap-1">
+              <Layers className="w-3.5 h-3.5 text-emerald-700" />
+              Compare
+            </Link>
+            <Link href="/assistant" className="text-emerald-800 font-bold hover:text-emerald-900 flex items-center gap-1">
+              <Mic className="w-3.5 h-3.5 text-amber-500" />
+              Voice AI
+            </Link>
+            <Link href="/admin" className="hover:text-slate-900 transition flex items-center gap-1 text-slate-500">
+              <Database className="w-3.5 h-3.5" />
+              Admin
+            </Link>
           </nav>
 
-          {/* Right Action Buttons with Dynamic Auth State */}
+          {/* Right Action Buttons */}
           <div className="flex items-center space-x-3">
-            <button className="hidden sm:flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-md border border-slate-200 hover:bg-slate-50 text-slate-700">
-              <Languages className="w-3.5 h-3.5" />
-              <span>ENG / हिंदी</span>
-            </button>
-
             {user ? (
-              /* Logged In State */
               <div className="flex items-center space-x-2">
                 <Link
                   href="/dashboard"
@@ -74,10 +95,7 @@ export default function Navbar() {
                   <div className="w-5 h-5 rounded-full bg-emerald-800 text-amber-300 flex items-center justify-center text-[10px] font-black">
                     {user.name ? user.name[0].toUpperCase() : 'U'}
                   </div>
-                  <span className="max-w-[120px] truncate">{user.name.split(' ')[0]}</span>
-                  {user.isGuest && (
-                    <span className="text-[9px] bg-amber-200 text-amber-900 px-1 rounded font-bold">Guest</span>
-                  )}
+                  <span className="max-w-[100px] truncate">{user.name.split(' ')[0]}</span>
                 </Link>
 
                 <button
@@ -96,7 +114,6 @@ export default function Navbar() {
                 </Link>
               </div>
             ) : (
-              /* Logged Out State */
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleGuestDemo}
@@ -108,16 +125,9 @@ export default function Navbar() {
 
                 <Link
                   href="/login"
-                  className="text-xs font-bold text-slate-700 hover:text-emerald-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition"
+                  className="text-xs font-bold text-slate-700 hover:text-emerald-700 px-2.5 py-1.5 rounded-lg hover:bg-slate-50 transition"
                 >
                   Login
-                </Link>
-                
-                <Link
-                  href="/register"
-                  className="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-lg border border-slate-300 transition"
-                >
-                  Register
                 </Link>
 
                 <Link
@@ -129,6 +139,7 @@ export default function Navbar() {
               </div>
             )}
           </div>
+
         </div>
       </div>
     </header>
