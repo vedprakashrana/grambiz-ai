@@ -15,12 +15,16 @@ import {
   TrendingUp,
   Database,
   Layers,
-  Mic
+  Mic,
+  ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../../context/LanguageContext';
 
 export default function Navbar() {
   const { user, logout, loginAsGuest } = useAuth();
+  const { currentLang, setLanguage, currentOption, t } = useLanguage();
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const router = useRouter();
 
   const handleGuestDemo = () => {
@@ -49,43 +53,82 @@ export default function Navbar() {
                 <span className="text-[9px] bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded shadow-sm">PRO</span>
               </span>
               <p className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">
-                Dept of Social Justice & Empowerment (MoSJE)
+                {t('tagline')}
               </p>
             </div>
           </Link>
 
-          {/* Desktop Navigation with Pro Suite */}
-          <nav className="hidden lg:flex items-center space-x-5 text-xs font-semibold text-slate-700">
-            <Link href="/" className="hover:text-emerald-700 transition">Home</Link>
-            <Link href="/assessment/new" className="hover:text-emerald-700 transition">Advisor Wizard</Link>
+          {/* Desktop Navigation with Multilingual Translation */}
+          <nav className="hidden lg:flex items-center space-x-4 text-xs font-semibold text-slate-700">
+            <Link href="/" className="hover:text-emerald-700 transition">{t('home')}</Link>
+            <Link href="/assessment/new" className="hover:text-emerald-700 transition">{t('advisor')}</Link>
             <Link href="/ocr" className="hover:text-emerald-700 transition flex items-center gap-1">
               <FileSearch className="w-3.5 h-3.5 text-emerald-700" />
-              OCR Scanner
+              {t('ocr')}
             </Link>
             <Link href="/forecast" className="hover:text-emerald-700 transition flex items-center gap-1">
               <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
-              ML Forecast
+              {t('forecast')}
             </Link>
             <Link href="/mandi" className="hover:text-emerald-700 transition flex items-center gap-1">
               <Store className="w-3.5 h-3.5 text-emerald-700" />
-              Live Mandi
+              {t('mandi')}
             </Link>
             <Link href="/compare" className="hover:text-emerald-700 transition flex items-center gap-1">
               <Layers className="w-3.5 h-3.5 text-emerald-700" />
-              Compare
+              {t('compare')}
             </Link>
             <Link href="/assistant" className="text-emerald-800 font-bold hover:text-emerald-900 flex items-center gap-1">
               <Mic className="w-3.5 h-3.5 text-amber-500" />
-              Voice AI
+              {t('voiceAi')}
             </Link>
             <Link href="/admin" className="hover:text-slate-900 transition flex items-center gap-1 text-slate-500">
               <Database className="w-3.5 h-3.5" />
-              Admin
+              {t('admin')}
             </Link>
           </nav>
 
-          {/* Right Action Buttons */}
-          <div className="flex items-center space-x-3">
+          {/* Right Action Buttons with 8 Languages Dropdown */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            
+            {/* 8-Language Selector Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center gap-1.5 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 text-slate-800 transition shadow-sm bg-white"
+              >
+                <span>{currentOption.flag}</span>
+                <span className="hidden sm:inline">{currentOption.nativeName}</span>
+                <ChevronDown className="w-3 h-3 text-slate-500" />
+              </button>
+
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50">
+                  <div className="px-3 py-1 text-[10px] font-extrabold uppercase text-slate-400 border-b border-slate-100">
+                    Select Language / भाषा चुनें
+                  </div>
+                  {SUPPORTED_LANGUAGES.map(lang => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setLanguage(lang.code as LanguageCode);
+                        setLangMenuOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-slate-50 transition ${
+                        currentLang === lang.code ? 'bg-emerald-50 text-emerald-900 font-extrabold' : 'text-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>{lang.flag}</span>
+                        <span>{lang.nativeName}</span>
+                      </div>
+                      <span className="text-[10px] text-slate-400 font-medium">{lang.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {user ? (
               <div className="flex items-center space-x-2">
                 <Link
@@ -95,7 +138,7 @@ export default function Navbar() {
                   <div className="w-5 h-5 rounded-full bg-emerald-800 text-amber-300 flex items-center justify-center text-[10px] font-black">
                     {user.name ? user.name[0].toUpperCase() : 'U'}
                   </div>
-                  <span className="max-w-[100px] truncate">{user.name.split(' ')[0]}</span>
+                  <span className="max-w-[100px] truncate hidden md:inline">{user.name.split(' ')[0]}</span>
                 </Link>
 
                 <button
@@ -108,33 +151,26 @@ export default function Navbar() {
 
                 <Link
                   href="/assessment/new"
-                  className="text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white px-3.5 py-2 rounded-lg shadow-sm hover:shadow transition"
+                  className="text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white px-3.5 py-2 rounded-lg shadow-sm hover:shadow transition whitespace-nowrap"
                 >
-                  New Assessment
+                  {t('newAssessment')}
                 </Link>
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1.5 sm:space-x-2">
                 <button
                   onClick={handleGuestDemo}
-                  className="inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 transition shadow-sm"
+                  className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 transition shadow-sm"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Try Demo</span>
+                  <span className="hidden sm:inline">Try Demo</span>
                 </button>
 
                 <Link
-                  href="/login"
-                  className="text-xs font-bold text-slate-700 hover:text-emerald-700 px-2.5 py-1.5 rounded-lg hover:bg-slate-50 transition"
-                >
-                  Login
-                </Link>
-
-                <Link
                   href="/assessment/new"
-                  className="text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white px-3.5 py-2 rounded-lg shadow-sm hover:shadow transition"
+                  className="text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg shadow-sm hover:shadow transition whitespace-nowrap"
                 >
-                  Get Started
+                  {t('newAssessment')}
                 </Link>
               </div>
             )}
