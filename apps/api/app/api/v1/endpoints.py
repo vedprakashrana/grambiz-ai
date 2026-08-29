@@ -481,3 +481,86 @@ def update_admin_scheme_rules(payload: AdminSchemeUpdateRequest):
         "message": f"MoSJE Scheme '{payload.scheme_name}' updated successfully in dynamic registry."
     }
 
+# ================= UNIFIED DATA PLATFORM ENDPOINTS =================
+from app.core.data_sources import DataSourceRegistry
+from app.core.data_store import UnifiedDataPlatform
+from app.core.data_quality import DataQualityAuditor
+
+@router.get("/data-sources")
+def list_data_sources():
+    """Returns official registry of all 15 configured authoritative data sources."""
+    return DataSourceRegistry.list_all_sources()
+
+@router.get("/locations/search")
+def search_locations(q: str):
+    """Search village/block/district master hierarchy."""
+    results = UnifiedDataPlatform.search_location(q)
+    return results
+
+@router.get("/locations/{id}")
+def get_location_details(id: str):
+    """Get location master metadata with baseline census mapping."""
+    loc = UnifiedDataPlatform.get_location_by_id(id)
+    if not loc:
+        raise HTTPException(status_code=404, detail="Location not found in verified master registry.")
+    return loc
+
+@router.get("/locations/{id}/demographics")
+def get_location_demographics(id: str):
+    """Returns official Census 2011 baseline demographics with explicit data_year labeling."""
+    data = UnifiedDataPlatform.get_demographics(id)
+    if not data:
+        return {"status": "unavailable", "message": "Census demographic baseline unavailable for this location."}
+    return data
+
+@router.get("/locations/{id}/infrastructure")
+def get_location_infrastructure(id: str):
+    """Returns verified infrastructure indicators (power, connectivity, health/vet distance)."""
+    data = UnifiedDataPlatform.get_infrastructure(id)
+    if not data:
+        return {"status": "unavailable", "message": "Infrastructure metrics unavailable for this location."}
+    return data
+
+@router.get("/locations/{id}/economy")
+def get_location_economy(id: str):
+    """Returns RBI/District economic and financial inclusion indicators."""
+    data = UnifiedDataPlatform.get_economic_context(id)
+    if not data:
+        return {"status": "unavailable", "message": "Economic indicators unavailable for this location."}
+    return data
+
+@router.get("/locations/{id}/agriculture")
+def get_location_agriculture(id: str):
+    """Returns 20th Livestock Census & Agro-climatic indicators."""
+    data = UnifiedDataPlatform.get_agriculture_context(id)
+    if not data:
+        return {"status": "unavailable", "message": "Agriculture & livestock data unavailable for this location."}
+    return data
+
+@router.get("/market/prices")
+def get_market_prices(commodity: Optional[str] = None, district: Optional[str] = None):
+    """Returns official AGMARKNET observed mandi prices with unit and date metadata."""
+    res = RealtimeMandiEngine.get_live_mandi_prices(category=commodity, district=district)
+    return res
+
+@router.get("/gis/nearby-businesses")
+def get_nearby_businesses(latitude: float, longitude: float, radius_km: float = 5.0, category: Optional[str] = None):
+    """Returns mapped OpenStreetMap commercial entities within radius."""
+    return UnifiedDataPlatform.find_nearby_businesses(latitude, longitude, radius_km, category)
+
+@router.get("/gis/radius-analysis")
+def get_radius_analysis(latitude: float, longitude: float, radius_km: float = 5.0, category: Optional[str] = "Dairy"):
+    """Performs spatial density calculation and returns explicit coverage statement."""
+    return UnifiedDataPlatform.compute_radius_analysis(latitude, longitude, radius_km, category)
+
+@router.get("/market/consumer-estimation")
+def estimate_consumer_reach(location_id: str, category: Optional[str] = "Dairy", radius_km: float = 5.0):
+    """Transparent mathematical customer reach estimation with auditable methodology."""
+    return UnifiedDataPlatform.estimate_potential_consumer_reach(location_id, category, radius_km)
+
+@router.get("/data-quality")
+def get_data_quality_audit():
+    """Runs automated platform quality checks across all datasets and returns audit scores."""
+    return DataQualityAuditor.run_system_audit()
+
+
