@@ -5,7 +5,7 @@ services:
     env: python
     region: oregon
     plan: free
-    rootDir: apps/api
+    rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
@@ -26,7 +26,7 @@ services:
     env: node
     region: oregon
     plan: free
-    rootDir: apps/web
+    rootDir: frontend
     buildCommand: npm install && npm run build
     startCommand: npm run start -- -p $PORT
     envVars:

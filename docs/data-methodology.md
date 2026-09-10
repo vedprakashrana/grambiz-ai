@@ -23,7 +23,7 @@ $$\text{Customer Range} = \left[ \text{Estimated Households}_{2026} \times \alph
 
 ---
 
-## 2. 📍 Competitor Density & Spatial Scanning (PostGIS / GIS)
+## 2. 📍 Competitor Density & Spatial Scanning (OpenStreetMap Overpass API / GIS)
 
 ### Formulation:
 For any geographic point coordinate $(\text{Lat}, \text{Lon})$ and scan radius $R \in \{5\text{ km}, 10\text{ km}\}$:

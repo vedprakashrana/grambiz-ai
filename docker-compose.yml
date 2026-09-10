@@ -31,15 +31,30 @@ services:
       timeout: 5s
       retries: 5
 
+  mongodb:
+    image: mongo:7.0
+    container_name: grambiz-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   api:
     build:
-      context: ./apps/api
+      context: ./backend
       dockerfile: Dockerfile
     container_name: grambiz-api
     restart: always
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/grambiz_db
       DATABASE_URL_SYNC: postgresql://postgres:postgres@postgres:5432/grambiz_db
+      MONGODB_URL: mongodb://mongodb:27017
+      MONGODB_DB_NAME: grambiz_ai
       REDIS_URL: redis://redis:6379/0
       JWT_SECRET: ${JWT_SECRET:-super-secret-grambiz-jwt-key-change-in-prod}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-super-secret-grambiz-jwt-refresh-key}
@@ -53,10 +68,12 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      mongodb:
+        condition: service_healthy
 
   web:
     build:
-      context: ./apps/web
+      context: ./frontend
       dockerfile: Dockerfile
     container_name: grambiz-web
     restart: always
@@ -70,3 +87,4 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  mongo_data:
