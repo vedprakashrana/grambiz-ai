@@ -216,9 +216,15 @@ class SWOTResponse(BaseModel):
     threats: List[str]
 
 class RiskItem(BaseModel):
+    dimension: str  # Market-price | Demand | Supply-chain | Infrastructure | Financial | Operational
     category: str
-    score: int
+    risk_score: int  # 0 to 100
+    probability: float  # 0.00 to 1.00 calibrated probability
+    severity_level: str  # Low | Moderate | High | Critical
     description: str
+    potential_features: List[str] = []
+    mitigation_strategy: Optional[str] = None
+
 
 class PricingItem(BaseModel):
     item_name: str
