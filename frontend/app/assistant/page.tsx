@@ -135,7 +135,87 @@ export default function AssistantPage() {
     window.speechSynthesis.speak(utterance);
   };
 
+  // Helper function to render bold/italic inline text cleanly without raw markdown symbols
+  const formatInline = (text: string) => {
+    // Splits by **bold** or *italic*
+    const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return (
+          <strong key={index} className="font-bold text-slate-900">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      if (part.startsWith('*') && part.endsWith('*')) {
+        return (
+          <em key={index} className="italic text-slate-700">
+            {part.slice(1, -1)}
+          </em>
+        );
+      }
+      return part;
+    });
+  };
+
+  // Helper function to parse markdown lines into clean UI headers, lists, and paragraphs
+  const renderFormattedMessage = (content: string) => {
+    const lines = content.split('\n');
+    return lines.map((line, idx) => {
+      const trimmedLine = line.trim();
+      if (!trimmedLine) {
+        return <div key={idx} className="h-2" />;
+      }
+
+      // Heading 3: ### Title
+      if (trimmedLine.startsWith('### ')) {
+        const titleText = trimmedLine.replace(/^###\s+/, '').replace(/\*\*/g, '');
+        return (
+          <div key={idx} className="font-bold text-sm sm:text-base text-emerald-950 border-b border-slate-200/80 pb-1.5 mb-2 mt-1 flex items-center gap-1.5">
+            <span>{titleText}</span>
+          </div>
+        );
+      }
+
+      // Bullet points: - item
+      if (trimmedLine.startsWith('- ') || trimmedLine.startsWith('* ')) {
+        const itemText = trimmedLine.replace(/^[-*]\s+/, '');
+        return (
+          <div key={idx} className="flex items-start gap-2 pl-2 my-1">
+            <span className="text-emerald-700 font-bold text-xs mt-0.5">•</span>
+            <span className="flex-1 text-xs sm:text-sm leading-relaxed text-slate-800">
+              {formatInline(itemText)}
+            </span>
+          </div>
+        );
+      }
+
+      // Numbered lists: 1. item
+      const numMatch = trimmedLine.match(/^(\d+)\.\s+(.*)/);
+      if (numMatch) {
+        return (
+          <div key={idx} className="flex items-start gap-2 pl-1 my-1.5">
+            <span className="font-bold text-emerald-800 text-xs px-1.5 py-0.5 bg-emerald-50 rounded-md shrink-0">
+              {numMatch[1]}
+            </span>
+            <span className="flex-1 text-xs sm:text-sm leading-relaxed text-slate-800">
+              {formatInline(numMatch[2])}
+            </span>
+          </div>
+        );
+      }
+
+      // Standard Paragraph
+      return (
+        <p key={idx} className="text-xs sm:text-sm leading-relaxed my-0.5 text-slate-800">
+          {formatInline(line)}
+        </p>
+      );
+    });
+  };
+
   const handleResetChat = () => {
+
     window.speechSynthesis?.cancel();
     const newConvId = 'conv_' + Math.random().toString(36).substring(2, 11);
     setConversationId(newConvId);
@@ -336,8 +416,8 @@ export default function AssistantPage() {
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div className="whitespace-pre-line flex-1 space-y-1.5">
-                    {m.content}
+                  <div className="flex-1 space-y-1.5">
+                    {renderFormattedMessage(m.content)}
                   </div>
                   
                   {/* Text-to-Speech Button specifically for THIS message */}
@@ -345,9 +425,10 @@ export default function AssistantPage() {
                     <button
                       onClick={() => speakText(m.content, m.id)}
                       title={`Audio Voice Output (${currentOption.nativeName})`}
-                      className={`p-1.5 rounded-lg border transition ${
+                      className={`p-1.5 rounded-lg border shrink-0 transition ${
                         speakingMsgId === m.id 
                           ? 'bg-amber-100 text-amber-900 border-amber-300 animate-pulse' 
+
                           : 'text-slate-500 hover:text-emerald-700 hover:bg-slate-200 border-slate-200'
                       }`}
                     >
