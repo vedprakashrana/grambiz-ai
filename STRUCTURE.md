@@ -8,16 +8,21 @@ This document serves as an exhaustive blueprint for all team members (Frontend E
 
 ---
 
-## 🛠️ 1. Complete Technology Stack
+## 🛠️ 1. Complete Technology Stack & 4-Model AI Suite
 
 | Layer | Technologies Used | Description |
 | :--- | :--- | :--- |
-| **Frontend** | React 18, Next.js 14, TailwindCSS, Lucide Icons, Recharts, React Leaflet | Responsive rural web app, multi-language selector (8+ Indian languages), EMI calculators, Leaflet GIS maps. |
+| **Frontend** | React 18, Next.js 14 (App Router), TailwindCSS, Lucide Icons, Recharts, React Leaflet | Clean Markdown formatted rural chat interface, multi-language selector (8+ Indian languages), interactive EMI calculators, Leaflet GIS maps. |
 | **Backend** | FastAPI (Python 3.11+), Pydantic v2, SQLAlchemy, Uvicorn, ReportLab | Async REST APIs for financial structuring, MoSJE rules, risk scoring, and PDF generation. |
 | **Database** | PostgreSQL 16 (Relational/PostGIS) + MongoDB (Motor Async) | PostgreSQL for structured relational and geo-observations; MongoDB for flexible JSON assessment schemas. |
 | **Data Layer** | Census 2011/SECC, DPIIT MSME, AGMARKNET, OSM Overpass & Nominatim | Master demographic baseline, village directory, APMC daily mandi arrivals, and 5km/10km business scan. |
-| **AI & Multilingual** | LLM API (Structured JSON) + Bhashini / IndicTrans2 | RAG reasoning engine, Bhashini translation (Hindi, Bengali, Marathi, etc.), and ARIMA seasonal demand forecasting. |
-| **Deployment** | Vercel (Frontend) + Render / Railway (Backend & DB) + Docker | 1-click cloud deployments with complete CI/CD support. |
+| **Model 1 (Feasibility)** | XGBoost / LightGBM + SHAP Feature Attribution Pipeline | Calibrated business success probability (0-100%), viability classification (`Viable`, `Uncertain`, `High-Risk`), and transparent feature attribution. |
+| **Model 2 (Forecasting)** | Autoregressive Lag Momentum (AR/ETS) + $\sqrt{h}$ Volatility Bands | 1, 3, 6-Month horizon forecasting with 90% confidence intervals and walk-forward rolling backtesting metrics (MAE/RMSE/MAPE). |
+| **Model 3 (Risk)** | 6-Dimensions Calibrated Risk Probabilities | Decoupled multi-dimensional risk prediction: Market-Price, Demand, Supply-Chain, Infrastructure, Financial Liquidity, and Operational Risk. |
+| **Model 4 (Schemes)** | Dynamic Rule Matching + Versioned Scheme DB | MoSJE / NBCFDC Micro Finance, NBCFDC Term Loan (90% financing, 6.5%-8.0% interest), and PMEGP 35% Rural Subsidy. |
+| **Multilingual** | Bhashini / IndicTrans2 + Web Speech API | Full conversational voice-in and speech-out across Hindi, English, Bengali, Marathi, Tamil, Telugu, Gujarati, and Kannada. |
+| **Live Deployments** | Render + Vercel + Docker | 🌐 Web: `https://grambiz-web.onrender.com` \| ⚙️ API: `https://grambiz-api.onrender.com` |
+
 
 ---
 

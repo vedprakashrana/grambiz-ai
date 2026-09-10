@@ -1,88 +1,80 @@
 # GramBiz AI — AI-Driven Hyper-Local Business Advisory and Financial Structuring Assistant
 
-**GramBiz AI** is a complete, production-ready full-stack application built for the **Ministry of Social Justice and Empowerment (MoSJE)** under **Problem Statement 2609** (Agriculture, FoodTech & Rural Development).
+**GramBiz AI** is a complete, production-ready full-stack enterprise application designed for rural entrepreneurs and the **Ministry of Social Justice and Empowerment (MoSJE)** under **Problem Statement 2609** (Agriculture, FoodTech & Rural Development).
 
 ---
 
-## 🌟 Key Features
+## 🌟 4-Model Core Intelligence Architecture
 
-1. **5-Step Interactive Business Assessment Wizard**
-   - Micro-geographic selection (State, District, Block, Village, GPS Coordinates).
-   - Available margin capital structuring with standard 10% entrepreneur equity.
-   - 15+ livelihood categories (Dairy, Poultry, Food Processing, Fisheries, Retail, Tailoring, Digital CSC).
-
-2. **Deterministic Backend Financial Engine (Exact Decimal Math)**
-   - Formula: $\text{Project Cost} = \text{Margin Capital} / 0.10$
-   - 90% Subsidized Financing matching.
-   - EMI amortization with customizable moratorium handling (accrued, capitalized, serviced, waived).
-   - Break-even units & revenue analysis.
-   - Dynamic 3-year cash flow projections.
-
-3. **Dynamic MoSJE Scheme Rules Engine**
-   - **Micro Finance Scheme**: Up to ₹1.40 Lakh project cost, 90% funding (max ₹1.25 Lakh), 6.5% interest p.a., 3-year tenure, 3-month moratorium.
-   - **Term Loan Scheme**: ₹1.40 Lakh to ₹50 Lakh project cost, 90% funding (max ₹45 Lakh), 8.0% interest p.a., 7-year tenure, 6-month moratorium.
-   - Exact boundary and over-limit detection.
-
-4. **GIS & PostGIS Spatial Scanning**
-   - 5 KM and 10 KM radius competitor density and distance calculation.
-   - Mandi and Haat observed pricing benchmarks with explicit data confidence tags (`Verified`, `Estimated`, `Unavailable`).
-
-5. **Multilingual AI Business Advisor (RAG Grounded)**
-   - Conversational assistant supporting Hindi and English.
-   - Direct grounding with MoSJE policy documentation and citation attribution.
-   - Structured SWOT analysis, risk scoring matrices (0-100), and tactical recommendations.
-
-6. **Automated Downloadable PDF Dossier**
-   - Bank-ready business feasibility report generated via ReportLab with executive summary, financial tables, SWOT, and statutory disclaimers.
+| Model | Component Name | Architecture & Methods | Key Output |
+| :--- | :--- | :--- | :--- |
+| **Model 1** | **Business Feasibility & Success Prediction** | XGBoost/LightGBM Classifier + SHAP Feature Attribution Pipeline | Calibrated Success Probability (0-100%), Viability Class (`Viable`, `Uncertain`, `High-Risk`), and Explainable Feature Attribution. |
+| **Model 2** | **Price & Demand Forecasting** | Autoregressive Lag Momentum (AR/ETS) + Calendar Seasonality + $\sqrt{h}$ Volatility Bands | 1, 3, 6-Month Horizons with 90% Confidence Intervals, Volume Projections, and Walk-Forward Rolling Backtesting (MAE/RMSE/MAPE). |
+| **Model 3** | **Business Risk Prediction** | 6-Dimensions Calibrated Multi-Risk Engine (Decoupled from Opportunity) | Market-Price, Demand, Supply-Chain, Infrastructure, Financial Liquidity, and Operational Risk Probabilities (0.00-1.00) with Mitigations. |
+| **Model 4** | **Government Scheme & Subsidy Engine** | Version-Controlled Policy Database + Dynamic Rule-Matching Engine | 10% Margin Structuring, 90% Concessional Loans (NBCFDC Micro Finance & Term Loan), and 35% PMEGP Rural Subsidy Matching. |
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Complete Technology Stack
 
-- **Frontend**: Next.js 14+ (App Router), React 18, TypeScript, Tailwind CSS, Lucide Icons, Recharts, Leaflet / OpenStreetMap.
-- **Backend**: Python 3.11+, FastAPI, Pydantic v2, SQLAlchemy, Alembic, ReportLab.
-- **Database**: PostgreSQL 16 with PostGIS and pgvector extensions.
-- **Cache**: Redis.
-- **DevOps**: Docker, Docker Compose.
+- **Frontend**: Next.js 14+ (App Router), React 18, TypeScript, TailwindCSS, Lucide Icons, Recharts, Leaflet / OpenStreetMap.
+- **Backend**: Python 3.11+, FastAPI, Pydantic v2, SQLAlchemy, Motor (Async MongoDB), ReportLab.
+- **Databases**: PostgreSQL 16 (Relational & PostGIS) + MongoDB (Motor Async).
+- **Multilingual**: Bhashini / IndicTrans2 API + Web Speech API (8+ Indian Languages).
+- **Live Deployments**:
+  - 🌐 **Web App**: [https://grambiz-web.onrender.com](https://grambiz-web.onrender.com)
+  - ⚙️ **Backend API & Swagger Docs**: [https://grambiz-api.onrender.com/docs](https://grambiz-api.onrender.com/docs)
+
+---
+
+## 📂 Clean Directory Structure
+
+```
+📁 grambiz-ai/
+├── 📂 frontend/          <--- Next.js 14 App Router, TailwindCSS, Multilingual Chat, Leaflet Maps
+├── 📂 backend/           <--- FastAPI Python REST APIs, ReportLab PDF, DB Lifespan & Config
+├── 📂 data/              <--- Census 2011/SECC, OSM Overpass & Nominatim, AGMARKNET Mandi Store
+├── 📂 ai/                <--- 4-Model Suite: Predictor, Rules, Feasibility, Bhashini Translation
+├── 📄 render.yaml        <--- Cloud Deployment Blueprint for Render Web & API Services
+├── 📄 vercel.json        <--- Vercel Frontend Configuration
+├── 📄 STRUCTURE.md       <--- Comprehensive Developer & Architecture Guide
+└── 📄 README.md          <--- Project Overview & Quickstart
+```
 
 ---
 
 ## 🚀 Quickstart Commands
 
-### 1. Run Backend API
+### 1. Run Backend API (FastAPI)
 ```bash
-cd apps/api
+cd backend
+python -m venv venv
+# On Windows:
+.\venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+
 pip install -r requirements.txt
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 - API Docs: `http://localhost:8000/docs`
 - Health Endpoint: `http://localhost:8000/health`
 
-### 2. Run Financial Test Suite
+### 2. Run Frontend Web App (Next.js)
 ```bash
-cd apps/api
-python tests/run_tests.py
-```
-
-### 3. Run Frontend Web App
-```bash
-cd apps/web
+cd frontend
 npm install
 npm run dev
 ```
 - Frontend Web Portal: `http://localhost:3000`
-
-### 4. Docker Deployment
-```bash
-docker-compose up --build -d
-```
+- AI Assistant: `http://localhost:3000/assistant`
 
 ---
 
-## 📊 End-to-End User Verification Flow
-1. Open `http://localhost:3000`
+## 📊 End-to-End User Flow
+1. Open `http://localhost:3000` or [Live Render Web](https://grambiz-web.onrender.com)
 2. Click **Start Business Assessment**
 3. Select village `Ganeshpur, Meerut (UP)`
 4. Enter `₹1,00,000` margin capital & select `Dairy`
-5. Click **Generate Business Assessment**
-6. Review calculated `₹10,00,000` Project Outlay, `₹9,00,000` MoSJE 8% Term Loan, 5km GIS competitor density, SWOT matrix, and click **Download Feasibility PDF**!
+5. Review calculated `₹10,00,000` Project Outlay, `₹9,00,000` MoSJE 8% Term Loan, 5km GIS competitor density, Model 1-4 AI predictions, and click **Download Bank-Ready Feasibility PDF**!
+
