@@ -1,4 +1,4 @@
-// Location hierarchy service & API abstraction layer for GramBiz AI
+// Location hierarchy service & API abstraction layer for UDYAM-SETU AI
 
 export interface VillageEntity {
   id: string;
@@ -52,63 +52,6 @@ export interface ReverseGeocodeResult {
 
 export const VERIFIED_LOCATION_DATA: StateEntity[] = [
   {
-    id: "st_up",
-    name: "Uttar Pradesh",
-    districts: [
-      {
-        id: "dist_meerut",
-        name: "Meerut",
-        blocks: [
-          {
-            id: "blk_hastinapur",
-            name: "Hastinapur",
-            villages: [
-              { id: "v_ganeshpur", name: "Ganeshpur", latitude: 29.1712, longitude: 77.9942, population: 3420, households: 580 },
-              { id: "v_saifpur", name: "Saifpur Firojpur", latitude: 29.1650, longitude: 78.0120, population: 4100, households: 690 },
-              { id: "v_makhdumpur", name: "Makhdumpur", latitude: 29.1820, longitude: 78.0250, population: 2850, households: 470 }
-            ]
-          },
-          {
-            id: "blk_mawana",
-            name: "Mawana",
-            villages: [
-              { id: "v_mawana_kalan", name: "Mawana Kalan", latitude: 29.1020, longitude: 77.9250, population: 5200, households: 860 },
-              { id: "v_satla", name: "Satla", latitude: 29.1150, longitude: 77.9400, population: 3100, households: 510 }
-            ]
-          },
-          {
-            id: "blk_sardhana",
-            name: "Sardhana",
-            villages: [
-              { id: "v_khera", name: "Khera", latitude: 29.1450, longitude: 77.6150, population: 4800, households: 780 }
-            ]
-          }
-        ]
-      },
-      {
-        id: "dist_varanasi",
-        name: "Varanasi",
-        blocks: [
-          {
-            id: "blk_pindra",
-            name: "Pindra",
-            villages: [
-              { id: "v_babatpur", name: "Babatpur", latitude: 25.4480, longitude: 82.8590, population: 5400, households: 880 },
-              { id: "v_mangari", name: "Mangari", latitude: 25.4320, longitude: 82.8810, population: 3900, households: 640 }
-            ]
-          },
-          {
-            id: "blk_kashi",
-            name: "Kashi Vidyapeeth",
-            villages: [
-              { id: "v_shivpur", name: "Shivpur", latitude: 25.3520, longitude: 82.9650, population: 6100, households: 950 }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     id: "st_jharkhand",
     name: "Jharkhand",
     districts: [
@@ -117,26 +60,20 @@ export const VERIFIED_LOCATION_DATA: StateEntity[] = [
         name: "Dhanbad",
         blocks: [
           {
+            id: "blk_govindpur",
+            name: "Govindpur",
+            villages: [
+              { id: "v_pratappur", name: "Pratappur", latitude: 23.8340, longitude: 86.5210, population: 5357, households: 1222 },
+              { id: "v_bahiyar", name: "Bahiyar", latitude: 23.8510, longitude: 86.5410, population: 6005, households: 1472 },
+              { id: "v_chakradharpur", name: "Chakradharpur", latitude: 23.8110, longitude: 86.4920, population: 3247, households: 708 }
+            ]
+          },
+          {
             id: "blk_baliapur",
             name: "Baliapur",
             villages: [
-              { id: "v_sindri", name: "Sindri", latitude: 23.6514, longitude: 86.5125, population: 7200, households: 1200 },
-              { id: "v_rohrabandh", name: "Rohrabandh", latitude: 23.6480, longitude: 86.5050, population: 4800, households: 790 }
-            ]
-          },
-          {
-            id: "blk_jharia",
-            name: "Jharia",
-            villages: [
-              { id: "v_bhulanbarari", name: "Bhulanbarari", latitude: 23.7140, longitude: 86.4250, population: 4300, households: 710 },
-              { id: "v_kujama", name: "Kujama", latitude: 23.7420, longitude: 86.4480, population: 3100, households: 520 }
-            ]
-          },
-          {
-            id: "blk_baghmara",
-            name: "Baghmara",
-            villages: [
-              { id: "v_katras", name: "Katras Rural", latitude: 23.8050, longitude: 86.2910, population: 6800, households: 1100 }
+              { id: "v_gopinathpur", name: "Gopinathpur", latitude: 23.7210, longitude: 86.5820, population: 2219, households: 486 },
+              { id: "v_sindri", name: "Sindri", latitude: 23.6514, longitude: 86.5125, population: 7200, households: 1200 }
             ]
           }
         ]
@@ -149,35 +86,15 @@ export const VERIFIED_LOCATION_DATA: StateEntity[] = [
             id: "blk_kanke",
             name: "Kanke",
             villages: [
-              { id: "v_sukhurhutu", name: "Sukhurhutu", latitude: 23.4420, longitude: 85.3210, population: 5200, households: 860 },
-              { id: "v_pithoria", name: "Pithoria", latitude: 23.5180, longitude: 85.3450, population: 6400, households: 1050 }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: "st_maharashtra",
-    name: "Maharashtra",
-    districts: [
-      {
-        id: "dist_pune",
-        name: "Pune",
-        blocks: [
-          {
-            id: "blk_baramati",
-            name: "Baramati",
-            villages: [
-              { id: "v_malegaon", name: "Malegaon Khurd", latitude: 18.1520, longitude: 74.5750, population: 5800, households: 980 },
-              { id: "v_songaon", name: "Songaon", latitude: 18.1740, longitude: 74.6120, population: 4200, households: 710 }
+              { id: "v_sukurhutu", name: "Sukurhutu", latitude: 23.4410, longitude: 85.3210, population: 4765, households: 971 },
+              { id: "v_gundhuria", name: "Gundhuria", latitude: 23.4620, longitude: 85.3450, population: 5818, households: 1194 }
             ]
           },
           {
-            id: "blk_khed",
-            name: "Khed",
+            id: "blk_itki",
+            name: "Itki",
             villages: [
-              { id: "v_chakan", name: "Chakan Deoli", latitude: 18.7580, longitude: 73.8590, population: 6700, households: 1100 }
+              { id: "v_getalsud", name: "Getalsud", latitude: 23.4110, longitude: 85.5520, population: 6915, households: 1473 }
             ]
           }
         ]
@@ -185,18 +102,70 @@ export const VERIFIED_LOCATION_DATA: StateEntity[] = [
     ]
   },
   {
-    id: "st_mp",
-    name: "Madhya Pradesh",
+    id: "st_bihar",
+    name: "Bihar",
     districts: [
       {
-        id: "dist_indore",
-        name: "Indore",
+        id: "dist_patna",
+        name: "Patna",
         blocks: [
           {
-            id: "blk_sanwer",
-            name: "Sanwer",
+            id: "blk_phulwari",
+            name: "Phulwari",
             villages: [
-              { id: "v_ajnod", name: "Ajnod", latitude: 22.8850, longitude: 75.8150, population: 3900, households: 640 }
+              { id: "v_alampur", name: "Alampur", latitude: 25.5610, longitude: 85.0810, population: 7704, households: 1763 },
+              { id: "v_akorha", name: "Akorha", latitude: 25.5780, longitude: 85.0620, population: 3105, households: 823 },
+              { id: "v_akbarpur", name: "Akbarpur", latitude: 25.5410, longitude: 85.0430, population: 2504, households: 506 }
+            ]
+          },
+          {
+            id: "blk_masaurhi",
+            name: "Masaurhi",
+            villages: [
+              { id: "v_dahia", name: "Dahia", latitude: 25.3510, longitude: 85.0310, population: 7807, households: 1560 },
+              { id: "v_lakhanpura", name: "Lakhanpura", latitude: 25.3720, longitude: 85.0120, population: 6825, households: 1373 }
+            ]
+          }
+        ]
+      },
+      {
+        id: "dist_begusarai",
+        name: "Begusarai",
+        blocks: [
+          {
+            id: "blk_barauni",
+            name: "Barauni",
+            villages: [
+              { id: "v_amanpur", name: "Amanpur", latitude: 25.4810, longitude: 85.9810, population: 7337, households: 1714 },
+              { id: "v_birauni", name: "Birauni", latitude: 25.4620, longitude: 85.9650, population: 4335, households: 1060 }
+            ]
+          },
+          {
+            id: "blk_matihani",
+            name: "Matihani",
+            villages: [
+              { id: "v_balakpur", name: "Balakpur", latitude: 25.3810, longitude: 86.0810, population: 5873, households: 1203 },
+              { id: "v_matihani", name: "Matihani", latitude: 25.3950, longitude: 86.1020, population: 4174, households: 797 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "st_up",
+    name: "Uttar Pradesh",
+    districts: [
+      {
+        id: "dist_meerut",
+        name: "Meerut",
+        blocks: [
+          {
+            id: "blk_hastinapur",
+            name: "Hastinapur",
+            villages: [
+              { id: "v_ganeshpur", name: "Ganeshpur", latitude: 29.1712, longitude: 77.9942, population: 3840, households: 620 },
+              { id: "v_saifpur", name: "Saifpur Firojpur", latitude: 29.1650, longitude: 78.0120, population: 4100, households: 690 }
             ]
           }
         ]
@@ -231,7 +200,6 @@ export const LocationService = {
     return Promise.resolve(blk ? blk.villages : []);
   },
 
-  // Calls backend provider-independent reverse geocoding API
   async reverseGeocode(latitude: number, longitude: number, source: string = "gps"): Promise<ReverseGeocodeResult> {
     try {
       const res = await fetch(`http://localhost:8000/api/v1/locations/reverse-geocode?lat=${latitude}&lon=${longitude}&source=${source}`);
@@ -239,7 +207,7 @@ export const LocationService = {
         return await res.json();
       }
     } catch (e) {
-      console.warn("Backend reverse-geocode failed, attempting direct fallback");
+      console.warn("Backend reverse-geocode failed, attempting fallback");
     }
 
     return {

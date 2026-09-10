@@ -34,7 +34,7 @@ export default function ComparePage() {
     } catch (e) {
       setCandidates([
         {
-          category: 'Dairy & Milk Chilling Unit',
+          category: '1. Dairy & Livestock (Chilling Unit)',
           margin_equity: '₹1,00,000',
           project_cost: '₹10,00,000',
           scheme_loan: '₹9,00,000 (8.0% p.a.)',
@@ -47,7 +47,7 @@ export default function ComparePage() {
           suitability_tag: 'High Feasibility & Daily Liquidity'
         },
         {
-          category: 'Commercial Poultry Farm (1000 Birds)',
+          category: '2. Poultry & Egg Production',
           margin_equity: '₹1,00,000',
           project_cost: '₹10,00,000',
           scheme_loan: '₹9,00,000 (8.0% p.a.)',
@@ -60,7 +60,59 @@ export default function ComparePage() {
           suitability_tag: 'High Growth Potential'
         },
         {
-          category: 'Rural Tailoring & Garment Boutique',
+          category: '3. Fisheries / Aquaculture Pond',
+          margin_equity: '₹1,00,000',
+          project_cost: '₹10,00,000',
+          scheme_loan: '₹9,00,000 (8.0% p.a.)',
+          demand_score: 80,
+          risk_score: 64,
+          estimated_monthly_net_profit: '₹30,000 - ₹42,000',
+          gestation_period: '90-120 Days',
+          moratorium: '6 Months',
+          tenure_years: '7 Years',
+          suitability_tag: 'Water-linked High Margin'
+        },
+        {
+          category: '4. Agri-input & Farm Supply Depot',
+          margin_equity: '₹1,50,000',
+          project_cost: '₹15,00,000',
+          scheme_loan: '₹13,50,000 (8.0% p.a.)',
+          demand_score: 89,
+          risk_score: 84,
+          estimated_monthly_net_profit: '₹35,000 - ₹50,000',
+          gestation_period: 'Seasonal Peak',
+          moratorium: '3 Months',
+          tenure_years: '5 Years',
+          suitability_tag: 'Essential Village Supply'
+        },
+        {
+          category: '5. Food Processing & Atta Chakki',
+          margin_equity: '₹80,000',
+          project_cost: '₹8,00,000',
+          scheme_loan: '₹7,20,000 (8.0% p.a.)',
+          demand_score: 84,
+          risk_score: 76,
+          estimated_monthly_net_profit: '₹22,000 - ₹34,000',
+          gestation_period: '15 Days',
+          moratorium: '6 Months',
+          tenure_years: '7 Years',
+          suitability_tag: 'Steady Year-Round Cashflow'
+        },
+        {
+          category: '6. Retail / Kirana Merchant',
+          margin_equity: '₹60,000',
+          project_cost: '₹6,00,000',
+          scheme_loan: '₹5,40,000 (8.0% p.a.)',
+          demand_score: 88,
+          risk_score: 81,
+          estimated_monthly_net_profit: '₹20,000 - ₹28,000',
+          gestation_period: 'Immediate',
+          moratorium: '3 Months',
+          tenure_years: '5 Years',
+          suitability_tag: 'High FMCG Turnover'
+        },
+        {
+          category: '7. Tailoring & Garment Boutique',
           margin_equity: '₹50,000',
           project_cost: '₹5,00,000',
           scheme_loan: '₹4,50,000 (8.0% p.a.)',
@@ -70,7 +122,46 @@ export default function ComparePage() {
           gestation_period: 'Immediate',
           moratorium: '6 Months',
           tenure_years: '7 Years',
-          suitability_tag: 'Safe Low-Risk Household Operation'
+          suitability_tag: 'Safe Low-Risk Operation'
+        },
+        {
+          category: '8. Repair & Two-Wheeler Workshop',
+          margin_equity: '₹70,000',
+          project_cost: '₹7,00,000',
+          scheme_loan: '₹6,30,000 (8.0% p.a.)',
+          demand_score: 79,
+          risk_score: 78,
+          estimated_monthly_net_profit: '₹24,000 - ₹32,000',
+          gestation_period: 'Immediate',
+          moratorium: '3 Months',
+          tenure_years: '5 Years',
+          suitability_tag: 'High Service Profit Margin'
+        },
+        {
+          category: '9. Digital / CSC / Online Kiosk',
+          margin_equity: '₹40,000',
+          project_cost: '₹4,00,000',
+          scheme_loan: '₹3,60,000 (6.5% p.a.)',
+          demand_score: 86,
+          risk_score: 88,
+          estimated_monthly_net_profit: '₹16,000 - ₹24,000',
+          gestation_period: 'Immediate',
+          moratorium: '3 Months',
+          tenure_years: '3 Years',
+          suitability_tag: 'MoSJE Micro Finance Fit'
+        },
+        {
+          category: '10. Handicrafts & Artisan Crafts',
+          margin_equity: '₹30,000',
+          project_cost: '₹3,00,000',
+          scheme_loan: '₹2,70,000 (6.5% p.a.)',
+          demand_score: 70,
+          risk_score: 75,
+          estimated_monthly_net_profit: '₹14,000 - ₹20,000',
+          gestation_period: '30 Days',
+          moratorium: '3 Months',
+          tenure_years: '3 Years',
+          suitability_tag: 'Artisan Heritage Subsidy'
         }
       ]);
     } finally {

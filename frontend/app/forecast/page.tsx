@@ -144,7 +144,18 @@ export default function ForecastSimulatorPage() {
               onChange={e => setCategory(e.target.value)}
               className="w-full text-xs font-semibold p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500"
             >
-              {['Dairy', 'Poultry', 'Fisheries', 'Food Processing', 'Retail', 'Tailoring'].map(c => (
+              {[
+                'Dairy', 
+                'Poultry', 
+                'Fisheries', 
+                'Agri-input', 
+                'Food Processing', 
+                'Retail', 
+                'Tailoring', 
+                'Repair Services', 
+                'Digital Services', 
+                'Handicrafts'
+              ].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
