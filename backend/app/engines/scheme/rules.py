@@ -2,39 +2,125 @@ from decimal import Decimal
 from typing import Optional, List, Dict, Any
 from app.schemas.all_schemas import SchemeRecommendationResponse
 
-# Default seeded scheme configurations as specified by MoSJE guidelines
+# Comprehensive Scheme Database matching Model 4 (Government Scheme, Loan & Subsidy Engine)
+# Stored in versioned structured format, decoupled from ML predictive models
 SEEDED_SCHEMES = [
     {
+        "scheme_id": "MOSJE_MICRO_FINANCE",
         "scheme_code": "MOSJE_MICRO_FINANCE",
-        "scheme_name": "MoSJE Micro Finance Scheme",
+        "scheme_name": "MoSJE / NBCFDC Micro Finance Scheme",
+        "min_age": 18,
+        "max_age": 60,
+        "business_types": ["Dairy", "Poultry", "Tailoring", "Kirana Store", "Handicrafts", "Small Agri-processing"],
+        "project_cost_min": Decimal("10000.00"),
+        "project_cost_max": Decimal("140000.00"),
         "min_project_cost": Decimal("0.00"),
-        "max_project_cost": Decimal("140000.00"),  # Up to ₹1.40 lakh
-        "funding_percentage": Decimal("90.0"),    # Up to 90%
-        "max_loan": Decimal("125000.00"),          # Max ₹1.25 lakh
-        "interest_rate": Decimal("6.50"),          # 6.5% p.a.
-        "tenure_months": 36,                       # 3 years
-        "moratorium_months": 3,                    # 3 months
+        "max_project_cost": Decimal("140000.00"),
+        "funding_percentage": Decimal("90.0"),
+        "loan_limit": Decimal("125000.00"),
+        "max_loan": Decimal("125000.00"),
+        "subsidy_rate": Decimal("0.00"),
+        "subsidy_amount": Decimal("0.00"),
+        "interest_rate": Decimal("6.50"),
+        "tenure_months": 36,
+        "moratorium_months": 3,
         "moratorium_interest_policy": "accrued",
+        "beneficiary_categories": ["Target Group / Backward Classes / Rural Artisans"],
+        "rural_urban": "Rural / Semi-Urban",
+        "state": "ALL_INDIA",
+        "district": "ALL_DISTRICTS",
+        "new_existing_business": "Both",
+        "education_experience": "No formal minimum qualification required",
+        "documents_required": ["Aadhaar Card", "Bank Passbook", "Income Certificate / Self-declaration", "Caste/Target Category Certificate"],
+        "eligibility_rules": {
+            "max_annual_income": 300000,
+            "min_margin_percent": 10.0
+        },
+        "official_source": "https://nbcfdc.gov.in/schemes/micro-finance",
         "source_document": "MoSJE NBCFDC Micro Finance Guidelines 2024",
         "effective_from": "2024-04-01",
+        "effective_to": "2027-03-31",
+        "last_verified": "2024-10-15",
         "last_verified_at": "2024-10-15"
     },
     {
+        "scheme_id": "MOSJE_TERM_LOAN",
         "scheme_code": "MOSJE_TERM_LOAN",
-        "scheme_name": "MoSJE Term Loan Scheme",
-        "min_project_cost": Decimal("140000.01"),  # Above ₹1.40 lakh
-        "max_project_cost": Decimal("5000000.00"), # Up to ₹50 lakh
-        "funding_percentage": Decimal("90.0"),    # Up to 90%
-        "max_loan": Decimal("4500000.00"),         # Max ₹45 lakh (90% of 50L)
-        "interest_rate": Decimal("8.00"),          # 8.0% p.a.
-        "tenure_months": 84,                       # 7 years
-        "moratorium_months": 6,                    # 6 months
+        "scheme_name": "MoSJE / NBCFDC Term Loan Scheme",
+        "min_age": 18,
+        "max_age": 65,
+        "business_types": ["Dairy Chilling Unit", "Poultry Farm", "Agri-Logistics", "Food Processing", "Apparel & Garment Manufacturing", "Rural Workshop"],
+        "project_cost_min": Decimal("140000.01"),
+        "project_cost_max": Decimal("5000000.00"),
+        "min_project_cost": Decimal("140000.01"),
+        "max_project_cost": Decimal("5000000.00"),
+        "funding_percentage": Decimal("90.0"),
+        "loan_limit": Decimal("4500000.00"),
+        "max_loan": Decimal("4500000.00"),
+        "subsidy_rate": Decimal("0.00"),
+        "subsidy_amount": Decimal("0.00"),
+        "interest_rate": Decimal("8.00"),
+        "tenure_months": 84,
+        "moratorium_months": 6,
         "moratorium_interest_policy": "accrued",
-        "source_document": "MoSJE Term Loan Assistance Policy Vol-II",
+        "beneficiary_categories": ["Target Group / Backward Classes / SC / Rural Entrepreneurs"],
+        "rural_urban": "Rural / Semi-Urban",
+        "state": "ALL_INDIA",
+        "district": "ALL_DISTRICTS",
+        "new_existing_business": "Both",
+        "education_experience": "Prior business activity or vocational training preferred",
+        "documents_required": ["Aadhaar Card", "PAN Card", "Detailed Project Report (DPR)", "Land/Shed Proof", "Bank Statements (6 months)"],
+        "eligibility_rules": {
+            "max_annual_income": 300000,
+            "min_margin_percent": 10.0
+        },
+        "official_source": "https://nbcfdc.gov.in/schemes/term-loan",
+        "source_document": "MoSJE Term Loan Assistance Policy Vol-II 2024",
         "effective_from": "2024-04-01",
+        "effective_to": "2027-03-31",
+        "last_verified": "2024-10-15",
+        "last_verified_at": "2024-10-15"
+    },
+    {
+        "scheme_id": "PMEGP_RURAL",
+        "scheme_code": "PMEGP_RURAL",
+        "scheme_name": "Prime Minister's Employment Generation Programme (PMEGP)",
+        "min_age": 18,
+        "max_age": 65,
+        "business_types": ["Manufacturing", "Food Processing", "Services", "Agri-allied"],
+        "project_cost_min": Decimal("100000.00"),
+        "project_cost_max": Decimal("5000000.00"),
+        "min_project_cost": Decimal("100000.00"),
+        "max_project_cost": Decimal("5000000.00"),
+        "funding_percentage": Decimal("90.0"),
+        "loan_limit": Decimal("4500000.00"),
+        "max_loan": Decimal("4500000.00"),
+        "subsidy_rate": Decimal("35.00"),
+        "subsidy_amount": Decimal("1750000.00"),
+        "interest_rate": Decimal("9.50"),
+        "tenure_months": 84,
+        "moratorium_months": 6,
+        "moratorium_interest_policy": "serviced",
+        "beneficiary_categories": ["General", "OBC", "SC", "ST", "Women", "Ex-Servicemen"],
+        "rural_urban": "Rural (Special 35% Subsidy)",
+        "state": "ALL_INDIA",
+        "district": "ALL_DISTRICTS",
+        "new_existing_business": "New Only",
+        "education_experience": "8th Pass for projects > ₹10 Lakhs in manufacturing",
+        "documents_required": ["EDP Training Certificate", "DPR", "Aadhaar Card", "Rural Area Certificate", "Educational Proof"],
+        "eligibility_rules": {
+            "min_margin_percent": 5.0,
+            "rural_subsidy_special_category": 35.0
+        },
+        "official_source": "https://www.kviconline.gov.in/pmegpeportal",
+        "source_document": "Ministry of MSME PMEGP Operational Guidelines 2024",
+        "effective_from": "2024-04-01",
+        "effective_to": "2026-03-31",
+        "last_verified": "2024-10-15",
         "last_verified_at": "2024-10-15"
     }
 ]
+
 
 class SchemeRuleEngine:
     @staticmethod
