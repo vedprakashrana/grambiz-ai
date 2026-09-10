@@ -42,17 +42,21 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* Logo & MoSJE Endorsement */}
+          {/* Logo & Brand Name: UDYAM-SETU */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-lg bg-emerald-800 flex items-center justify-center text-white shadow-md group-hover:bg-emerald-900 transition">
-              <Landmark className="w-6 h-6 text-amber-400" />
+            <div className="h-11 w-auto max-w-[140px] flex items-center justify-center transition-transform group-hover:scale-105">
+              <img 
+                src="/logo.png" 
+                alt="Udyam-Setu Logo" 
+                className="h-11 w-auto object-contain drop-shadow-sm" 
+              />
             </div>
             <div>
-              <span className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-1.5">
-                GramBiz <span className="text-emerald-700 font-extrabold">AI</span>
-                <span className="text-[9px] bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded shadow-sm">PRO</span>
+              <span className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-1.5">
+                UDYAM-<span className="text-emerald-700 font-black">SETU</span>
+                <span className="text-[9px] bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded shadow-sm">AI</span>
               </span>
-              <p className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">
+              <p className="text-[10px] text-slate-500 font-semibold tracking-wide uppercase">
                 {t('tagline')}
               </p>
             </div>

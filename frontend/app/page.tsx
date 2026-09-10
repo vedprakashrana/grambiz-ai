@@ -113,7 +113,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-3 mb-14">
             <h2 className="text-xs font-bold uppercase tracking-widest text-emerald-800">Workflow Pipeline</h2>
-            <h3 className="text-3xl font-extrabold text-slate-900">How GramBiz AI Works in 4 Steps</h3>
+            <h3 className="text-3xl font-extrabold text-slate-900">How UDYAM-SETU AI Works in 4 Steps</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

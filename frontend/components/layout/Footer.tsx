@@ -11,11 +11,15 @@ export default function Footer() {
           {/* Col 1: Org Branding */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-700 flex items-center justify-center text-white">
-                <Landmark className="w-5 h-5 text-amber-400" />
+              <div className="h-10 w-auto flex items-center justify-center">
+                <img 
+                  src="/logo.png" 
+                  alt="Udyam-Setu Logo" 
+                  className="h-10 w-auto object-contain bg-white rounded-lg p-0.5" 
+                />
               </div>
-              <span className="text-lg font-bold text-white tracking-tight">
-                GramBiz <span className="text-emerald-400">AI</span>
+              <span className="text-lg font-extrabold text-white tracking-tight">
+                UDYAM-<span className="text-emerald-400">SETU</span> <span className="text-amber-400 text-sm">AI</span>
               </span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -59,7 +63,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-          <p>© 2026 GramBiz AI. Built for MoSJE Problem Statement 2609.</p>
+          <p>© 2026 UDYAM-SETU AI. Built for MoSJE Problem Statement 2609.</p>
           <div className="flex space-x-4 mt-4 sm:mt-0">
             <span>OpenStreetMap Overpass API Spatial Scan</span>
             <span>Deterministic Decimal Engine</span>

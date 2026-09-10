@@ -14,7 +14,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'GramBiz AI Pro — Rural Enterprise & Financial Structuring Assistant',
+  title: 'UDYAM-SETU AI — Rural Enterprise & Financial Structuring Assistant',
   description: 'AI-driven hyper-local rural business feasibility advisory and financial structuring engine under Ministry of Social Justice and Empowerment (MoSJE).',
   manifest: '/manifest.json'
 };
