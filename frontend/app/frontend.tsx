@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useLanguage } from './context/LanguageContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function FrontendMainPage() {
   const { currentLang, setLanguage, t } = useLanguage();
