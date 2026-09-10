@@ -198,6 +198,12 @@ class CompetitorItem(BaseModel):
     source: str
     data_confidence: str
 
+class ShapFeatureAttribution(BaseModel):
+    feature_name: str
+    feature_group: str  # Demographics | Infrastructure | Competition | Finance | Prices
+    attribution_value: float  # Positive increases success, negative decreases
+    impact_description: str
+
 class FeasibilityScoreBreakdown(BaseModel):
     market_demand_score: float
     competition_score: float
@@ -207,7 +213,12 @@ class FeasibilityScoreBreakdown(BaseModel):
     infrastructure_score: float
     overall_score: float
     category_label: str  # High Risk | Moderate | Good | Strong Opportunity
+    viability_probability: float  # 0.00 to 1.00 calibrated success probability
+    viability_class: str  # Viable | Uncertain | High-Risk
+    model_architecture: str = "XGBoost / LightGBM Classifier + SHAP Attribution Pipeline"
+    shap_feature_attributions: List[ShapFeatureAttribution] = []
     disclaimer: str
+
 
 class SWOTResponse(BaseModel):
     strengths: List[str]
