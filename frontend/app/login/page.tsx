@@ -45,10 +45,10 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-2">
-        <div className="w-12 h-12 rounded-xl bg-emerald-800 flex items-center justify-center text-white mx-auto shadow-md">
-          <Landmark className="w-6 h-6 text-amber-400" />
+        <div className="h-14 flex items-center justify-center mx-auto">
+          <img src="/logo.png" alt="Udyam-Setu Logo" className="h-14 w-auto object-contain" />
         </div>
-        <h2 className="text-2xl font-extrabold text-slate-900">Sign in to GramBiz AI</h2>
+        <h2 className="text-2xl font-extrabold text-slate-900">Sign in to UDYAM-SETU AI</h2>
         <p className="text-xs text-slate-500">Ministry of Social Justice and Empowerment (MoSJE)</p>
       </div>
 
