@@ -17,6 +17,9 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     demandForecast: 'मांग पूर्वानुमान (ML)',
     docScanner: 'दस्तावेज़ स्कैनर',
     voiceAi: 'बहुभाषी वॉइस एआई',
+    aiVoice: 'एआई वॉइस',
+    login: 'लॉग इन',
+    register: 'रजिस्टर',
 
     heroBadge: 'MOSJE समस्या विवरण 26091 • कृषि एवं ग्रामीण विकास',
     heroEmpowerQuote: 'उद्यमिता के माध्यम से सशक्त ग्रामीण भारत',
@@ -168,6 +171,9 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     demandForecast: 'Demand Forecast ML',
     docScanner: 'Doc & Bill Scanner',
     voiceAi: 'Multilingual Voice AI',
+    aiVoice: 'AI Voice',
+    login: 'Login',
+    register: 'Register',
 
     heroBadge: 'MOSJE PROBLEM STATEMENT 26091 • AGRICULTURE & RURAL DEVELOPMENT',
     heroEmpowerQuote: 'Empowering Rural India Through Entrepreneurship',

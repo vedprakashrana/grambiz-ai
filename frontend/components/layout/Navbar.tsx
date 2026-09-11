@@ -9,11 +9,10 @@ import {
   Menu, 
   X, 
   LogOut,
-  HelpCircle,
-  Store,
-  TrendingUp,
-  FileSearch,
-  Mic
+  Mic,
+  LogIn,
+  UserPlus,
+  User
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../../context/LanguageContext';
@@ -22,7 +21,6 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const { currentLang, setLanguage, currentOption, t } = useLanguage();
   const [langMenuOpen, setLangMenuOpen] = useState(false);
-  const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -74,28 +72,6 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/assessment/new"
-              className={`transition-colors py-1.5 border-b-2 ${
-                pathname.startsWith('/assessment') 
-                  ? 'text-[#0d4f3b] border-[#0d4f3b] font-bold' 
-                  : 'text-slate-600 border-transparent hover:text-[#0d4f3b]'
-              }`}
-            >
-              {t('aiAdvisor')}
-            </Link>
-
-            <Link
-              href="/compare"
-              className={`transition-colors py-1.5 border-b-2 ${
-                pathname === '/compare' 
-                  ? 'text-[#0d4f3b] border-[#0d4f3b] font-bold' 
-                  : 'text-slate-600 border-transparent hover:text-[#0d4f3b]'
-              }`}
-            >
-              {t('marketIntelligence')}
-            </Link>
-
-            <Link
               href="/schemes"
               className={`transition-colors py-1.5 border-b-2 ${
                 pathname === '/schemes' 
@@ -117,61 +93,21 @@ export default function Navbar() {
               {t('finance')}
             </Link>
 
-            {/* Resources Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setResourcesOpen(!resourcesOpen)}
-                onBlur={() => setTimeout(() => setResourcesOpen(false), 200)}
-                className="flex items-center gap-1 text-slate-600 hover:text-[#0d4f3b] transition py-1.5"
-              >
-                <span>{t('resources')}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-
-              {resourcesOpen && (
-                <div className="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in duration-150">
-                  <Link
-                    href="/#workflow"
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-700 hover:bg-emerald-50 hover:text-[#0d4f3b]"
-                  >
-                    <HelpCircle className="w-3.5 h-3.5 text-emerald-700" />
-                    <span>{t('howItWorks')}</span>
-                  </Link>
-                  <Link
-                    href="/mandi"
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-700 hover:bg-emerald-50 hover:text-[#0d4f3b]"
-                  >
-                    <Store className="w-3.5 h-3.5 text-emerald-700" />
-                    <span>{t('liveMandi')}</span>
-                  </Link>
-                  <Link
-                    href="/forecast"
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-700 hover:bg-emerald-50 hover:text-[#0d4f3b]"
-                  >
-                    <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
-                    <span>{t('demandForecast')}</span>
-                  </Link>
-                  <Link
-                    href="/ocr"
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-700 hover:bg-emerald-50 hover:text-[#0d4f3b]"
-                  >
-                    <FileSearch className="w-3.5 h-3.5 text-emerald-700" />
-                    <span>{t('docScanner')}</span>
-                  </Link>
-                  <Link
-                    href="/assistant"
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-700 hover:bg-emerald-50 hover:text-[#0d4f3b]"
-                  >
-                    <Mic className="w-3.5 h-3.5 text-amber-600" />
-                    <span>{t('voiceAi')}</span>
-                  </Link>
-                </div>
-              )}
-            </div>
+            <Link
+              href="/assistant"
+              className={`inline-flex items-center gap-1.5 transition-colors py-1.5 border-b-2 ${
+                pathname === '/assistant' 
+                  ? 'text-[#0d4f3b] border-[#0d4f3b] font-bold' 
+                  : 'text-slate-600 border-transparent hover:text-[#0d4f3b]'
+              }`}
+            >
+              <Mic className="w-4 h-4 text-amber-500" />
+              <span>{t('aiVoice')}</span>
+            </Link>
           </nav>
 
           {/* Right Action Controls */}
-          <div className="flex items-center space-x-2.5 sm:space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             
             {/* Language Selector */}
             <div className="relative">
@@ -213,14 +149,15 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* New Assessment Button */}
+            {/* Login & Register Buttons */}
             {user ? (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <Link
-                  href="/assessment/new"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold bg-[#0d4f3b] hover:bg-[#093d2d] text-white px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg shadow-sm hover:shadow transition-all duration-200"
+                  href="/dashboard"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 text-[#0d4f3b] border border-emerald-200 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg hover:bg-emerald-100 transition shadow-xs"
                 >
-                  <span>{t('newAssessment')}</span>
+                  <User className="w-3.5 h-3.5 text-emerald-700" />
+                  <span className="max-w-[100px] truncate">{user.name || user.mobile || 'Dashboard'}</span>
                 </Link>
                 <button
                   onClick={handleLogout}
@@ -231,12 +168,22 @@ export default function Navbar() {
                 </button>
               </div>
             ) : (
-              <Link
-                href="/assessment/new"
-                className="inline-flex items-center gap-1.5 text-xs font-bold bg-[#0d4f3b] hover:bg-[#093d2d] text-white px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg shadow-sm hover:shadow transition-all duration-200"
-              >
-                <span>{t('newAssessment')}</span>
-              </Link>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Link
+                  href="/login"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 hover:text-[#0d4f3b] px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-lg border border-slate-200 hover:border-[#0d4f3b] transition bg-white shadow-2xs"
+                >
+                  <LogIn className="w-3.5 h-3.5 text-slate-500" />
+                  <span>{t('login')}</span>
+                </Link>
+                <Link
+                  href="/register"
+                  className="inline-flex items-center gap-1 text-xs font-bold bg-[#0d4f3b] hover:bg-[#093d2d] text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg shadow-xs hover:shadow transition-all duration-200"
+                >
+                  <UserPlus className="w-3.5 h-3.5 text-amber-300" />
+                  <span>{t('register')}</span>
+                </Link>
+              </div>
             )}
 
             {/* Mobile Menu Button */}
@@ -264,20 +211,6 @@ export default function Navbar() {
                 {t('home')}
               </Link>
               <Link
-                href="/assessment/new"
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800"
-              >
-                {t('aiAdvisor')}
-              </Link>
-              <Link
-                href="/compare"
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800"
-              >
-                {t('marketIntelligence')}
-              </Link>
-              <Link
                 href="/schemes"
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800"
@@ -294,21 +227,49 @@ export default function Navbar() {
               <Link
                 href="/assistant"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800 flex items-center gap-1.5 text-amber-700"
+                className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800 flex items-center gap-1.5 text-amber-700 font-bold"
               >
-                <Mic className="w-3.5 h-3.5" />
-                <span>{t('voiceAi')}</span>
+                <Mic className="w-3.5 h-3.5 text-amber-500" />
+                <span>{t('aiVoice')}</span>
               </Link>
             </div>
 
-            <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
-              <Link
-                href="/assessment/new"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center text-xs font-bold bg-[#0d4f3b] text-white py-2.5 rounded-lg shadow-sm"
-              >
-                {t('startAssessmentBtn')}
-              </Link>
+            <div className="pt-2 border-t border-slate-100">
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex-1 text-center text-xs font-bold bg-emerald-50 text-[#0d4f3b] border border-emerald-200 py-2.5 rounded-lg"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2.5 text-xs font-bold text-rose-600 border border-rose-200 bg-rose-50 rounded-lg hover:bg-rose-100"
+                  >
+                    <LogOut className="w-4 h-4 inline mr-1" />
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-1/2 text-center text-xs font-bold border border-slate-200 text-slate-700 py-2.5 rounded-lg hover:bg-slate-50"
+                  >
+                    {t('login')}
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-1/2 text-center text-xs font-bold bg-[#0d4f3b] text-white py-2.5 rounded-lg shadow-sm hover:bg-[#093d2d]"
+                  >
+                    {t('register')}
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -317,3 +278,4 @@ export default function Navbar() {
     </header>
   );
 }
+
