@@ -13,7 +13,28 @@ import {
   ChevronRight,
   Store,
   BarChart3,
-  Percent
+  Percent,
+  Briefcase,
+  Coins,
+  User,
+  Cpu,
+  TrendingUp,
+  Target,
+  Users,
+  LayoutGrid,
+  AlertTriangle,
+  Lightbulb,
+  Landmark,
+  FileCheck,
+  IndianRupee,
+  HandCoins,
+  Layers,
+  Link2,
+  Calendar,
+  Clock,
+  CircleDollarSign,
+  FileSpreadsheet,
+  ArrowDown
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -395,7 +416,302 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 4. SUPPORTED RURAL & SEMI-URBAN CATEGORIES (15 CATEGORIES) */}
+      {/* 4. NEW: INTERACTIVE ARCHITECTURE & DECISION FLOW (INFOGRAPHIC) */}
+      <section className="py-16 bg-[#f1f8f5] px-4 sm:px-6 lg:px-8 border-t border-b border-emerald-900/10">
+        <div className="max-w-6xl mx-auto">
+          
+          {/* Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center gap-2 mb-2">
+              <div className="h-9 w-9 rounded-xl bg-emerald-100 p-1 flex items-center justify-center">
+                <img src="/logo.png" alt="UDYAMSETU Logo" className="h-full w-full object-contain" />
+              </div>
+              <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                UDYAM<span className="text-[#0d4f3b]">SETU</span>
+              </span>
+            </div>
+            <div className="text-xs sm:text-sm font-serif italic text-emerald-800 font-bold">
+              From Idea to Impact
+            </div>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl mx-auto">
+              {t('arch_subtitle')}
+            </p>
+          </div>
+
+          {/* --- DIAGRAM CONTAINER --- */}
+          <div className="space-y-6">
+
+            {/* BLOCK 1: USER INPUTS */}
+            <div className="relative bg-[#eaf7f1] border-2 border-emerald-300/80 rounded-2xl p-5 sm:p-6 shadow-xs">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0d4f3b] text-white text-[11px] font-black tracking-wider uppercase px-4 py-1 rounded-full shadow-xs">
+                {t('arch_user_inputs')}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mt-2">
+                
+                {/* Input 1: Location */}
+                <div className="bg-white rounded-xl p-3.5 text-center border border-emerald-100 shadow-2xs hover:shadow-xs transition">
+                  <div className="w-8 h-8 mx-auto rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-1.5">
+                    <MapPin className="w-4 h-4 fill-emerald-100" />
+                  </div>
+                  <h4 className="text-xs font-bold text-slate-900">{t('input_location')}</h4>
+                  <p className="text-[10px] text-slate-500 mt-0.5">{t('input_location_sub')}</p>
+                </div>
+
+                {/* Input 2: Business Type */}
+                <div className="bg-white rounded-xl p-3.5 text-center border border-emerald-100 shadow-2xs hover:shadow-xs transition">
+                  <div className="w-8 h-8 mx-auto rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-1.5">
+                    <Briefcase className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-bold text-slate-900">{t('input_business')}</h4>
+                  <p className="text-[10px] text-slate-500 mt-0.5">{t('input_business_sub')}</p>
+                </div>
+
+                {/* Input 3: Own Contribution */}
+                <div className="bg-white rounded-xl p-3.5 text-center border border-emerald-100 shadow-2xs hover:shadow-xs transition">
+                  <div className="w-8 h-8 mx-auto rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-1.5">
+                    <Coins className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-bold text-slate-900">{t('input_contribution')}</h4>
+                  <p className="text-[10px] text-slate-500 mt-0.5">{t('input_contribution_sub')}</p>
+                </div>
+
+                {/* Input 4: Basic Information */}
+                <div className="bg-white rounded-xl p-3.5 text-center border border-emerald-100 shadow-2xs hover:shadow-xs transition">
+                  <div className="w-8 h-8 mx-auto rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-1.5">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-bold text-slate-900">{t('input_basic_info')}</h4>
+                  <p className="text-[10px] text-slate-500 mt-0.5">{t('input_basic_info_sub')}</p>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Connecting Arrow */}
+            <div className="flex justify-center -my-2">
+              <div className="w-8 h-8 rounded-full bg-white border border-emerald-300 flex items-center justify-center text-[#0d4f3b] shadow-xs">
+                <ArrowDown className="w-4 h-4" />
+              </div>
+            </div>
+
+            {/* BLOCK 2: AI ANALYSIS ENGINE */}
+            <div className="bg-[#eef5fc] border-2 border-sky-300 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+              <div className="w-12 h-12 rounded-2xl bg-[#0369a1] text-white flex items-center justify-center flex-shrink-0 shadow-md">
+                <Cpu className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-sm font-black text-[#0369a1] tracking-wide uppercase">
+                  {t('ai_engine_title')}
+                </h3>
+                <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                  {t('ai_engine_desc')}
+                </p>
+              </div>
+            </div>
+
+            {/* Connecting Arrow */}
+            <div className="flex justify-center -my-2">
+              <div className="w-8 h-8 rounded-full bg-white border border-sky-300 flex items-center justify-center text-[#0369a1] shadow-xs">
+                <ArrowDown className="w-4 h-4" />
+              </div>
+            </div>
+
+            {/* THREE CORE OUTPUTS BADGE */}
+            <div className="text-center">
+              <span className="inline-block bg-[#1e293b] text-white text-[11px] font-black tracking-wider uppercase px-5 py-1.5 rounded-full shadow-sm">
+                {t('three_outputs')}
+              </span>
+            </div>
+
+            {/* BLOCK 3: 3 CORE OUTPUTS GRID */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+              {/* Output Column 01: Business Feasibility */}
+              <div className="bg-white border-2 border-sky-300 rounded-2xl p-5 shadow-sm flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute -top-1 -right-1 w-12 h-12 bg-sky-100 rounded-bl-3xl flex items-start justify-end pr-2 pt-2">
+                  <span className="w-6 h-6 rounded-full bg-[#0284c7] text-white text-[11px] font-black flex items-center justify-center">
+                    01
+                  </span>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingUp className="w-5 h-5 text-[#0284c7]" />
+                    <h4 className="text-xs font-black text-slate-900 uppercase">
+                      {t('out1_title')}
+                    </h4>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mb-4 pb-3 border-b border-slate-100">
+                    {t('out1_sub')}
+                  </p>
+
+                  <ul className="space-y-2 text-xs text-slate-700">
+                    <li className="flex items-center gap-2">
+                      <Target className="w-3.5 h-3.5 text-[#0284c7] flex-shrink-0" />
+                      <span>{t('out1_item1')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Users className="w-3.5 h-3.5 text-[#0284c7] flex-shrink-0" />
+                      <span>{t('out1_item2')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Coins className="w-3.5 h-3.5 text-[#0284c7] flex-shrink-0" />
+                      <span>{t('out1_item3')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <LayoutGrid className="w-3.5 h-3.5 text-[#0284c7] flex-shrink-0" />
+                      <span>{t('out1_item4')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                      <span>{t('out1_item5')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Lightbulb className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                      <span>{t('out1_item6')}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Output Column 02: Scheme & Govt Support */}
+              <div className="bg-white border-2 border-emerald-400 rounded-2xl p-5 shadow-sm flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute -top-1 -right-1 w-12 h-12 bg-emerald-100 rounded-bl-3xl flex items-start justify-end pr-2 pt-2">
+                  <span className="w-6 h-6 rounded-full bg-[#0d4f3b] text-white text-[11px] font-black flex items-center justify-center">
+                    02
+                  </span>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Landmark className="w-5 h-5 text-[#0d4f3b]" />
+                    <h4 className="text-xs font-black text-slate-900 uppercase">
+                      {t('out2_title')}
+                    </h4>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mb-4 pb-3 border-b border-slate-100">
+                    {t('out2_sub')}
+                  </p>
+
+                  <ul className="space-y-2 text-xs text-slate-700">
+                    <li className="flex items-center gap-2">
+                      <FileCheck className="w-3.5 h-3.5 text-[#0d4f3b] flex-shrink-0" />
+                      <span>{t('out2_item1')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <User className="w-3.5 h-3.5 text-[#0d4f3b] flex-shrink-0" />
+                      <span>{t('out2_item2')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <HandCoins className="w-3.5 h-3.5 text-[#0d4f3b] flex-shrink-0" />
+                      <span>{t('out2_item3')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Layers className="w-3.5 h-3.5 text-[#0d4f3b] flex-shrink-0" />
+                      <span>{t('out2_item4')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Coins className="w-3.5 h-3.5 text-[#0d4f3b] flex-shrink-0" />
+                      <span>{t('out2_item5')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Link2 className="w-3.5 h-3.5 text-[#0d4f3b] flex-shrink-0" />
+                      <span>{t('out2_item6')}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Output Column 03: Loan Repayment & Financial Plan */}
+              <div className="bg-white border-2 border-purple-300 rounded-2xl p-5 shadow-sm flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute -top-1 -right-1 w-12 h-12 bg-purple-100 rounded-bl-3xl flex items-start justify-end pr-2 pt-2">
+                  <span className="w-6 h-6 rounded-full bg-[#7c3aed] text-white text-[11px] font-black flex items-center justify-center">
+                    03
+                  </span>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <IndianRupee className="w-5 h-5 text-[#7c3aed]" />
+                    <h4 className="text-xs font-black text-slate-900 uppercase">
+                      {t('out3_title')}
+                    </h4>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mb-4 pb-3 border-b border-slate-100">
+                    {t('out3_sub')}
+                  </p>
+
+                  <ul className="space-y-2 text-xs text-slate-700">
+                    <li className="flex items-center gap-2">
+                      <IndianRupee className="w-3.5 h-3.5 text-[#7c3aed] flex-shrink-0" />
+                      <span>{t('out3_item1')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Calendar className="w-3.5 h-3.5 text-[#7c3aed] flex-shrink-0" />
+                      <span>{t('out3_item2')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Percent className="w-3.5 h-3.5 text-[#7c3aed] flex-shrink-0" />
+                      <span>{t('out3_item3')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Clock className="w-3.5 h-3.5 text-[#7c3aed] flex-shrink-0" />
+                      <span>{t('out3_item4')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <BarChart3 className="w-3.5 h-3.5 text-[#7c3aed] flex-shrink-0" />
+                      <span>{t('out3_item5')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Calendar className="w-3.5 h-3.5 text-[#7c3aed] flex-shrink-0" />
+                      <span>{t('out3_item6')}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CircleDollarSign className="w-3.5 h-3.5 text-[#7c3aed] flex-shrink-0" />
+                      <span>{t('out3_item7')}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Connecting Arrow */}
+            <div className="flex justify-center -my-2">
+              <div className="w-8 h-8 rounded-full bg-white border border-slate-300 flex items-center justify-center text-slate-700 shadow-xs">
+                <ArrowDown className="w-4 h-4" />
+              </div>
+            </div>
+
+            {/* BLOCK 4: FINAL REPORT */}
+            <div className="bg-[#eff6ff] border-2 border-blue-400 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+              <div className="w-12 h-12 rounded-2xl bg-[#1d4ed8] text-white flex items-center justify-center flex-shrink-0 shadow-md">
+                <FileSpreadsheet className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-sm font-black text-[#1d4ed8] tracking-wide uppercase">
+                  {t('final_report_title')}
+                </h3>
+                <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                  {t('final_report_desc')}
+                </p>
+              </div>
+              <Link
+                href="/assessment/new"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1d4ed8] hover:bg-[#1e40af] text-white text-xs font-bold shadow-xs transition"
+              >
+                <span>{t('startAssessmentBtn')}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 5. SUPPORTED RURAL & SEMI-URBAN CATEGORIES (15 CATEGORIES) */}
       <section className="py-12 bg-white px-4 sm:px-6 lg:px-8 border-t border-b border-slate-200/70">
         <div className="max-w-7xl mx-auto">
           
@@ -440,7 +756,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 5. CALL TO ACTION BANNER: "Ready to evaluate your rural enterprise?" */}
+      {/* 6. CALL TO ACTION BANNER: "Ready to evaluate your rural enterprise?" */}
       <section className="bg-[#08382b] text-white py-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         
         {/* Background Subtle Gradient & Glow */}
