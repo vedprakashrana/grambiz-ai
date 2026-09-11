@@ -398,6 +398,93 @@ def download_pdf_report(id: str):
         }
     )
 
+@router.get("/finance/plan/pdf")
+def download_financial_plan_pdf(
+    loan_amount: float = 900000.0,
+    interest_rate: float = 8.0,
+    tenure_months: int = 84,
+    moratorium_months: int = 6,
+    monthly_emi: float = 14048.0,
+    monthly_revenue: float = 120000.0,
+    monthly_opex: float = 55000.0,
+    post_emi_surplus: float = 50952.0,
+    total_interest: float = 279998.0,
+    total_repayment: float = 1179998.0
+):
+    plan_data = {
+        "loan_amount": loan_amount,
+        "interest_rate": interest_rate,
+        "tenure_months": tenure_months,
+        "moratorium_months": moratorium_months,
+        "monthly_emi": monthly_emi,
+        "monthly_revenue": monthly_revenue,
+        "monthly_opex": monthly_opex,
+        "post_emi_surplus": post_emi_surplus,
+        "total_interest": total_interest,
+        "total_repayment": total_repayment
+    }
+    pdf_bytes = PDFReportGenerator.generate_financial_plan_pdf(plan_data)
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": "attachment; filename=GramBiz_Loan_Repayment_Plan.pdf"
+        }
+    )
+
+
+@router.post("/calculators/working-capital/pdf")
+def generate_working_capital_pdf_post(data: dict):
+    pdf_bytes = PDFReportGenerator.generate_working_capital_report(data)
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": "attachment; filename=UDYAM_SETU_Working_Capital_Dossier.pdf"
+        }
+    )
+
+
+@router.get("/calculators/working-capital/pdf")
+def generate_working_capital_pdf_get(
+    enterprise_name: str = "Rural Micro-Enterprise",
+    entrepreneur_name: str = "Entrepreneur",
+    sector: str = "Agro-Enterprise",
+    monthly_opex: float = 58000.0,
+    reserve_months: int = 3,
+    recommended_reserve: float = 174000.0,
+    monthly_revenue: float = 85000.0
+):
+    data = {
+        "enterprise_name": enterprise_name,
+        "entrepreneur_name": entrepreneur_name,
+        "sector": sector,
+        "monthly_opex": monthly_opex,
+        "reserve_months": reserve_months,
+        "recommended_reserve": recommended_reserve,
+        "monthly_revenue": monthly_revenue,
+        "expenses": {
+            "raw_materials": monthly_opex * 0.43,
+            "rent": monthly_opex * 0.08,
+            "electricity": monthly_opex * 0.06,
+            "salaries": monthly_opex * 0.20,
+            "transport": monthly_opex * 0.07,
+            "marketing": monthly_opex * 0.03,
+            "maintenance": monthly_opex * 0.07,
+            "miscellaneous": monthly_opex * 0.06,
+        }
+    }
+    pdf_bytes = PDFReportGenerator.generate_working_capital_report(data)
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": "attachment; filename=UDYAM_SETU_Working_Capital_Dossier.pdf"
+        }
+    )
+
+
+
 # ================= PRO VERSION ENDPOINTS =================
 
 @router.post("/pro/ocr/scan")

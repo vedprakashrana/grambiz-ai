@@ -47,3 +47,5 @@ Thumbs.db
 # Environment
 .env
 !.env.example
+*.tsbuildinfo
+
