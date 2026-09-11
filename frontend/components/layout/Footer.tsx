@@ -28,14 +28,9 @@ export default function Footer() {
                 />
               </div>
               <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-base font-black tracking-tight text-slate-900">
-                    UDYAM-SETU
-                  </span>
-                  <span className="text-[10px] font-black bg-[#f59e0b] text-slate-950 px-1.5 py-0.5 rounded shadow-xs">
-                    AI
-                  </span>
-                </div>
+                <span className="text-base font-black tracking-tight text-slate-900">
+                  UDYAM-SETU
+                </span>
                 <span className="text-[9px] font-medium text-slate-500">
                   {t('tagline')}
                 </span>
@@ -142,7 +137,7 @@ export default function Footer() {
 
         {/* Bottom Bar: Copyright & Policies */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
-          <p>© 2026 UDYAM-SETU AI. {t('allRightsReserved')}</p>
+          <p>© 2026 UDYAM-SETU. {t('allRightsReserved')}</p>
           <div className="flex items-center space-x-4 text-slate-500 font-normal">
             <Link href="/privacy" className="hover:text-slate-800 transition">{t('privacyPolicy')}</Link>
             <span>|</span>

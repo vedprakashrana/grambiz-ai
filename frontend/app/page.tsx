@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { 
   ArrowRight, 
   MapPin, 
-  Sparkles, 
   CheckCircle2, 
   ShieldCheck, 
   Building2, 
@@ -36,19 +35,12 @@ import {
   FileSpreadsheet,
   ArrowDown
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import Footer from '../components/layout/Footer';
 
 export default function LandingPage() {
   const router = useRouter();
-  const { loginAsGuest } = useAuth();
   const { t } = useLanguage();
-
-  const handleGuestDemo = () => {
-    loginAsGuest();
-    router.push('/dashboard');
-  };
 
   const categories = [
     { id: 'dairy', name: t('cat_dairy'), icon: '🐄', color: 'bg-purple-50 text-purple-700' },
@@ -117,23 +109,15 @@ export default function LandingPage() {
                 {t('heroSubtitle')}
               </p>
 
-              {/* Action Buttons */}
+              {/* Action Button */}
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Link
                   href="/assessment/new"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-bold text-xs shadow-md hover:shadow-lg transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200"
                 >
                   <span>{t('startAssessmentBtn')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-
-                <button
-                  onClick={handleGuestDemo}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#0d4a39] hover:bg-[#125845] text-emerald-100 font-semibold text-xs border border-emerald-500/40 shadow-sm transition-all"
-                >
-                  <Building2 className="w-4 h-4 text-[#a3e635]" />
-                  <span>{t('exploreDemoGuestBtn')}</span>
-                </button>
               </div>
 
               {/* Trust Indicators Row */}
@@ -235,8 +219,7 @@ export default function LandingPage() {
 
                 {/* View Full Analysis CTA */}
                 <Link
-                  href="/dashboard"
-                  onClick={handleGuestDemo}
+                  href="/assessment/new"
                   className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-[#0d4f3b] hover:bg-[#093d2d] text-white font-bold text-xs shadow-sm transition"
                 >
                   <span>{t('viewFullAnalysis')}</span>
@@ -416,7 +399,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 4. NEW: INTERACTIVE ARCHITECTURE & DECISION FLOW (INFOGRAPHIC) */}
+      {/* 4. SYSTEM ARCHITECTURE & DECISION FLOW (INFOGRAPHIC) */}
       <section className="py-16 bg-[#f1f8f5] px-4 sm:px-6 lg:px-8 border-t border-b border-emerald-900/10">
         <div className="max-w-6xl mx-auto">
           
@@ -781,23 +764,15 @@ export default function LandingPage() {
             {t('ctaSubtitle')}
           </p>
 
-          {/* Banner Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+          {/* Banner Button */}
+          <div className="flex items-center justify-center pt-2">
             <Link
               href="/assessment/new"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200"
             >
               <span>{t('launchWizardBtn')}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
-
-            <button
-              onClick={handleGuestDemo}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-lg bg-[#0d4a39] hover:bg-[#125845] text-emerald-100 font-semibold text-xs sm:text-sm border border-emerald-500/40 shadow-sm transition-all"
-            >
-              <Sparkles className="w-4 h-4 text-[#a3e635]" />
-              <span>{t('exploreDemoJudgeBtn')}</span>
-            </button>
           </div>
 
         </div>

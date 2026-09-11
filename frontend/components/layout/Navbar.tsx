@@ -8,7 +8,6 @@ import {
   ChevronDown, 
   Menu, 
   X, 
-  Sparkles, 
   LogOut,
   HelpCircle,
   Store,
@@ -20,19 +19,13 @@ import { useAuth } from '../../context/AuthContext';
 import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../../context/LanguageContext';
 
 export default function Navbar() {
-  const { user, logout, loginAsGuest } = useAuth();
+  const { user, logout } = useAuth();
   const { currentLang, setLanguage, currentOption, t } = useLanguage();
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-
-  const handleGuestDemo = () => {
-    loginAsGuest();
-    setMobileMenuOpen(false);
-    router.push('/dashboard');
-  };
 
   const handleLogout = () => {
     logout();
@@ -58,14 +51,9 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 font-sans">
-                  UDYAM-SETU
-                </span>
-                <span className="text-[10px] font-black bg-[#f59e0b] text-slate-950 px-1.5 py-0.5 rounded shadow-xs">
-                  AI
-                </span>
-              </div>
+              <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 font-sans">
+                UDYAM-SETU
+              </span>
               <span className="text-[8px] sm:text-[9.5px] font-semibold text-slate-500 tracking-normal">
                 {t('tagline')}
               </span>
@@ -220,15 +208,6 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-
-            {/* Try Demo Button */}
-            <button
-              onClick={handleGuestDemo}
-              className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg bg-[#fef3c7] text-[#92400e] border border-[#fde68a] hover:bg-[#fde68a] transition shadow-2xs"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#d97706]" />
-              <span>{t('tryDemo')}</span>
-            </button>
 
             {/* New Assessment Button */}
             {user ? (
