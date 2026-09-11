@@ -63,193 +63,248 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f8fafc] text-slate-900 font-sans antialiased">
       
-      {/* 1. HERO SECTION - Clean, Eye-Catching & Spacious 2-Column Layout */}
-      <section className="relative bg-gradient-to-br from-[#062c22] via-[#094132] to-[#062d23] text-white pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* 1. HERO SECTION - Light Mint / Pastel Aesthetic matching user reference */}
+      <section className="relative bg-gradient-to-b from-[#eaf6f0] via-[#f5faf6] to-[#ebf6ef] text-slate-900 pt-10 sm:pt-12 pb-14 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-emerald-100/60">
         
-        {/* Glow & Backdrop Lighting */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[300px] bg-emerald-500/15 blur-[120px] pointer-events-none rounded-full"></div>
-        <div className="absolute top-10 right-10 w-72 h-72 bg-amber-400/10 blur-[100px] pointer-events-none rounded-full"></div>
+        {/* Soft Background Concentric Circles */}
+        <div className="absolute -top-16 -left-16 w-72 h-72 rounded-full border border-emerald-200/50 bg-white/40 pointer-events-none"></div>
+        <div className="absolute top-8 left-12 w-48 h-48 rounded-full border border-emerald-200/40 bg-white/30 pointer-events-none"></div>
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-emerald-200/20 blur-[100px] pointer-events-none rounded-full"></div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
             
             {/* Left Column (7 cols): Hero Copy & Action */}
-            <div className="lg:col-span-7 space-y-6">
+            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
               
-              {/* Kisan (Farmer) Image & Badge */}
-              <div className="inline-flex items-center gap-3 p-1.5 pr-4 rounded-full bg-[#0d4a39]/90 border border-emerald-400/40 shadow-md backdrop-blur-sm">
-                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-[#a3e635] shadow-xs flex-shrink-0 bg-emerald-950">
-                  <img 
-                    src="/farmer-hero.jpg" 
-                    alt="Kishan - Rural Entrepreneur" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="text-xs sm:text-[13px] font-extrabold text-white flex items-center gap-1.5">
-                    <span>समृद्ध किसान • सशक्त भारत</span>
-                    <span className="w-2 h-2 rounded-full bg-[#a3e635] animate-pulse"></span>
-                  </span>
-                  <span className="text-[10px] text-emerald-200 font-medium">
-                    Rural India Entrepreneurship & Agro Enterprise
-                  </span>
-                </div>
+              {/* Problem Statement Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-emerald-300/70 text-[#0a3e30] text-[11px] font-bold tracking-wider uppercase shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#84cc16] animate-pulse"></span>
+                <span>MOSJE PROBLEM STATEMENT 2609 &bull; AGRICULTURE &amp; RURAL DEVELOPMENT</span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-[52px] font-black tracking-tight leading-tight sm:leading-[1.12]">
-                {t('heroTitlePart1')}{' '}
-                <span className="text-[#a3e635] underline decoration-emerald-500/40 decoration-wavy decoration-2">
-                  {t('heroTitlePart2')}
+              <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-black tracking-tight text-slate-900 leading-tight sm:leading-[1.12]">
+                Turn Your Business Idea{' '}
+                <span className="block mt-1">
+                  into a{' '}
+                  <span className="relative inline-block text-[#0a3e30]">
+                    Fundable Business.
+                    <svg className="absolute -bottom-2 left-0 w-full h-3 text-amber-400" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                      <path d="M2 9C50 3 150 3 198 9" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                    </svg>
+                  </span>
                 </span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-sm sm:text-base text-emerald-100/90 font-normal max-w-xl leading-relaxed">
-                {t('heroSubtitle')}
+              <p className="text-sm sm:text-base text-slate-600 font-normal max-w-xl leading-relaxed">
+                AI-powered business intelligence for rural entrepreneurs. From idea validation to finance, government schemes and a ready-to-use business plan.
               </p>
 
-              {/* Primary Action Button */}
-              <div className="pt-2">
+              {/* Action Buttons: Start Assessment & Explore Demo */}
+              <div className="flex flex-wrap items-center gap-3.5 pt-1">
                 <Link
                   href="/assessment/new"
-                  className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-black text-sm sm:text-base shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all duration-200 group"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200 group"
                 >
-                  <span>{t('startAssessmentBtn')}</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <span>Start Business Assessment</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-emerald-50 text-[#0a3e30] font-bold text-sm border-2 border-[#0a3e30] shadow-2xs transition-all duration-200"
+                >
+                  <span className="text-[#0a3e30] text-xs">▶</span>
+                  <span>Explore AI Demo (Guest)</span>
                 </Link>
               </div>
 
               {/* Trust Indicators Row */}
-              <div className="pt-4 flex flex-wrap items-center gap-y-2 gap-x-5 text-xs text-emerald-200/90 font-medium border-t border-emerald-800/40">
+              <div className="pt-3 flex flex-wrap items-center gap-y-2 gap-x-5 text-xs text-slate-700 font-semibold">
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#a3e635]" />
-                  <span>{t('freeAnalysis')}</span>
+                  <span className="text-emerald-700 text-sm">🍃</span>
+                  <span>100% Free Analysis</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Building2 className="w-4 h-4 text-[#a3e635]" />
-                  <span>{t('basedOnGovtData')}</span>
+                  <span className="text-emerald-700 text-sm">🪙</span>
+                  <span>Based on Govt. Data</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-[#a3e635]" />
-                  <span>{t('ruralIndiaFocus')}</span>
+                  <MapPin className="w-4 h-4 text-emerald-700" />
+                  <span>Rural India Focus</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-[#a3e635]" />
-                  <span>{t('secureReliable')}</span>
+                  <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                  <span>Secure &amp; Reliable</span>
                 </div>
               </div>
 
             </div>
 
-            {/* Right Column (5 cols): Floating Sample Analysis Card & Farmer Tag */}
-            <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
-              
-              {/* Floating Live Demo Card */}
-              <div className="w-full max-w-md bg-white rounded-2xl p-5 shadow-2xl text-slate-900 border border-slate-100 relative z-20 backdrop-blur-md">
+            {/* Right Column (5 cols): Floating Sample Analysis Card + Farmer Image & Slogan */}
+            <div className="lg:col-span-5 relative flex items-center justify-center pt-4 lg:pt-0">
+              <div className="relative flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
                 
-                {/* Card Header */}
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3.5">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-black tracking-wide text-slate-800">
-                      {t('sampleAnalysisTitle')}
+                {/* Floating Live Demo Card */}
+                <div className="w-full max-w-[340px] sm:max-w-[350px] bg-white rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-900 border border-slate-100 relative z-20 flex-shrink-0">
+                  
+                  {/* Card Header */}
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-black tracking-wide text-slate-800">
+                        AI Business Analysis
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-medium">(Sample)</span>
+                    </div>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                      Live Demo
                     </span>
-                    <span className="text-[10px] text-slate-400 font-medium">{t('sampleTag')}</span>
                   </div>
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    {t('liveDemoTag')}
-                  </span>
-                </div>
 
-                {/* Business Idea & Location */}
-                <div className="grid grid-cols-2 gap-2.5 mb-3.5 text-xs">
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                    <span className="text-[10px] text-slate-400 block font-medium">{t('businessIdea')}</span>
-                    <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
-                      <Store className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
-                      <span className="truncate text-xs">{t('dairyFarming')}</span>
+                  {/* Business Idea & Location */}
+                  <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+                    <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                      <span className="text-[9.5px] text-slate-400 block font-medium">Business Idea</span>
+                      <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
+                        <span className="text-emerald-700">🌱</span>
+                        <span className="truncate text-xs">Dairy Farming</span>
+                      </div>
+                    </div>
+
+                    <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                      <span className="text-[9.5px] text-slate-400 block font-medium">Location</span>
+                      <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
+                        <MapPin className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
+                        <span className="truncate text-xs">Dhanbad, Jharkhand</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                    <span className="text-[10px] text-slate-400 block font-medium">{t('location')}</span>
-                    <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
-                      <MapPin className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
-                      <span className="truncate text-xs">{t('sampleLocation')}</span>
+                  {/* 4 Green Stat Tiles */}
+                  <div className="grid grid-cols-4 gap-1.5 mb-3 text-center">
+                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                      <span className="text-xs font-black text-emerald-800 block">87%</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Feasibility Score</span>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                      <span className="text-xs font-black text-emerald-800 block">HIGH</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Market Demand</span>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                      <span className="text-xs font-black text-emerald-800 block">LOW</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Competition</span>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                      <span className="text-xs font-black text-emerald-800 block">7</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Schemes Matched</span>
                     </div>
                   </div>
+
+                  {/* Key Metrics Rows */}
+                  <div className="space-y-1.5 text-xs border-t border-slate-100 pt-2.5 mb-3.5">
+                    <div className="flex items-center justify-between text-slate-600">
+                      <span className="text-[11px] flex items-center gap-1">
+                        <span>🏦</span> Estimated Finance Need
+                      </span>
+                      <span className="font-bold text-slate-900 text-xs">₹8.5 Lakh</span>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-600">
+                      <span className="text-[11px] flex items-center gap-1">
+                        <span>📈</span> Potential Monthly Revenue
+                      </span>
+                      <span className="font-bold text-slate-900 text-xs">₹1.2 Lakh</span>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-600">
+                      <span className="text-[11px] flex items-center gap-1">
+                        <span>📍</span> Suggested Area
+                      </span>
+                      <span className="font-bold text-slate-900 text-xs">5 – 10 km (GIS Scan)</span>
+                    </div>
+                  </div>
+
+                  {/* View Full Analysis CTA */}
+                  <Link
+                    href="/assessment/new"
+                    className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-xs shadow-sm hover:shadow transition"
+                  >
+                    <span>View Full Analysis</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+
                 </div>
 
-                {/* 4 Green Stat Tiles */}
-                <div className="grid grid-cols-4 gap-1.5 mb-3.5 text-center">
-                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200/80">
-                    <span className="text-xs font-black text-emerald-800 block">87%</span>
-                    <span className="text-[8.5px] text-emerald-700 font-semibold block leading-tight">{t('feasibilityScore')}</span>
+                {/* Farmer Visual & Slogan on the Right */}
+                <div className="flex flex-col items-center sm:-ml-6 z-10">
+                  
+                  {/* Slogan */}
+                  <div className="text-center sm:text-right mb-2 pr-1">
+                    <p className="font-serif italic font-extrabold text-[#0a3e30] text-xs sm:text-sm leading-tight">
+                      Stronger<br />
+                      Rural India<br />
+                      Brighter<br />
+                      Tomorrow
+                    </p>
+                    <svg className="w-16 h-2 text-amber-400 mt-0.5 ml-auto" viewBox="0 0 80 8" fill="none">
+                      <path d="M2 6C25 2 55 2 78 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                    </svg>
                   </div>
-                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200/80">
-                    <span className="text-xs font-black text-emerald-800 block">{t('high')}</span>
-                    <span className="text-[8.5px] text-emerald-700 font-semibold block leading-tight">{t('marketDemand')}</span>
-                  </div>
-                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200/80">
-                    <span className="text-xs font-black text-emerald-800 block">{t('low')}</span>
-                    <span className="text-[8.5px] text-emerald-700 font-semibold block leading-tight">{t('competition')}</span>
-                  </div>
-                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200/80">
-                    <span className="text-xs font-black text-emerald-800 block">7</span>
-                    <span className="text-[8.5px] text-emerald-700 font-semibold block leading-tight">{t('schemesMatched')}</span>
-                  </div>
-                </div>
 
-                {/* Key Metrics Rows */}
-                <div className="space-y-2 text-xs border-t border-slate-100 pt-3 mb-4">
-                  <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-xs">{t('estFinanceNeed')}</span>
-                    <span className="font-bold text-slate-900 text-xs">₹8.5 Lakh</span>
+                  {/* Farmer Arch Cutout Image */}
+                  <div className="w-36 h-48 sm:w-44 sm:h-56 rounded-t-full overflow-hidden border-2 border-white shadow-xl bg-emerald-100 flex-shrink-0 relative">
+                    <img 
+                      src="/farmer-hero.jpg" 
+                      alt="Rural Entrepreneur" 
+                      className="w-full h-full object-cover object-top"
+                    />
                   </div>
-                  <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-xs">{t('potentialMonthlyRevenue')}</span>
-                    <span className="font-bold text-slate-900 text-xs">₹1.2 Lakh</span>
-                  </div>
-                  <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-xs">{t('suggestedArea')}</span>
-                    <span className="font-bold text-slate-900 text-xs">{t('gisScanArea')}</span>
-                  </div>
-                </div>
 
-                {/* View Full Analysis CTA */}
-                <Link
-                  href="/assessment/new"
-                  className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#0d4f3b] hover:bg-[#093d2d] text-white font-bold text-xs shadow-sm hover:shadow transition"
-                >
-                  <span>{t('viewFullAnalysis')}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                </div>
 
               </div>
-
-              {/* Farmer Slogan Tag below card */}
-              <div className="flex items-center gap-3 mt-4 self-end pr-2">
-                <div className="text-right">
-                  <span className="font-serif italic font-bold text-xs text-amber-300 block">
-                    {t('sloganRight1')}
-                  </span>
-                  <span className="font-serif italic font-bold text-xs text-emerald-200 block">
-                    {t('sloganRight2')}
-                  </span>
-                </div>
-                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-amber-300/80 shadow-md flex-shrink-0">
-                  <img 
-                    src="/farmer-hero.jpg" 
-                    alt="Rural Entrepreneur" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-
             </div>
 
           </div>
+
+          {/* Bottom Village Silhouette & Government Attribution Strip */}
+          <div className="mt-10 sm:mt-12 pt-6 border-t border-emerald-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+            {/* Rural landscape silhouette */}
+            <div className="hidden sm:block opacity-35 text-emerald-800">
+              <svg className="h-9 w-48" viewBox="0 0 240 36" fill="currentColor">
+                <path d="M0 36h240v-6c-25-3-35-10-60-10s-30 8-50 8-35-12-60-12-50 14-70 14v6z" />
+                <circle cx="24" cy="16" r="10" />
+                <circle cx="58" cy="22" r="7" />
+                <polygon points="140,10 134,30 146,30" />
+                <polygon points="175,14 169,30 181,30" />
+                <circle cx="210" cy="18" r="8" />
+              </svg>
+            </div>
+
+            {/* Slogan Center */}
+            <div className="text-center">
+              <p className="font-serif italic font-bold text-slate-700 text-xs sm:text-sm">
+                &ldquo;Ideas Today. Stronger Rural India Tomorrow.&rdquo;
+              </p>
+              <div className="w-24 h-1 bg-amber-400 mx-auto rounded-full mt-1"></div>
+            </div>
+
+            {/* Supported by GoI */}
+            <div className="flex items-center gap-2.5 text-slate-600 text-right">
+              <div className="text-[10px] leading-tight">
+                <span className="block text-slate-400">Supported by</span>
+                <span className="font-bold text-slate-800 block">Ministry of Social Justice &amp; Empowerment</span>
+                <span className="text-slate-500 block">Government of India</span>
+              </div>
+              <div className="w-7 h-9 flex items-center justify-center opacity-80 flex-shrink-0">
+                <svg viewBox="0 0 24 32" className="w-full h-full text-slate-700" fill="currentColor">
+                  <path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5v2.5h-4V9.5C8.8 8.8 8 7.5 8 6a4 4 0 0 1 4-4zm-6 7a3 3 0 0 1 3 3c0 1-.5 1.9-1.3 2.4l.8 3.6h-5l.8-3.6A2.9 2.9 0 0 1 3 12a3 3 0 0 1 3-3zm12 0a3 3 0 0 1 3 3c0 1.1-.6 2.1-1.5 2.6l.8 3.4h-5l.8-3.4A3 3 0 0 1 18 9zM6 24h12v2H6v-2zm-2 4h16v2H4v-2z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
