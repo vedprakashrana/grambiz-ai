@@ -369,7 +369,42 @@ export default function AssessmentResultPage() {
           </div>
         </div>
 
+        {/* 5. Bottom Action Banner & PDF Download */}
+        <div className="bg-gradient-to-r from-[#062c22] via-[#094132] to-[#062d23] text-white rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 border border-emerald-500/20">
+          <div className="space-y-1 text-center sm:text-left">
+            <span className="text-xs font-bold text-[#a3e635] tracking-wider uppercase">
+              Official Bank-Ready Documentation
+            </span>
+            <h3 className="text-xl sm:text-2xl font-black">
+              Download Your Complete Feasibility Report
+            </h3>
+            <p className="text-xs text-emerald-100/80 max-w-xl">
+              Includes comprehensive financial outlay (90:10 ratio), MoSJE scheme eligibility, GIS competitor scan benchmarks, and detailed SWOT matrix for submission to banks.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <a
+              href={`http://localhost:8000/api/v1/reports/${data.id}/pdf`}
+              download={`GramBiz_Feasibility_Report_${data.id}.pdf`}
+              target="_blank"
+              rel="noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-black text-sm shadow-lg shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all"
+            >
+              <Download className="w-4 h-4" />
+              Download Feasibility PDF
+            </a>
+            <Link
+              href="/assessment/new"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition"
+            >
+              New Assessment
+            </Link>
+          </div>
+        </div>
+
       </div>
     </div>
   );
 }
+
