@@ -1,6 +1,6 @@
 from decimal import Decimal
 from typing import Dict, Any, List
-from app.schemas.all_schemas import FeasibilityScoreBreakdown, RiskItem, SWOTResponse
+from app.schemas.all_schemas import FeasibilityScoreBreakdown, RiskItem, SWOTResponse, ShapFeatureAttribution
 
 DEFAULT_SCORING_WEIGHTS = {
     "market_demand": 0.25,

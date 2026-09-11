@@ -32,7 +32,7 @@ const InteractiveLocationMap = dynamic(
   }
 );
 
-export const BUSINESS_CATEGORIES = [
+const BUSINESS_CATEGORIES = [
   { id: 'Dairy', label: '1. Dairy & Livestock', subs: ['Cow / Buffalo Chilling', 'Paneer & Ghee Unit', 'Cattle Feed Supply'] },
   { id: 'Poultry', label: '2. Poultry & Egg Production', subs: ['Broiler Unit (1000 birds)', 'Layer Egg Farming', 'Desi Poultry Hatchery'] },
   { id: 'Fisheries', label: '3. Fisheries / Aquaculture', subs: ['Freshwater Fish Pond', 'Biofloc Fish Farming', 'Fish Seed Hatchery'] },

@@ -5,35 +5,23 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
   ArrowRight, 
-  CheckCircle2, 
   MapPin, 
-  Coins, 
-  FileSpreadsheet, 
-  ShieldAlert, 
   Sparkles, 
+  CheckCircle2, 
+  ShieldCheck, 
   Building2, 
-  Users, 
-  TrendingUp, 
-  Languages,
-  BookOpenCheck,
-  Calculator,
-  Compass,
-  UserPlus,
-  ShieldCheck,
-  BarChart3,
-  FileCheck2,
-  PhoneCall,
+  ChevronRight,
   Store,
-  FileSearch,
-  Layers,
-  ChevronRight
+  BarChart3,
+  Percent
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import Footer from '../components/layout/Footer';
 
 export default function LandingPage() {
   const router = useRouter();
-  const { user, loginAsGuest } = useAuth();
+  const { loginAsGuest } = useAuth();
   const { t } = useLanguage();
 
   const handleGuestDemo = () => {
@@ -41,351 +29,466 @@ export default function LandingPage() {
     router.push('/dashboard');
   };
 
+  const categories = [
+    { id: 'dairy', name: t('cat_dairy'), icon: '🐄', color: 'bg-purple-50 text-purple-700' },
+    { id: 'poultry', name: t('cat_poultry'), icon: '🐔', color: 'bg-orange-50 text-orange-700' },
+    { id: 'fisheries', name: t('cat_fisheries'), icon: '🐟', color: 'bg-cyan-50 text-cyan-700' },
+    { id: 'food', name: t('cat_food'), icon: '⚙️', color: 'bg-amber-50 text-amber-700' },
+    { id: 'retail', name: t('cat_retail'), icon: '🛒', color: 'bg-indigo-50 text-indigo-700' },
+    { id: 'textiles', name: t('cat_textiles'), icon: '👕', color: 'bg-blue-50 text-blue-700' },
+    { id: 'tailoring', name: t('cat_tailoring'), icon: '🧵', color: 'bg-fuchsia-50 text-fuchsia-700' },
+    { id: 'handicrafts', name: t('cat_handicrafts'), icon: '🏺', color: 'bg-amber-50 text-amber-800' },
+    { id: 'repair', name: t('cat_repair'), icon: '🔧', color: 'bg-sky-50 text-sky-700' },
+    { id: 'transport', name: t('cat_transport'), icon: '🚐', color: 'bg-yellow-50 text-yellow-700' },
+    { id: 'digital', name: t('cat_digital'), icon: '💻', color: 'bg-violet-50 text-violet-700' },
+    { id: 'agri_inputs', name: t('cat_agri_inputs'), icon: '🌱', color: 'bg-emerald-50 text-emerald-700' },
+    { id: 'wellness', name: t('cat_wellness'), icon: '🪷', color: 'bg-pink-50 text-pink-700' },
+    { id: 'education', name: t('cat_education'), icon: '📖', color: 'bg-teal-50 text-teal-700' },
+    { id: 'custom', name: t('cat_custom'), icon: '🏪', color: 'bg-rose-50 text-rose-700' },
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#f8fafc] text-slate-900 font-sans antialiased">
       
-      {/* 1. Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-900 text-white pt-20 pb-28 px-4 sm:px-6 lg:px-8">
+      {/* 1. HERO SECTION */}
+      <section className="relative bg-[#08382b] text-white pt-10 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
         
-        {/* Glow & Backdrop patterns */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-emerald-500/15 blur-[120px] pointer-events-none rounded-full"></div>
-        <div className="absolute top-10 right-10 w-72 h-72 bg-amber-400/10 blur-[100px] pointer-events-none rounded-full"></div>
+        {/* Background Subtle Gradient & Glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#062c22] via-[#094132] to-[#062d23] opacity-95"></div>
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="max-w-6xl mx-auto text-center relative z-10 space-y-8">
-          
-          {/* Official MoSJE Ribbon */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-900/80 border border-emerald-500/40 text-emerald-200 text-xs font-bold tracking-wide shadow-lg backdrop-blur-md">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
-            <span>MoSJE Problem Statement 2609 &bull; Agriculture & Rural Enterprise Advisory</span>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            
+            {/* Left Column: Farmer Visual + Script Tagline */}
+            <div className="hidden lg:flex lg:col-span-3 flex-col items-center justify-center relative">
+              <div className="text-center font-serif italic text-emerald-200/90 font-bold text-sm tracking-wide mb-3 leading-snug">
+                {t('heroEmpowerQuote')}
+              </div>
+
+              <div className="w-48 h-60 rounded-2xl overflow-hidden border-2 border-emerald-500/30 shadow-2xl relative group">
+                <img 
+                  src="/farmer-hero.jpg" 
+                  alt="Rural Entrepreneur" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#062c22]/80 via-transparent to-transparent"></div>
+              </div>
+            </div>
+
+            {/* Middle Column: Hero Content */}
+            <div className="lg:col-span-5 space-y-5">
+              
+              {/* Problem Statement Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0d4a39] border border-emerald-500/30 text-emerald-200 text-[10.5px] font-bold tracking-wider uppercase">
+                <span className="w-2 h-2 rounded-full bg-[#a3e635] animate-pulse"></span>
+                <span>{t('heroBadge')}</span>
+              </div>
+
+              {/* Main Headline */}
+              <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black tracking-tight leading-tight sm:leading-[1.15]">
+                {t('heroTitlePart1')}{' '}
+                <span className="text-[#a3e635]">{t('heroTitlePart2')}</span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-xs sm:text-sm text-emerald-100/85 font-normal max-w-lg leading-relaxed">
+                {t('heroSubtitle')}
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <Link
+                  href="/assessment/new"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-bold text-xs shadow-md hover:shadow-lg transition-all duration-200"
+                >
+                  <span>{t('startAssessmentBtn')}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                <button
+                  onClick={handleGuestDemo}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#0d4a39] hover:bg-[#125845] text-emerald-100 font-semibold text-xs border border-emerald-500/40 shadow-sm transition-all"
+                >
+                  <Building2 className="w-4 h-4 text-[#a3e635]" />
+                  <span>{t('exploreDemoGuestBtn')}</span>
+                </button>
+              </div>
+
+              {/* Trust Indicators Row */}
+              <div className="pt-2 flex flex-wrap items-center gap-y-2 gap-x-4 text-[10.5px] text-emerald-200/80 font-medium">
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#a3e635]" />
+                  <span>{t('freeAnalysis')}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Building2 className="w-3.5 h-3.5 text-[#a3e635]" />
+                  <span>{t('basedOnGovtData')}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-[#a3e635]" />
+                  <span>{t('ruralIndiaFocus')}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#a3e635]" />
+                  <span>{t('secureReliable')}</span>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Right Column: Floating Sample Analysis Card */}
+            <div className="lg:col-span-4 relative flex flex-col items-center justify-center">
+              
+              {/* Floating Live Demo Card */}
+              <div className="w-full bg-white rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-900 border border-slate-100 relative z-20">
+                
+                {/* Card Header */}
+                <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-black tracking-wide text-slate-800">
+                      {t('sampleAnalysisTitle')}
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-medium">{t('sampleTag')}</span>
+                  </div>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    {t('liveDemoTag')}
+                  </span>
+                </div>
+
+                {/* Business Idea & Location */}
+                <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+                  <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                    <span className="text-[9.5px] text-slate-400 block font-medium">{t('businessIdea')}</span>
+                    <div className="flex items-center gap-1 mt-0.5 font-bold text-slate-800 truncate">
+                      <Store className="w-3 h-3 text-emerald-700 flex-shrink-0" />
+                      <span className="truncate text-[11px]">{t('dairyFarming')}</span>
+                    </div>
+                  </div>
+
+                  <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                    <span className="text-[9.5px] text-slate-400 block font-medium">{t('location')}</span>
+                    <div className="flex items-center gap-1 mt-0.5 font-bold text-slate-800 truncate">
+                      <MapPin className="w-3 h-3 text-emerald-700 flex-shrink-0" />
+                      <span className="truncate text-[11px]">{t('sampleLocation')}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4 Green Pill Indicators */}
+                <div className="grid grid-cols-4 gap-1 mb-3 text-center">
+                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                    <span className="text-xs font-black text-emerald-800 block">87%</span>
+                    <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">{t('feasibilityScore')}</span>
+                  </div>
+                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                    <span className="text-xs font-black text-emerald-800 block">{t('high')}</span>
+                    <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">{t('marketDemand')}</span>
+                  </div>
+                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                    <span className="text-xs font-black text-emerald-800 block">{t('low')}</span>
+                    <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">{t('competition')}</span>
+                  </div>
+                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                    <span className="text-xs font-black text-emerald-800 block">7</span>
+                    <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">{t('schemesMatched')}</span>
+                  </div>
+                </div>
+
+                {/* Key Metrics Rows */}
+                <div className="space-y-1.5 text-xs border-t border-slate-100 pt-2.5 mb-3.5">
+                  <div className="flex items-center justify-between text-slate-600">
+                    <span className="text-[10.5px]">{t('estFinanceNeed')}</span>
+                    <span className="font-bold text-slate-900 text-xs">₹8.5 Lakh</span>
+                  </div>
+                  <div className="flex items-center justify-between text-slate-600">
+                    <span className="text-[10.5px]">{t('potentialMonthlyRevenue')}</span>
+                    <span className="font-bold text-slate-900 text-xs">₹1.2 Lakh</span>
+                  </div>
+                  <div className="flex items-center justify-between text-slate-600">
+                    <span className="text-[10.5px]">{t('suggestedArea')}</span>
+                    <span className="font-bold text-slate-900 text-xs">{t('gisScanArea')}</span>
+                  </div>
+                </div>
+
+                {/* View Full Analysis CTA */}
+                <Link
+                  href="/dashboard"
+                  onClick={handleGuestDemo}
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-[#0d4f3b] hover:bg-[#093d2d] text-white font-bold text-xs shadow-sm transition"
+                >
+                  <span>{t('viewFullAnalysis')}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+
+              </div>
+
+              {/* Right Slogan Text */}
+              <div className="mt-2 text-right self-end pr-2">
+                <span className="font-serif italic font-bold text-xs text-amber-300 block">
+                  {t('sloganRight1')}
+                </span>
+                <span className="font-serif italic font-bold text-xs text-emerald-200 block">
+                  {t('sloganRight2')}
+                </span>
+              </div>
+
+            </div>
+
           </div>
+        </div>
+      </section>
 
-          {/* Eye-catching Hero Title */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-none sm:leading-tight">
-            Build the Right Rural Business. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-emerald-300 to-teal-200">
-              Structure Bank-Ready Finance.
+      {/* 2. STATS RIBBON (4 White Floating Cards) */}
+      <section className="relative -mt-6 z-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            {/* Stat 1 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                <BarChart3 className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-black text-slate-900 block leading-tight">₹1L &rarr; ₹10L</span>
+                <span className="text-xs font-semibold text-slate-600 block">{t('typicalProjectRange')}</span>
+              </div>
+            </div>
+
+            {/* Stat 2 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                <Percent className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-black text-slate-900 block leading-tight">6.5% &ndash; 8.0%</span>
+                <span className="text-xs font-semibold text-slate-600 block">{t('subsidizedSchemes')}</span>
+              </div>
+            </div>
+
+            {/* Stat 3 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-black text-slate-900 block leading-tight">5km / 10km</span>
+                <span className="text-xs font-semibold text-slate-600 block">{t('hyperlocalScan')}</span>
+              </div>
+            </div>
+
+            {/* Stat 4 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-black text-slate-900 block leading-tight">100%</span>
+                <span className="text-xs font-semibold text-slate-600 block">{t('deterministicAnalysis')}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 3. WORKFLOW PIPELINE: "How UDYAM-SETU AI Works in 4 Steps" */}
+      <section id="workflow" className="py-14 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Section Header */}
+          <div className="text-center mb-10">
+            <span className="text-[11px] font-black uppercase tracking-widest text-emerald-800 block mb-1">
+              {t('workflowTag')}
             </span>
-          </h1>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              {t('workflowTitle')}
+            </h2>
+          </div>
 
-          <p className="text-base sm:text-xl text-emerald-100/90 max-w-3xl mx-auto font-normal leading-relaxed">
-            <strong className="text-white font-bold">UDYAM-SETU AI</strong> delivers hyper-local feasibility predictions, 90% concessional scheme structuring, 5km GIS competitor density scans, and downloadable bank dossiers.
-          </p>
-
-          {/* Action CTA Buttons Row - Perfectly Aligned */}
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* 4 Connected Step Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative">
             
-            {/* Primary Action Button */}
+            {/* Step 1 */}
+            <div className="bg-white rounded-xl p-5 shadow-xs border border-slate-200/80 relative flex flex-col justify-between hover:border-emerald-400 hover:shadow-sm transition">
+              <div>
+                <div className="flex items-center gap-2.5 mb-3.5">
+                  <span className="w-7 h-7 rounded-full bg-[#0d4f3b] text-white text-xs font-black flex items-center justify-center">
+                    1
+                  </span>
+                  <div className="w-7 h-7 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center text-sm">
+                    💡
+                  </div>
+                </div>
+                <h3 className="text-sm font-bold text-slate-900 mb-1.5">{t('step1Title')}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {t('step1Desc')}
+                </p>
+              </div>
+              <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-slate-300">
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-white rounded-xl p-5 shadow-xs border border-slate-200/80 relative flex flex-col justify-between hover:border-emerald-400 hover:shadow-sm transition">
+              <div>
+                <div className="flex items-center gap-2.5 mb-3.5">
+                  <span className="w-7 h-7 rounded-full bg-[#0d4f3b] text-white text-xs font-black flex items-center justify-center">
+                    2
+                  </span>
+                  <div className="w-7 h-7 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-sm">
+                    🛢️
+                  </div>
+                </div>
+                <h3 className="text-sm font-bold text-slate-900 mb-1.5">{t('step2Title')}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {t('step2Desc')}
+                </p>
+              </div>
+              <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-slate-300">
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white rounded-xl p-5 shadow-xs border border-slate-200/80 relative flex flex-col justify-between hover:border-emerald-400 hover:shadow-sm transition">
+              <div>
+                <div className="flex items-center gap-2.5 mb-3.5">
+                  <span className="w-7 h-7 rounded-full bg-[#0d4f3b] text-white text-xs font-black flex items-center justify-center">
+                    3
+                  </span>
+                  <div className="w-7 h-7 rounded-full bg-cyan-50 text-cyan-700 flex items-center justify-center text-sm">
+                    🗺️
+                  </div>
+                </div>
+                <h3 className="text-sm font-bold text-slate-900 mb-1.5">{t('step3Title')}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {t('step3Desc')}
+                </p>
+              </div>
+              <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-slate-300">
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="bg-white rounded-xl p-5 shadow-xs border border-slate-200/80 flex flex-col justify-between hover:border-emerald-400 hover:shadow-sm transition">
+              <div>
+                <div className="flex items-center gap-2.5 mb-3.5">
+                  <span className="w-7 h-7 rounded-full bg-[#0d4f3b] text-white text-xs font-black flex items-center justify-center">
+                    4
+                  </span>
+                  <div className="w-7 h-7 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-sm">
+                    📄
+                  </div>
+                </div>
+                <h3 className="text-sm font-bold text-slate-900 mb-1.5">{t('step4Title')}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {t('step4Desc')}
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 4. SUPPORTED RURAL & SEMI-URBAN CATEGORIES (15 CATEGORIES) */}
+      <section className="py-12 bg-white px-4 sm:px-6 lg:px-8 border-t border-b border-slate-200/70">
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Section Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
+            <div>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+                {t('categoriesTitle')}
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                {t('categoriesSubtitle')}
+              </p>
+            </div>
+
             <Link
               href="/assessment/new"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-sm sm:text-base shadow-xl shadow-amber-500/25 hover:scale-105 active:scale-95 transition-all duration-200 group"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-50 text-[#0d4f3b] hover:bg-emerald-100 text-xs font-bold transition self-start sm:self-auto border border-emerald-200"
             >
-              <span>{t('startAssessment')}</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <span>{t('viewAllSectors')}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
-
-            {/* Instant Demo Judge Button */}
-            <button
-              onClick={handleGuestDemo}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-emerald-800/80 hover:bg-emerald-700/90 text-white font-bold text-sm sm:text-base border border-emerald-500/50 shadow-lg backdrop-blur hover:scale-105 active:scale-95 transition-all duration-200"
-            >
-              <Sparkles className="w-5 h-5 text-amber-400" />
-              <span>Try Demo as Evaluator</span>
-            </button>
-
-            {/* Explore Live Mandi Prices */}
-            <Link
-              href="/mandi"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-slate-800/80 hover:bg-slate-800 text-slate-200 font-semibold text-sm border border-slate-700 shadow transition"
-            >
-              <Store className="w-4 h-4 text-emerald-400" />
-              <span>Live Mandi Feed</span>
-            </Link>
-
           </div>
 
-          {/* Trust Value Badges Grid */}
-          <div className="pt-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-left max-w-5xl mx-auto">
-            
-            <div className="p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:border-amber-400/40 transition">
-              <span className="text-amber-400 font-black text-xl sm:text-2xl block">₹1 Lakh &rarr; ₹10L</span>
-              <span className="text-xs text-emerald-200 font-medium">10% Margin Structuring</span>
-            </div>
-
-            <div className="p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:border-emerald-400/40 transition">
-              <span className="text-emerald-300 font-black text-xl sm:text-2xl block">6.5% - 8.0%</span>
-              <span className="text-xs text-emerald-200 font-medium">MoSJE Concessional Loans</span>
-            </div>
-
-            <div className="p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:border-teal-400/40 transition">
-              <span className="text-teal-300 font-black text-xl sm:text-2xl block">5km / 10km GIS</span>
-              <span className="text-xs text-emerald-200 font-medium">OpenStreetMap Competitors</span>
-            </div>
-
-            <div className="p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:border-amber-400/40 transition">
-              <span className="text-amber-300 font-black text-xl sm:text-2xl block">100% Exact</span>
-              <span className="text-xs text-emerald-200 font-medium">Deterministic Decimal Math</span>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 2. Interactive Feature Suite Section */}
-      <section className="py-20 bg-slate-50 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          
-          <div className="text-center space-y-3 mb-14">
-            <h2 className="text-xs font-black uppercase tracking-widest text-emerald-800">End-to-End Enterprise Stack</h2>
-            <h3 className="text-3xl sm:text-4xl font-black text-slate-900">Explore UDYAM-SETU AI Modules</h3>
-            <p className="text-xs sm:text-sm text-slate-500 max-w-2xl mx-auto">
-              Click any module to test live calculation engines, forecasting models, and document tools.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            {/* Feature 1: Feasibility Wizard */}
-            <Link 
-              href="/assessment/new"
-              className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-200 group flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform">
-                  <Compass className="w-6 h-6 text-emerald-700" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2">Hyper-Local Feasibility Wizard</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Enter village & margin capital to receive instant success probability, viability class, and SHAP attribution.
-                </p>
-              </div>
-              <div className="mt-5 flex items-center gap-1 text-xs font-bold text-emerald-700 group-hover:text-emerald-900">
-                <span>Launch Wizard</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-            {/* Feature 2: ML Price & Demand Forecast */}
-            <Link 
-              href="/forecast"
-              className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-200 group flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-800 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform">
-                  <TrendingUp className="w-6 h-6 text-teal-700" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2">Price & Demand Forecasting</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Autoregressive lag momentum + seasonality models for 1, 3, and 6-month commodity price volatility bands.
-                </p>
-              </div>
-              <div className="mt-5 flex items-center gap-1 text-xs font-bold text-teal-700 group-hover:text-teal-900">
-                <span>View Forecasts</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-            {/* Feature 3: Live Mandi Feed */}
-            <Link 
-              href="/mandi"
-              className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-200 group flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform">
-                  <Store className="w-6 h-6 text-amber-600" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2">AGMARKNET Mandi Feed</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Daily arrival volumes, modal price benchmarks, and real-time state cooperative feeds for rural commodities.
-                </p>
-              </div>
-              <div className="mt-5 flex items-center gap-1 text-xs font-bold text-amber-700 group-hover:text-amber-900">
-                <span>Check Mandi Rates</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-            {/* Feature 4: OCR Document Scanner */}
-            <Link 
-              href="/ocr"
-              className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-200 group flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-800 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform">
-                  <FileSearch className="w-6 h-6 text-blue-700" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2">OCR Document Extractor</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Scan land records, passbooks, and bills to automatically populate loan assessment forms without manual entry.
-                </p>
-              </div>
-              <div className="mt-5 flex items-center gap-1 text-xs font-bold text-blue-700 group-hover:text-blue-900">
-                <span>Scan Documents</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-            {/* Feature 5: Multi-Business Comparison */}
-            <Link 
-              href="/compare"
-              className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-200 group flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-800 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform">
-                  <Layers className="w-6 h-6 text-indigo-700" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2">Multi-Business Comparison</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Compare Dairy vs Poultry vs Kirana side-by-side on ROI, capital requirement, risk score, and subsidies.
-                </p>
-              </div>
-              <div className="mt-5 flex items-center gap-1 text-xs font-bold text-indigo-700 group-hover:text-indigo-900">
-                <span>Compare Sectors</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-            {/* Feature 6: Multilingual Voice AI */}
-            <Link 
-              href="/assistant"
-              className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-500 transition-all duration-200 group flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-800 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform">
-                  <Mic className="w-6 h-6 text-rose-600" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2">Multilingual Voice AI</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Bhashini-powered speech-to-speech advisor in Hindi, Bengali, Marathi, Tamil, Telugu, and 8+ languages.
-                </p>
-              </div>
-              <div className="mt-5 flex items-center gap-1 text-xs font-bold text-rose-700 group-hover:text-rose-900">
-                <span>Talk with AI</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 3. 4-Step Pipeline Section */}
-      <section className="py-20 bg-white px-4 sm:px-6 lg:px-8 border-t border-slate-200">
-        <div className="max-w-6xl mx-auto">
-          
-          <div className="text-center space-y-3 mb-14">
-            <h2 className="text-xs font-black uppercase tracking-widest text-emerald-800">Workflow Pipeline</h2>
-            <h3 className="text-3xl font-extrabold text-slate-900">How UDYAM-SETU AI Works in 4 Steps</h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-md transition">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-800 text-amber-400 flex items-center justify-center font-black text-xl mb-4 shadow-sm">
-                1
-              </div>
-              <h4 className="font-bold text-slate-900 mb-2">Location & Capital</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Specify State, District, Village, and your available margin capital (e.g., ₹1,00,000).
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-md transition">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-800 text-amber-400 flex items-center justify-center font-black text-xl mb-4 shadow-sm">
-                2
-              </div>
-              <h4 className="font-bold text-slate-900 mb-2">Deterministic Financials</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Calculates total ₹10L project outlay, 90% MoSJE loan, EMI schedules, and moratorium options.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-md transition">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-800 text-amber-400 flex items-center justify-center font-black text-xl mb-4 shadow-sm">
-                3
-              </div>
-              <h4 className="font-bold text-slate-900 mb-2">GIS & Mandi Intelligence</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Scans 5km/10km radius for local competitors, mandi price trends, and infrastructure confidence.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-md transition">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-800 text-amber-400 flex items-center justify-center font-black text-xl mb-4 shadow-sm">
-                4
-              </div>
-              <h4 className="font-bold text-slate-900 mb-2">AI Strategy & PDF</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Receive calibrated SWOT analysis, risk matrices, and download a bank-ready feasibility PDF.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 4. Supported 10 Categories Bar */}
-      <section className="py-16 bg-slate-50 border-t border-b border-slate-200 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-2 mb-10">
-            <h3 className="text-2xl font-black text-slate-900">Supported 10 Core Rural Business Categories</h3>
-            <p className="text-xs text-slate-500">Official benchmarks mapped for MoSJE & NBCFDC concessional lending</p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-            {[
-              "Dairy & Livestock",
-              "Poultry & Egg Production",
-              "Fisheries / Aquaculture",
-              "Agri-input & Farm Supply",
-              "Food Processing",
-              "Retail / Kirana",
-              "Tailoring & Garment",
-              "Repair & Maintenance",
-              "Digital / CSC Services",
-              "Handicrafts / Artisan"
-            ].map((cat, idx) => (
+          {/* 15 Category Cards Grid (3 rows x 5 cols) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
+            {categories.map((cat) => (
               <Link
-                key={idx}
-                href="/assessment/new"
-                className="p-3.5 bg-white rounded-2xl border border-slate-200 text-center hover:border-emerald-600 hover:shadow-md hover:bg-emerald-50/20 transition-all duration-150"
+                key={cat.id}
+                href={`/assessment/new?category=${encodeURIComponent(cat.name)}`}
+                className="p-3.5 rounded-xl bg-slate-50/70 hover:bg-white border border-slate-200/80 hover:border-emerald-400 hover:shadow-md transition flex items-center gap-3 group"
               >
-                <span className="text-xs font-bold text-slate-800">{cat}</span>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base ${cat.color} group-hover:scale-110 transition duration-200`}>
+                  {cat.icon}
+                </div>
+                <span className="text-xs font-bold text-slate-800 group-hover:text-[#0d4f3b] transition truncate">
+                  {cat.name}
+                </span>
               </Link>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* 5. Bottom Interactive CTA */}
-      <section className="py-20 bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 text-white px-4 text-center relative overflow-hidden">
-        <div className="max-w-3xl mx-auto space-y-5 relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Fast, Deterministic, & Bank-Ready</span>
+      {/* 5. CALL TO ACTION BANNER: "Ready to evaluate your rural enterprise?" */}
+      <section className="bg-[#08382b] text-white py-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        
+        {/* Background Subtle Gradient & Glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#062c22] via-[#094132] to-[#062d23] opacity-95"></div>
+        <div className="absolute top-0 right-10 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
+          
+          {/* Cursive right badge */}
+          <div className="font-serif italic text-emerald-200 font-bold text-sm tracking-wide">
+            {t('ctaQuote1')} <br />
+            <span className="text-amber-300">{t('ctaQuote2')}</span>
           </div>
-          <h3 className="text-3xl sm:text-4xl font-black">Ready to structure your rural enterprise?</h3>
-          <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed max-w-xl mx-auto">
-            Calculate your exact MoSJE loan eligibility, view competitor density, and download a statutory project report.
+
+          {/* Banner Title */}
+          <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+            {t('ctaTitle')}
+          </h2>
+
+          {/* Banner Subtitle */}
+          <p className="text-xs sm:text-sm text-emerald-100/85 max-w-2xl mx-auto leading-relaxed">
+            {t('ctaSubtitle')}
           </p>
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+
+          {/* Banner Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
             <Link
               href="/assessment/new"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-sm shadow-xl hover:scale-105 transition transform"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all duration-200"
             >
-              <span>Launch Business Wizard</span>
+              <span>{t('launchWizardBtn')}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
+
             <button
               onClick={handleGuestDemo}
-              className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl bg-emerald-800/80 hover:bg-emerald-700 text-white font-bold text-sm border border-emerald-500 shadow transition"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-lg bg-[#0d4a39] hover:bg-[#125845] text-emerald-100 font-semibold text-xs sm:text-sm border border-emerald-500/40 shadow-sm transition-all"
             >
-              <Sparkles className="w-4 h-4 text-amber-400" />
-              <span>Try Demo as Evaluator</span>
+              <Sparkles className="w-4 h-4 text-[#a3e635]" />
+              <span>{t('exploreDemoJudgeBtn')}</span>
             </button>
           </div>
+
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
 
     </div>
   );
