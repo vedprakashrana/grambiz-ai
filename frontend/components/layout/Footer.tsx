@@ -112,7 +112,7 @@ export default function Footer() {
                 {t('mosjeMinistry')}
               </p>
               <p className="text-[10px] text-slate-500 mt-0.5">
-                {t('ps2609')}
+                {t('ps26091')}
               </p>
               <p className="text-[10px] text-slate-500">
                 {t('agriRuralDev')}

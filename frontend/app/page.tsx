@@ -63,156 +63,142 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f8fafc] text-slate-900 font-sans antialiased">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative bg-[#08382b] text-white pt-10 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* 1. HERO SECTION - Clean, Eye-Catching & Spacious 2-Column Layout */}
+      <section className="relative bg-gradient-to-br from-[#062c22] via-[#094132] to-[#062d23] text-white pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         
-        {/* Background Subtle Gradient & Glow */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#062c22] via-[#094132] to-[#062d23] opacity-95"></div>
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        {/* Glow & Backdrop Lighting */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[300px] bg-emerald-500/15 blur-[120px] pointer-events-none rounded-full"></div>
+        <div className="absolute top-10 right-10 w-72 h-72 bg-amber-400/10 blur-[100px] pointer-events-none rounded-full"></div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             
-            {/* Left Column: Farmer Visual + Script Tagline */}
-            <div className="hidden lg:flex lg:col-span-3 flex-col items-center justify-center relative">
-              <div className="text-center font-serif italic text-emerald-200/90 font-bold text-sm tracking-wide mb-3 leading-snug">
-                {t('heroEmpowerQuote')}
-              </div>
-
-              <div className="w-48 h-60 rounded-2xl overflow-hidden border-2 border-emerald-500/30 shadow-2xl relative group">
-                <img 
-                  src="/farmer-hero.jpg" 
-                  alt="Rural Entrepreneur" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#062c22]/80 via-transparent to-transparent"></div>
-              </div>
-            </div>
-
-            {/* Middle Column: Hero Content */}
-            <div className="lg:col-span-5 space-y-5">
+            {/* Left Column (7 cols): Hero Copy & Action */}
+            <div className="lg:col-span-7 space-y-6">
               
-              {/* Problem Statement Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0d4a39] border border-emerald-500/30 text-emerald-200 text-[10.5px] font-bold tracking-wider uppercase">
-                <span className="w-2 h-2 rounded-full bg-[#a3e635] animate-pulse"></span>
+              {/* Problem Statement 26091 Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0d4a39] border border-emerald-400/30 text-emerald-200 text-xs font-bold tracking-wider uppercase shadow-xs">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#a3e635] animate-pulse"></span>
                 <span>{t('heroBadge')}</span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black tracking-tight leading-tight sm:leading-[1.15]">
+              <h1 className="text-3xl sm:text-5xl lg:text-[52px] font-black tracking-tight leading-tight sm:leading-[1.12]">
                 {t('heroTitlePart1')}{' '}
-                <span className="text-[#a3e635]">{t('heroTitlePart2')}</span>
+                <span className="text-[#a3e635] underline decoration-emerald-500/40 decoration-wavy decoration-2">
+                  {t('heroTitlePart2')}
+                </span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-xs sm:text-sm text-emerald-100/85 font-normal max-w-lg leading-relaxed">
+              <p className="text-sm sm:text-base text-emerald-100/90 font-normal max-w-xl leading-relaxed">
                 {t('heroSubtitle')}
               </p>
 
-              {/* Action Button */}
-              <div className="flex flex-wrap items-center gap-3 pt-1">
+              {/* Primary Action Button */}
+              <div className="pt-2">
                 <Link
                   href="/assessment/new"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-black text-sm sm:text-base shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all duration-200 group"
                 >
                   <span>{t('startAssessmentBtn')}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
 
               {/* Trust Indicators Row */}
-              <div className="pt-2 flex flex-wrap items-center gap-y-2 gap-x-4 text-[10.5px] text-emerald-200/80 font-medium">
+              <div className="pt-4 flex flex-wrap items-center gap-y-2 gap-x-5 text-xs text-emerald-200/90 font-medium border-t border-emerald-800/40">
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#a3e635]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#a3e635]" />
                   <span>{t('freeAnalysis')}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Building2 className="w-3.5 h-3.5 text-[#a3e635]" />
+                  <Building2 className="w-4 h-4 text-[#a3e635]" />
                   <span>{t('basedOnGovtData')}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-[#a3e635]" />
+                  <MapPin className="w-4 h-4 text-[#a3e635]" />
                   <span>{t('ruralIndiaFocus')}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#a3e635]" />
+                  <ShieldCheck className="w-4 h-4 text-[#a3e635]" />
                   <span>{t('secureReliable')}</span>
                 </div>
               </div>
 
             </div>
 
-            {/* Right Column: Floating Sample Analysis Card */}
-            <div className="lg:col-span-4 relative flex flex-col items-center justify-center">
+            {/* Right Column (5 cols): Floating Sample Analysis Card & Farmer Tag */}
+            <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
               
               {/* Floating Live Demo Card */}
-              <div className="w-full bg-white rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-900 border border-slate-100 relative z-20">
+              <div className="w-full max-w-md bg-white rounded-2xl p-5 shadow-2xl text-slate-900 border border-slate-100 relative z-20 backdrop-blur-md">
                 
                 {/* Card Header */}
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3.5">
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-black tracking-wide text-slate-800">
                       {t('sampleAnalysisTitle')}
                     </span>
                     <span className="text-[10px] text-slate-400 font-medium">{t('sampleTag')}</span>
                   </div>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     {t('liveDemoTag')}
                   </span>
                 </div>
 
                 {/* Business Idea & Location */}
-                <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
-                  <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
-                    <span className="text-[9.5px] text-slate-400 block font-medium">{t('businessIdea')}</span>
-                    <div className="flex items-center gap-1 mt-0.5 font-bold text-slate-800 truncate">
-                      <Store className="w-3 h-3 text-emerald-700 flex-shrink-0" />
-                      <span className="truncate text-[11px]">{t('dairyFarming')}</span>
+                <div className="grid grid-cols-2 gap-2.5 mb-3.5 text-xs">
+                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                    <span className="text-[10px] text-slate-400 block font-medium">{t('businessIdea')}</span>
+                    <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
+                      <Store className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
+                      <span className="truncate text-xs">{t('dairyFarming')}</span>
                     </div>
                   </div>
 
-                  <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
-                    <span className="text-[9.5px] text-slate-400 block font-medium">{t('location')}</span>
-                    <div className="flex items-center gap-1 mt-0.5 font-bold text-slate-800 truncate">
-                      <MapPin className="w-3 h-3 text-emerald-700 flex-shrink-0" />
-                      <span className="truncate text-[11px]">{t('sampleLocation')}</span>
+                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                    <span className="text-[10px] text-slate-400 block font-medium">{t('location')}</span>
+                    <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
+                      <MapPin className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
+                      <span className="truncate text-xs">{t('sampleLocation')}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* 4 Green Pill Indicators */}
-                <div className="grid grid-cols-4 gap-1 mb-3 text-center">
-                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                {/* 4 Green Stat Tiles */}
+                <div className="grid grid-cols-4 gap-1.5 mb-3.5 text-center">
+                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200/80">
                     <span className="text-xs font-black text-emerald-800 block">87%</span>
-                    <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">{t('feasibilityScore')}</span>
+                    <span className="text-[8.5px] text-emerald-700 font-semibold block leading-tight">{t('feasibilityScore')}</span>
                   </div>
-                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200/80">
                     <span className="text-xs font-black text-emerald-800 block">{t('high')}</span>
-                    <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">{t('marketDemand')}</span>
+                    <span className="text-[8.5px] text-emerald-700 font-semibold block leading-tight">{t('marketDemand')}</span>
                   </div>
-                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200/80">
                     <span className="text-xs font-black text-emerald-800 block">{t('low')}</span>
-                    <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">{t('competition')}</span>
+                    <span className="text-[8.5px] text-emerald-700 font-semibold block leading-tight">{t('competition')}</span>
                   </div>
-                  <div className="p-1 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200/80">
                     <span className="text-xs font-black text-emerald-800 block">7</span>
-                    <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">{t('schemesMatched')}</span>
+                    <span className="text-[8.5px] text-emerald-700 font-semibold block leading-tight">{t('schemesMatched')}</span>
                   </div>
                 </div>
 
                 {/* Key Metrics Rows */}
-                <div className="space-y-1.5 text-xs border-t border-slate-100 pt-2.5 mb-3.5">
+                <div className="space-y-2 text-xs border-t border-slate-100 pt-3 mb-4">
                   <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-[10.5px]">{t('estFinanceNeed')}</span>
+                    <span className="text-xs">{t('estFinanceNeed')}</span>
                     <span className="font-bold text-slate-900 text-xs">₹8.5 Lakh</span>
                   </div>
                   <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-[10.5px]">{t('potentialMonthlyRevenue')}</span>
+                    <span className="text-xs">{t('potentialMonthlyRevenue')}</span>
                     <span className="font-bold text-slate-900 text-xs">₹1.2 Lakh</span>
                   </div>
                   <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-[10.5px]">{t('suggestedArea')}</span>
+                    <span className="text-xs">{t('suggestedArea')}</span>
                     <span className="font-bold text-slate-900 text-xs">{t('gisScanArea')}</span>
                   </div>
                 </div>
@@ -220,7 +206,7 @@ export default function LandingPage() {
                 {/* View Full Analysis CTA */}
                 <Link
                   href="/assessment/new"
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-[#0d4f3b] hover:bg-[#093d2d] text-white font-bold text-xs shadow-sm transition"
+                  className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#0d4f3b] hover:bg-[#093d2d] text-white font-bold text-xs shadow-sm hover:shadow transition"
                 >
                   <span>{t('viewFullAnalysis')}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -228,14 +214,23 @@ export default function LandingPage() {
 
               </div>
 
-              {/* Right Slogan Text */}
-              <div className="mt-2 text-right self-end pr-2">
-                <span className="font-serif italic font-bold text-xs text-amber-300 block">
-                  {t('sloganRight1')}
-                </span>
-                <span className="font-serif italic font-bold text-xs text-emerald-200 block">
-                  {t('sloganRight2')}
-                </span>
+              {/* Farmer Slogan Tag below card */}
+              <div className="flex items-center gap-3 mt-4 self-end pr-2">
+                <div className="text-right">
+                  <span className="font-serif italic font-bold text-xs text-amber-300 block">
+                    {t('sloganRight1')}
+                  </span>
+                  <span className="font-serif italic font-bold text-xs text-emerald-200 block">
+                    {t('sloganRight2')}
+                  </span>
+                </div>
+                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-amber-300/80 shadow-md flex-shrink-0">
+                  <img 
+                    src="/farmer-hero.jpg" 
+                    alt="Rural Entrepreneur" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
 
             </div>
@@ -682,7 +677,7 @@ export default function LandingPage() {
               </div>
               <Link
                 href="/assessment/new"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1d4ed8] hover:bg-[#1e40af] text-white text-xs font-bold shadow-xs transition"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#1d4ed8] hover:bg-[#1e40af] text-white text-xs font-bold shadow-xs transition"
               >
                 <span>{t('startAssessmentBtn')}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
