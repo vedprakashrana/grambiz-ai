@@ -77,12 +77,6 @@ export default function LandingPage() {
             {/* Left Column (7 cols): Hero Copy & Action */}
             <div className="lg:col-span-7 space-y-5 sm:space-y-6">
               
-              {/* Problem Statement Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-emerald-300/70 text-[#0a3e30] text-[11px] font-bold tracking-wider uppercase shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-[#84cc16] animate-pulse"></span>
-                <span>MOSJE PROBLEM STATEMENT 2609 &bull; AGRICULTURE &amp; RURAL DEVELOPMENT</span>
-              </div>
-
               {/* Main Headline */}
               <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-black tracking-tight text-slate-900 leading-tight sm:leading-[1.12]">
                 Turn Your Business Idea{' '}
@@ -102,22 +96,14 @@ export default function LandingPage() {
                 AI-powered business intelligence for rural entrepreneurs. From idea validation to finance, government schemes and a ready-to-use business plan.
               </p>
 
-              {/* Action Buttons: Start Assessment & Explore Demo */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-1">
+              {/* Primary Action Button: Start Assessment */}
+              <div className="pt-1">
                 <Link
                   href="/assessment/new"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200 group"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-200 group"
                 >
                   <span>Start Business Assessment</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-
-                <Link
-                  href="/dashboard"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-emerald-50 text-[#0a3e30] font-bold text-sm border-2 border-[#0a3e30] shadow-2xs transition-all duration-200"
-                >
-                  <span className="text-[#0a3e30] text-xs">▶</span>
-                  <span>Explore AI Demo (Guest)</span>
                 </Link>
               </div>
 
