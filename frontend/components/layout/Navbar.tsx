@@ -96,8 +96,12 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/#schemes"
-              className="text-slate-600 border-b-2 border-transparent hover:text-[#0d4f3b] transition-colors py-1.5"
+              href="/schemes"
+              className={`transition-colors py-1.5 border-b-2 ${
+                pathname === '/schemes' 
+                  ? 'text-[#0d4f3b] border-[#0d4f3b] font-bold' 
+                  : 'text-slate-600 border-transparent hover:text-[#0d4f3b]'
+              }`}
             >
               {t('schemes')}
             </Link>
@@ -274,7 +278,7 @@ export default function Navbar() {
                 {t('marketIntelligence')}
               </Link>
               <Link
-                href="/#schemes"
+                href="/schemes"
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800"
               >

@@ -58,7 +58,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#schemes" className="hover:text-[#0d4f3b] transition-colors">
+                <Link href="/schemes" className="hover:text-[#0d4f3b] transition-colors">
                   {t('schemes')}
                 </Link>
               </li>
