@@ -64,14 +64,14 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen bg-[#f8fafc] text-slate-900 font-sans antialiased">
       
       {/* 1. HERO SECTION - Light Mint / Pastel Aesthetic matching user reference */}
-      <section className="relative bg-gradient-to-b from-[#eaf6f0] via-[#f5faf6] to-[#ebf6ef] text-slate-900 pt-10 sm:pt-12 pb-14 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-emerald-100/60">
+      <section className="relative bg-gradient-to-b from-[#eaf6f0] via-[#f5faf6] to-[#ebf6ef] text-slate-900 pt-10 sm:pt-12 overflow-hidden border-b border-emerald-100/60">
         
         {/* Soft Background Concentric Circles */}
         <div className="absolute -top-16 -left-16 w-72 h-72 rounded-full border border-emerald-200/50 bg-white/40 pointer-events-none"></div>
         <div className="absolute top-8 left-12 w-48 h-48 rounded-full border border-emerald-200/40 bg-white/30 pointer-events-none"></div>
         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-emerald-200/20 blur-[100px] pointer-events-none rounded-full"></div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
             
             {/* Left Column (6 cols): Hero Copy & Action */}
@@ -251,97 +251,99 @@ export default function LandingPage() {
 
           </div>
 
-          {/* Bottom Village Silhouette & Government Attribution Strip */}
-          <div className="mt-10 sm:mt-12 pt-6 border-t border-emerald-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-            {/* Rural landscape silhouette */}
-            <div className="hidden sm:block opacity-35 text-emerald-800">
-              <svg className="h-9 w-48" viewBox="0 0 240 36" fill="currentColor">
-                <path d="M0 36h240v-6c-25-3-35-10-60-10s-30 8-50 8-35-12-60-12-50 14-70 14v6z" />
-                <circle cx="24" cy="16" r="10" />
-                <circle cx="58" cy="22" r="7" />
-                <polygon points="140,10 134,30 146,30" />
-                <polygon points="175,14 169,30 181,30" />
-                <circle cx="210" cy="18" r="8" />
-              </svg>
+          {/* Row of 4 White Rounded Stat Cards matching reference */}
+          <div className="mt-10 sm:mt-12 mb-8 sm:mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+              
+              {/* Card 1: Typical Project Range */}
+              <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-sm hover:shadow-md border border-slate-100/90 flex items-center gap-3.5 sm:gap-4 transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-[#eaf7f0] text-emerald-800 flex items-center justify-center flex-shrink-0">
+                  <BarChart3 className="w-6 h-6 stroke-[2.2]" />
+                </div>
+                <div>
+                  <span className="text-lg sm:text-xl font-black text-slate-900 block leading-tight tracking-tight">₹1L – ₹10L</span>
+                  <span className="text-xs font-medium text-slate-500 block mt-0.5">Typical Project Range</span>
+                </div>
+              </div>
+
+              {/* Card 2: Subsidized MoSJE Schemes */}
+              <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-sm hover:shadow-md border border-slate-100/90 flex items-center gap-3.5 sm:gap-4 transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-[#fef7ea] text-amber-500 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl font-black">%</span>
+                </div>
+                <div>
+                  <span className="text-lg sm:text-xl font-black text-slate-900 block leading-tight tracking-tight">6.5% – 8.0%</span>
+                  <span className="text-xs font-medium text-slate-500 block mt-0.5">Subsidized MoSJE Schemes</span>
+                </div>
+              </div>
+
+              {/* Card 3: Hyperlocal Market Scan */}
+              <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-sm hover:shadow-md border border-slate-100/90 flex items-center gap-3.5 sm:gap-4 transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-[#eaf7f0] text-emerald-800 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-6 h-6 text-emerald-800 fill-emerald-800/20 stroke-[2.2]" />
+                </div>
+                <div>
+                  <span className="text-lg sm:text-xl font-black text-slate-900 block leading-tight tracking-tight">5km / 10km</span>
+                  <span className="text-xs font-medium text-slate-500 block mt-0.5">Hyperlocal Market Scan</span>
+                </div>
+              </div>
+
+              {/* Card 4: Deterministic Analysis */}
+              <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-sm hover:shadow-md border border-slate-100/90 flex items-center gap-3.5 sm:gap-4 transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-[#eaf7f0] text-emerald-800 flex items-center justify-center flex-shrink-0">
+                  <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
+                </div>
+                <div>
+                  <span className="text-lg sm:text-xl font-black text-slate-900 block leading-tight tracking-tight">100%</span>
+                  <span className="text-xs font-medium text-slate-500 block mt-0.5">Deterministic Analysis</span>
+                </div>
+              </div>
+
             </div>
+          </div>
+
+        </div>
+
+        {/* Panoramic Rural Landscape & Government Attribution Strip matching reference */}
+        <div 
+          className="relative w-full border-t border-emerald-200/50 bg-[#eaf5ef] overflow-hidden py-4 sm:py-5 px-4 sm:px-8"
+          style={{
+            backgroundImage: `url('/rural-strip-clean.png')`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'bottom center',
+            backgroundSize: 'cover'
+          }}
+        >
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
+            {/* Left spacer so the left village trees/cottages/windmill are visible */}
+            <div className="hidden md:block w-48 lg:w-72"></div>
 
             {/* Slogan Center */}
             <div className="text-center">
-              <p className="font-serif italic font-bold text-slate-700 text-xs sm:text-sm">
+              <p className="font-serif italic font-bold text-slate-800 text-xs sm:text-sm md:text-base">
                 &ldquo;Ideas Today. Stronger Rural India Tomorrow.&rdquo;
               </p>
-              <div className="w-24 h-1 bg-amber-400 mx-auto rounded-full mt-1"></div>
+              <svg className="w-36 sm:w-44 h-2.5 text-amber-400 mx-auto mt-1" viewBox="0 0 160 12" fill="none">
+                <path d="M2 10C50 2 110 2 158 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              </svg>
             </div>
 
-            {/* Supported by GoI */}
-            <div className="flex items-center gap-2.5 text-slate-600 text-right">
-              <div className="text-[10px] leading-tight">
-                <span className="block text-slate-400">Supported by</span>
-                <span className="font-bold text-slate-800 block">Ministry of Social Justice &amp; Empowerment</span>
-                <span className="text-slate-500 block">Government of India</span>
-              </div>
-              <div className="w-7 h-9 flex items-center justify-center opacity-80 flex-shrink-0">
-                <svg viewBox="0 0 24 32" className="w-full h-full text-slate-700" fill="currentColor">
-                  <path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5v2.5h-4V9.5C8.8 8.8 8 7.5 8 6a4 4 0 0 1 4-4zm-6 7a3 3 0 0 1 3 3c0 1-.5 1.9-1.3 2.4l.8 3.6h-5l.8-3.6A2.9 2.9 0 0 1 3 12a3 3 0 0 1 3-3zm12 0a3 3 0 0 1 3 3c0 1.1-.6 2.1-1.5 2.6l.8 3.4h-5l.8-3.4A3 3 0 0 1 18 9zM6 24h12v2H6v-2zm-2 4h16v2H4v-2z" />
-                </svg>
+            {/* Supported by GoI on Right */}
+            <div className="flex items-center gap-3 text-right">
+              <img 
+                src="/india-emblem.png" 
+                alt="Emblem of India" 
+                className="h-10 sm:h-12 w-auto object-contain flex-shrink-0" 
+              />
+              <div className="text-left leading-tight">
+                <span className="block text-slate-500 text-[10px] font-medium">Supported by</span>
+                <span className="font-bold text-slate-900 block text-[11px] sm:text-xs">Ministry of Social Justice &amp; Empowerment</span>
+                <span className="text-slate-600 block text-[10px]">Government of India</span>
               </div>
             </div>
           </div>
-
         </div>
-      </section>
 
-      {/* 2. STATS RIBBON (4 White Floating Cards) */}
-      <section className="relative -mt-6 z-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            
-            {/* Stat 1 */}
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                <BarChart3 className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-xl font-black text-slate-900 block leading-tight">₹1L &rarr; ₹10L</span>
-                <span className="text-xs font-semibold text-slate-600 block">{t('typicalProjectRange')}</span>
-              </div>
-            </div>
-
-            {/* Stat 2 */}
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                <Percent className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-xl font-black text-slate-900 block leading-tight">6.5% &ndash; 8.0%</span>
-                <span className="text-xs font-semibold text-slate-600 block">{t('subsidizedSchemes')}</span>
-              </div>
-            </div>
-
-            {/* Stat 3 */}
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-xl font-black text-slate-900 block leading-tight">5km / 10km</span>
-                <span className="text-xs font-semibold text-slate-600 block">{t('hyperlocalScan')}</span>
-              </div>
-            </div>
-
-            {/* Stat 4 */}
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-xl font-black text-slate-900 block leading-tight">100%</span>
-                <span className="text-xs font-semibold text-slate-600 block">{t('deterministicAnalysis')}</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
       </section>
 
       {/* 3. WORKFLOW PIPELINE: "How UDYAM-SETU AI Works in 4 Steps" */}
