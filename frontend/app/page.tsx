@@ -76,10 +76,24 @@ export default function LandingPage() {
             {/* Left Column (7 cols): Hero Copy & Action */}
             <div className="lg:col-span-7 space-y-6">
               
-              {/* Problem Statement 26091 Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0d4a39] border border-emerald-400/30 text-emerald-200 text-xs font-bold tracking-wider uppercase shadow-xs">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#a3e635] animate-pulse"></span>
-                <span>{t('heroBadge')}</span>
+              {/* Kisan (Farmer) Image & Badge */}
+              <div className="inline-flex items-center gap-3 p-1.5 pr-4 rounded-full bg-[#0d4a39]/90 border border-emerald-400/40 shadow-md backdrop-blur-sm">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-[#a3e635] shadow-xs flex-shrink-0 bg-emerald-950">
+                  <img 
+                    src="/farmer-hero.jpg" 
+                    alt="Kishan - Rural Entrepreneur" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-xs sm:text-[13px] font-extrabold text-white flex items-center gap-1.5">
+                    <span>समृद्ध किसान • सशक्त भारत</span>
+                    <span className="w-2 h-2 rounded-full bg-[#a3e635] animate-pulse"></span>
+                  </span>
+                  <span className="text-[10px] text-emerald-200 font-medium">
+                    Rural India Entrepreneurship & Agro Enterprise
+                  </span>
+                </div>
               </div>
 
               {/* Main Headline */}
