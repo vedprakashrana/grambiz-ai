@@ -74,11 +74,11 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
             
-            {/* Left Column (7 cols): Hero Copy & Action */}
-            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+            {/* Left Column (6 cols): Hero Copy & Action */}
+            <div className="lg:col-span-6 space-y-5 sm:space-y-6">
               
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-black tracking-tight text-slate-900 leading-tight sm:leading-[1.12]">
+              <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-black tracking-tight text-slate-900 leading-tight sm:leading-[1.12]">
                 Turn Your Business Idea{' '}
                 <span className="block mt-1">
                   into a{' '}
@@ -129,117 +129,114 @@ export default function LandingPage() {
 
             </div>
 
-            {/* Right Column (5 cols): Floating Sample Analysis Card + Farmer Image & Slogan */}
-            <div className="lg:col-span-5 relative flex items-center justify-center pt-4 lg:pt-0">
-              <div className="relative flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
+            {/* Right Column (6 cols): Floating Sample Analysis Card + Farmer Image & Slogan */}
+            <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end pt-4 lg:pt-0">
+              <div className="relative flex flex-col sm:flex-row items-center sm:items-end justify-center">
                 
                 {/* Floating Live Demo Card */}
-                <div className="w-full max-w-[340px] sm:max-w-[350px] bg-white rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-900 border border-slate-100 relative z-20 flex-shrink-0">
+                <div className="w-full max-w-[360px] sm:max-w-[380px] bg-white rounded-3xl p-5 sm:p-5 shadow-2xl text-slate-900 border border-slate-100 relative z-20 flex-shrink-0">
                   
                   {/* Card Header */}
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-black tracking-wide text-slate-800">
-                        AI Business Analysis
-                      </span>
-                      <span className="text-[10px] text-slate-400 font-medium">(Sample)</span>
-                    </div>
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3.5">
+                    <h2 className="text-sm font-black tracking-tight text-slate-800">
+                      AI Business Analysis
+                    </h2>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200">
+                      <span className="w-2 h-2 rounded-full bg-lime-500 animate-pulse"></span>
                       Live Demo
                     </span>
                   </div>
 
                   {/* Business Idea & Location */}
-                  <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
-                    <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
-                      <span className="text-[9.5px] text-slate-400 block font-medium">Business Idea</span>
-                      <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
-                        <span className="text-emerald-700">🌱</span>
-                        <span className="truncate text-xs">Dairy Farming</span>
+                  <div className="grid grid-cols-2 gap-2.5 mb-3.5 text-xs">
+                    <div className="p-2.5 rounded-2xl bg-slate-50/80 border border-slate-100">
+                      <span className="text-[10px] text-slate-400 block font-medium">Business Idea</span>
+                      <div className="flex items-center gap-1.5 mt-1 font-bold text-slate-800">
+                        <span className="text-emerald-700 text-base">🌱</span>
+                        <span className="text-xs font-bold text-slate-900">Dairy Farming</span>
                       </div>
                     </div>
 
-                    <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
-                      <span className="text-[9.5px] text-slate-400 block font-medium">Location</span>
-                      <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
-                        <MapPin className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
-                        <span className="truncate text-xs">Dhanbad, Jharkhand</span>
+                    <div className="p-2.5 rounded-2xl bg-slate-50/80 border border-slate-100">
+                      <span className="text-[10px] text-slate-400 block font-medium">Location</span>
+                      <div className="flex items-center gap-1.5 mt-1 font-bold text-slate-800">
+                        <MapPin className="w-4 h-4 text-emerald-700 flex-shrink-0" />
+                        <span className="text-xs font-bold text-slate-900 whitespace-nowrap">Dhanbad, Jharkhand</span>
                       </div>
                     </div>
                   </div>
 
                   {/* 4 Green Stat Tiles */}
-                  <div className="grid grid-cols-4 gap-1.5 mb-3 text-center">
-                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                  <div className="grid grid-cols-4 gap-1.5 mb-3.5 text-center">
+                    <div className="p-2 rounded-xl bg-emerald-50/90 border border-emerald-200/70">
                       <span className="text-xs font-black text-emerald-800 block">87%</span>
-                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Feasibility Score</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight mt-0.5">Feasibility Score</span>
                     </div>
-                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                    <div className="p-2 rounded-xl bg-emerald-50/90 border border-emerald-200/70">
                       <span className="text-xs font-black text-emerald-800 block">HIGH</span>
-                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Market Demand</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight mt-0.5">Market Demand</span>
                     </div>
-                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                    <div className="p-2 rounded-xl bg-emerald-50/90 border border-emerald-200/70">
                       <span className="text-xs font-black text-emerald-800 block">LOW</span>
-                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Competition</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight mt-0.5">Competition</span>
                     </div>
-                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                    <div className="p-2 rounded-xl bg-emerald-50/90 border border-emerald-200/70">
                       <span className="text-xs font-black text-emerald-800 block">7</span>
-                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Schemes Matched</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight mt-0.5">Schemes Matched</span>
                     </div>
                   </div>
 
                   {/* Key Metrics Rows */}
-                  <div className="space-y-1.5 text-xs border-t border-slate-100 pt-2.5 mb-3.5">
+                  <div className="space-y-2 text-xs border-t border-slate-100 pt-3 mb-4">
                     <div className="flex items-center justify-between text-slate-600">
-                      <span className="text-[11px] flex items-center gap-1">
-                        <span>🏦</span> Estimated Finance Need
+                      <span className="text-[11px] flex items-center gap-1.5 font-medium">
+                        <span>💼</span> Estimated Finance Need
                       </span>
-                      <span className="font-bold text-slate-900 text-xs">₹8.5 Lakh</span>
+                      <span className="font-extrabold text-slate-900 text-xs">₹8.5 Lakh</span>
                     </div>
                     <div className="flex items-center justify-between text-slate-600">
-                      <span className="text-[11px] flex items-center gap-1">
-                        <span>📈</span> Potential Monthly Revenue
+                      <span className="text-[11px] flex items-center gap-1.5 font-medium">
+                        <span>💰</span> Potential Monthly Revenue
                       </span>
-                      <span className="font-bold text-slate-900 text-xs">₹1.2 Lakh</span>
+                      <span className="font-extrabold text-slate-900 text-xs">₹1.2 Lakh</span>
                     </div>
                     <div className="flex items-center justify-between text-slate-600">
-                      <span className="text-[11px] flex items-center gap-1">
+                      <span className="text-[11px] flex items-center gap-1.5 font-medium">
                         <span>📍</span> Suggested Area
                       </span>
-                      <span className="font-bold text-slate-900 text-xs">5 – 10 km (GIS Scan)</span>
+                      <span className="font-extrabold text-slate-900 text-xs">5 – 10 km (GIS Scan)</span>
                     </div>
                   </div>
 
                   {/* View Full Analysis CTA */}
                   <Link
                     href="/assessment/new"
-                    className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-xs shadow-sm hover:shadow transition"
+                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-xs shadow-sm hover:shadow transition-all group"
                   >
                     <span>View Full Analysis</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </Link>
 
                 </div>
 
                 {/* Farmer Visual & Slogan on the Right */}
-                <div className="flex flex-col items-center sm:-ml-6 z-10">
+                <div className="relative z-10 mt-6 sm:mt-0 sm:-ml-12 md:-ml-14 flex flex-col items-center sm:items-end flex-shrink-0">
                   
                   {/* Slogan */}
-                  <div className="text-center sm:text-right mb-2 pr-1">
-                    <p className="font-serif italic font-extrabold text-[#0a3e30] text-xs sm:text-sm leading-tight">
+                  <div className="text-center sm:text-right mb-2.5 pr-2 sm:pr-3">
+                    <p className="font-serif italic font-extrabold text-[#114636] text-base sm:text-lg leading-[1.18]">
                       Stronger<br />
                       Rural India<br />
                       Brighter<br />
                       Tomorrow
                     </p>
-                    <svg className="w-16 h-2 text-amber-400 mt-0.5 ml-auto" viewBox="0 0 80 8" fill="none">
-                      <path d="M2 6C25 2 55 2 78 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                    <svg className="w-20 h-2.5 text-amber-400 mt-1 ml-auto" viewBox="0 0 90 10" fill="none">
+                      <path d="M2 7C25 1.5 65 1.5 88 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" />
                     </svg>
                   </div>
 
                   {/* Farmer Arch Cutout Image */}
-                  <div className="w-36 h-48 sm:w-44 sm:h-56 rounded-t-full overflow-hidden border-2 border-white shadow-xl bg-emerald-100 flex-shrink-0 relative">
+                  <div className="w-56 sm:w-64 md:w-68 h-68 sm:h-76 md:h-80 rounded-t-[110px] sm:rounded-t-[130px] rounded-b-2xl overflow-hidden shadow-lg flex-shrink-0 relative">
                     <img 
                       src="/farmer-hero.jpg" 
                       alt="Rural Entrepreneur" 
