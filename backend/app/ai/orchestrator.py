@@ -18,6 +18,15 @@ logger = logging.getLogger(__name__)
 # In-memory Conversation Memory Session Store
 AI_CONVERSATIONS_DB: Dict[str, Dict[str, Any]] = {}
 
+def normalize_gemini_api_key(raw_key: Optional[str]) -> str:
+    if not raw_key:
+        return ""
+    key = raw_key.strip().strip("'\"")
+    # If the key was provided without the AQ. prefix needed by Google Generative Language API
+    if not key.startswith("AIza") and not key.startswith("AQ.") and len(key) > 20:
+        return f"AQ.{key}"
+    return key
+
 class LLMClientAdapter:
     """
     Real Multi-Provider LLM Client supporting Gemini, OpenAI, Groq, Ollama and intelligent Fallback.
@@ -33,33 +42,44 @@ class LLMClientAdapter:
 
         # 1. Google Gemini Provider
         if provider == "gemini" or (not api_key and os.getenv("GEMINI_API_KEY")):
-            gemini_key = api_key or os.getenv("GEMINI_API_KEY", "")
+            raw_key = api_key or os.getenv("GEMINI_API_KEY", "")
+            gemini_key = normalize_gemini_api_key(raw_key)
             if gemini_key:
-                try:
-                    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={gemini_key}"
-                    contents = []
-                    if history:
-                        for h in history[-4:]:
-                            role = "user" if h["role"] == "user" else "model"
-                            contents.append({"role": role, "parts": [{"text": h["content"]}]})
-                    contents.append({"role": "user", "parts": [{"text": user_message}]})
+                preferred_model = getattr(settings, "LLM_MODEL", None) or os.getenv("LLM_MODEL", "gemini-flash-latest")
+                candidate_models = [preferred_model, "gemini-flash-latest", "gemini-3.5-flash", "gemini-2.5-flash"]
+                # Deduplicate while preserving priority order
+                models_to_try = list(dict.fromkeys(candidate_models))
 
-                    payload = {
-                        "system_instruction": {"parts": [{"text": system_prompt}]},
-                        "contents": contents,
-                        "generationConfig": {"temperature": 0.3, "maxOutputTokens": 800}
-                    }
-                    with httpx.Client(timeout=8.0) as client:
-                        res = client.post(url, json=payload)
-                        if res.status_code == 200:
-                            data = res.json()
-                            candidates = data.get("candidates", [])
-                            if candidates and "content" in candidates[0]:
-                                parts = candidates[0]["content"].get("parts", [])
-                                if parts and "text" in parts[0]:
-                                    return parts[0]["text"]
-                except Exception as ex:
-                    logger.warning(f"Gemini API call failed ({ex}).")
+                contents = []
+                if history:
+                    for h in history[-4:]:
+                        role = "user" if h["role"] == "user" else "model"
+                        contents.append({"role": role, "parts": [{"text": h["content"]}]})
+                contents.append({"role": "user", "parts": [{"text": user_message}]})
+
+                payload = {
+                    "system_instruction": {"parts": [{"text": system_prompt}]},
+                    "contents": contents,
+                    "generationConfig": {"temperature": 0.4, "maxOutputTokens": 800}
+                }
+
+                for model in models_to_try:
+                    try:
+                        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_key}"
+                        with httpx.Client(timeout=10.0) as client:
+                            res = client.post(url, json=payload)
+                            if res.status_code == 200:
+                                data = res.json()
+                                candidates = data.get("candidates", [])
+                                if candidates and "content" in candidates[0]:
+                                    parts = candidates[0]["content"].get("parts", [])
+                                    if parts and "text" in parts[0]:
+                                        logger.info(f"Gemini generation succeeded using {model}")
+                                        return parts[0]["text"]
+                            else:
+                                logger.warning(f"Gemini {model} returned HTTP {res.status_code}: {res.text[:120]}")
+                    except Exception as ex:
+                        logger.warning(f"Gemini {model} call exception ({ex})")
 
         # 2. OpenAI Provider
         if provider in ["openai", "gpt-4o", "gpt-4o-mini"] or os.getenv("OPENAI_API_KEY"):
@@ -216,7 +236,7 @@ class AIOrchestrator:
 
         # 2. Try Real LLM Generation with Grounded System Context
         system_grounding_prompt = f"""
-You are GramBiz AI, a verified rural enterprise and financial planning advisor for Indian micro-entrepreneurs.
+You are UDYAM-SETU, a verified rural enterprise and financial planning advisor for Indian micro-entrepreneurs.
 Current Verified Context:
 - Sector / Category: {current_category}
 - Margin Equity: ₹{margin_dec:,.2f}
@@ -241,7 +261,7 @@ Provide structured, concise, and highly accurate guidance adhering to these veri
         if any(msg_lower == g or msg_lower.startswith(g + " ") for g in ["hi", "hello", "namaste", "pranam", "kaise ho", "hey"]):
             if lang_is_en:
                 reply = (
-                    "Hello! I am **GramBiz AI** — your verified rural enterprise and financial planning assistant. "
+                    "Hello! I am **UDYAM-SETU** — your verified rural enterprise and financial planning assistant. "
                     "How can I help you today? You can ask about government loan eligibility under MoSJE schemes, "
                     "EMI schedules, operational risks, or local market demand."
                 )
@@ -252,7 +272,7 @@ Provide structured, concise, and highly accurate guidance adhering to these veri
                 ]
             else:
                 reply = (
-                    "नमस्ते! मैं **GramBiz AI** हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय योजना सलाहकार। "
+                    "नमस्ते! मैं **UDYAM-SETU** हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय योजना सलाहकार। "
                     "मैं आपकी क्या सहायता कर सकता हूँ? आप मुझसे सरकारी योजनाओं (MoSJE), लोन पात्रता, "
                     "ईएमआई गणना, बिजनेस रिस्क या नजदीकी बाजार के बारे में पूछ सकते हैं।"
                 )
@@ -263,7 +283,7 @@ Provide structured, concise, and highly accurate guidance adhering to these veri
                 ]
 
             sources.append({
-                "source": "GramBiz AI Verified Rural Advisory Engine",
+                "source": "UDYAM-SETU Verified Rural Advisory Engine",
                 "section": "System Baseline 2026",
                 "confidence": "Verified"
             })

@@ -1,13 +1,13 @@
-# GramBiz AI — Analytical Calculation & Estimation Methodology
+# UDYAM-SETU — Analytical Calculation & Estimation Methodology
 
-This document transparently explains the mathematical formulations and assumptions behind GramBiz AI's market analysis, customer reach estimation, competitor density, pricing range, and risk metrics.
+This document transparently explains the mathematical formulations and assumptions behind UDYAM-SETU's market analysis, customer reach estimation, competitor density, pricing range, and risk metrics.
 
 ---
 
 ## 1. 👥 Consumer Reach Estimation Methodology
 
 ### Principle:
-GramBiz AI **never** generates a fabricated exact consumer count (e.g. *"5,800 customers"*). Instead, it computes an auditable target customer range using a transparent multi-factor derivation:
+UDYAM-SETU **never** generates a fabricated exact consumer count (e.g. *"5,800 customers"*). Instead, it computes an auditable target customer range using a transparent multi-factor derivation:
 
 $$\text{Estimated Households}_{2026} = \text{Households}_{2011} \times (1 + r)^{\Delta t}$$
 

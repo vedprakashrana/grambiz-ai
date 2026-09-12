@@ -17,7 +17,9 @@ import {
   AlertTriangle,
   ArrowRight,
   Sparkles,
-  HelpCircle
+  HelpCircle,
+  BarChart3,
+  Activity
 } from 'lucide-react';
 
 export default function AssessmentResultPage() {
@@ -122,6 +124,42 @@ export default function AssessmentResultPage() {
           { item_name: "Raw Buffalo Milk (per Litre, 6.5% Fat)", low_price: "52.00", median_price: "58.00", high_price: "64.00", data_confidence: "Verified", source: "District Milk Union Mandi Report" },
           { item_name: "Fresh Paneer (per Kg)", low_price: "320.00", median_price: "360.00", high_price: "400.00", data_confidence: "Estimated", source: "Weekly Haat Survey" }
         ],
+        model1_prediction: {
+          feasibility_score: 76.7,
+          opportunity_class: "Good",
+          viability_probability: 0.77,
+          top_factors: ["local_demand_index", "target_population", "own_capital_inr"]
+        },
+        model2_forecast: {
+          commodity_or_service: "Raw Cow Milk",
+          unit: "INR/Litre",
+          current_price: 43.35,
+          price_next_1m: 41.93,
+          price_next_3m: 41.94,
+          price_next_6m: 42.51,
+          demand_next_1m: 321.7,
+          price_trend: "Stable",
+          pricing_recommendation: "Hold / Steady Procurement"
+        },
+        model3_risk: {
+          risk_score: 10.7,
+          risk_level: "Low",
+          risk_probability: 0.11,
+          top_factors: ["demand_trend", "monthly_revenue_estimate_inr", "price_volatility"]
+        },
+        model4_advisory: {
+          estimated_project_cost: 110625,
+          loan_amount_needed: 10625,
+          expected_monthly_revenue: 68625,
+          expected_operating_cost: 36500,
+          repayment_advice: {
+            potential_monthly_profit: 32125,
+            emi: 352.47,
+            can_afford_emi: true,
+            surplus_after_emi: 31772.53,
+            estimated_payoff_months: 36
+          }
+        },
         sources_and_confidence: {
           population_data: "Estimated from Census & Village Directory [2021-24 Projection]",
           scheme_rules: "MoSJE Policy Gazette 2024 [Verified]",
@@ -247,6 +285,163 @@ export default function AssessmentResultPage() {
               <div className="p-2 bg-slate-50 rounded-lg border border-slate-100">
                 <span className="text-slate-500 block text-[10px]">Tenure / Moratorium</span>
                 <span className="font-bold text-slate-900">{data.scheme_recommendation.tenure_months / 12} Yrs / {data.scheme_recommendation.moratorium_months} M</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 4-MODEL INTELLIGENCE CORE SECTION */}
+        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200 mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <span>4-Model Core Architecture</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+                End-to-End AI Advisory &amp; Machine Learning Dossier
+              </h2>
+              <p className="text-xs text-slate-500">
+                Data pipeline: Location &amp; Demographics &rarr; Model 1 Feasibility &rarr; Model 2 Price &amp; Demand &rarr; Model 3 Risk &rarr; Model 4 Financial Repayment Simulation
+              </p>
+            </div>
+            <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl self-start sm:self-auto">
+              10 Core Sectors Calibrated
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Model 1 Card */}
+            <div className="p-5 rounded-2xl bg-gradient-to-b from-emerald-50/50 to-white border border-emerald-200/80 shadow-2xs space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
+                  Model 1: Feasibility
+                </span>
+                <span className="text-xs font-black text-emerald-800">
+                  {data.model1_prediction?.feasibility_score ?? data.feasibility_score?.overall_score}%
+                </span>
+              </div>
+              <h3 className="font-extrabold text-slate-900 text-sm">Hyper-Local Feasibility</h3>
+              <div className="space-y-1 text-xs">
+                <div className="flex justify-between text-slate-600">
+                  <span>Opportunity Class:</span>
+                  <span className="font-bold text-emerald-900">{data.model1_prediction?.opportunity_class ?? "Good"}</span>
+                </div>
+                <div className="flex justify-between text-slate-600">
+                  <span>Viability Class:</span>
+                  <span className="font-bold text-slate-800">{data.feasibility_score?.viability_class ?? "Viable"}</span>
+                </div>
+              </div>
+              <div className="pt-2 border-t border-emerald-100 text-[11px] text-slate-500">
+                <span className="font-bold text-slate-700 block mb-0.5">Top Contributing Factors:</span>
+                <p className="truncate text-slate-600">
+                  {(data.model1_prediction?.top_factors ?? ["Demographics", "Capital", "Competition"]).slice(0, 3).join(', ')}
+                </p>
+              </div>
+            </div>
+
+            {/* Model 2 Card */}
+            <div className="p-5 rounded-2xl bg-gradient-to-b from-blue-50/50 to-white border border-blue-200/80 shadow-2xs space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase tracking-wider text-blue-800 bg-blue-100 px-2 py-0.5 rounded">
+                  Model 2: Forecasting
+                </span>
+                <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">
+                  {data.model2_forecast?.price_trend ?? "Stable"}
+                </span>
+              </div>
+              <h3 className="font-extrabold text-slate-900 text-sm truncate">
+                {data.model2_forecast?.commodity_or_service ?? "Commodity Trend"}
+              </h3>
+              <div className="space-y-1 text-xs">
+                <div className="flex justify-between text-slate-600">
+                  <span>Current Unit Price:</span>
+                  <span className="font-bold text-slate-900">₹{data.model2_forecast?.current_price ?? 43.35}</span>
+                </div>
+                <div className="flex justify-between text-slate-600">
+                  <span>1-Month Target:</span>
+                  <span className="font-bold text-blue-800">₹{data.model2_forecast?.price_next_1m ?? 42.50}</span>
+                </div>
+                <div className="flex justify-between text-slate-600">
+                  <span>3-Month Target:</span>
+                  <span className="font-bold text-blue-900">₹{data.model2_forecast?.price_next_3m ?? 43.10}</span>
+                </div>
+              </div>
+              <div className="pt-2 border-t border-blue-100 text-[11px] text-slate-500">
+                <span className="font-bold text-slate-700 block mb-0.5">Pricing Advice:</span>
+                <p className="truncate text-slate-600">
+                  {data.model2_forecast?.pricing_recommendation ?? "Hold / Steady Procurement"}
+                </p>
+              </div>
+            </div>
+
+            {/* Model 3 Card */}
+            <div className="p-5 rounded-2xl bg-gradient-to-b from-amber-50/50 to-white border border-amber-200/80 shadow-2xs space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded">
+                  Model 3: Business Risk
+                </span>
+                <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  {data.model3_risk?.risk_level ?? "Low"} Risk
+                </span>
+              </div>
+              <h3 className="font-extrabold text-slate-900 text-sm">Calibrated Risk Engine</h3>
+              <div className="space-y-1 text-xs">
+                <div className="flex justify-between text-slate-600">
+                  <span>Risk Score:</span>
+                  <span className="font-bold text-slate-900">{data.model3_risk?.risk_score ?? 15.0}%</span>
+                </div>
+                <div className="flex justify-between text-slate-600">
+                  <span>Failure Probability:</span>
+                  <span className="font-bold text-emerald-800">
+                    {Math.round((data.model3_risk?.risk_probability ?? 0.15) * 100)}%
+                  </span>
+                </div>
+              </div>
+              <div className="pt-2 border-t border-amber-100 text-[11px] text-slate-500">
+                <span className="font-bold text-slate-700 block mb-0.5">Assessed Dimensions:</span>
+                <p className="truncate text-slate-600">
+                  {(data.model3_risk?.top_factors ?? ["Market Price", "Demand Volatility", "Supply Chain"]).slice(0, 3).join(', ')}
+                </p>
+              </div>
+            </div>
+
+            {/* Model 4 Card */}
+            <div className="p-5 rounded-2xl bg-gradient-to-b from-teal-50/50 to-white border border-teal-200/80 shadow-2xs space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase tracking-wider text-teal-800 bg-teal-100 px-2 py-0.5 rounded">
+                  Model 4: Financial Engine
+                </span>
+                <span className="text-xs font-bold text-teal-800">
+                  {data.model4_advisory?.repayment_advice?.can_afford_emi ? "Affordable" : "Needs Review"}
+                </span>
+              </div>
+              <h3 className="font-extrabold text-slate-900 text-sm">Profit &amp; Repayment</h3>
+              <div className="space-y-1 text-xs">
+                <div className="flex justify-between text-slate-600">
+                  <span>Monthly Profit:</span>
+                  <span className="font-bold text-teal-900">
+                    ₹{(data.model4_advisory?.repayment_advice?.potential_monthly_profit ?? 32125).toLocaleString('en-IN')}
+                  </span>
+                </div>
+                <div className="flex justify-between text-slate-600">
+                  <span>Monthly EMI:</span>
+                  <span className="font-bold text-slate-900">
+                    ₹{(data.model4_advisory?.repayment_advice?.emi ?? 2342.9).toLocaleString('en-IN')}
+                  </span>
+                </div>
+                <div className="flex justify-between text-slate-600">
+                  <span>Surplus After EMI:</span>
+                  <span className="font-extrabold text-emerald-800">
+                    ₹{(data.model4_advisory?.repayment_advice?.surplus_after_emi ?? 29782).toLocaleString('en-IN')}
+                  </span>
+                </div>
+              </div>
+              <div className="pt-2 border-t border-teal-100 text-[11px] text-slate-500">
+                <span className="font-bold text-slate-700 block mb-0.5">Payoff Timeline:</span>
+                <p className="text-slate-600">
+                  {data.model4_advisory?.repayment_advice?.estimated_payoff_months ?? 36} Months (with {data.scheme_recommendation?.moratorium_months ?? 3}M Moratorium)
+                </p>
               </div>
             </div>
           </div>
@@ -386,7 +581,7 @@ export default function AssessmentResultPage() {
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <a
               href={`http://localhost:8000/api/v1/reports/${data.id}/pdf`}
-              download={`GramBiz_Feasibility_Report_${data.id}.pdf`}
+              download={`UDYAM_SETU_Feasibility_Report_${data.id}.pdf`}
               target="_blank"
               rel="noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-black text-sm shadow-lg shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all"

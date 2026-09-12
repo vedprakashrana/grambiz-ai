@@ -1,4 +1,4 @@
-// API Client Configuration for GramBiz AI Frontend
+// API Client Configuration for UDYAM-SETU Frontend
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
 

@@ -93,7 +93,7 @@ export default function OCRScannerPage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-extrabold text-slate-900">GramBiz Pro OCR Scanner</h1>
+                <h1 className="text-2xl font-extrabold text-slate-900">UDYAM-SETU Pro OCR Scanner</h1>
                 <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded">PRO AI</span>
               </div>
               <p className="text-xs text-slate-500">Scan Aadhaar, Ration Cards, Caste & Land Records to automatically populate business assessments</p>

@@ -18,6 +18,11 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     docScanner: 'दस्तावेज़ स्कैनर',
     voiceAi: 'बहुभाषी वॉइस एआई',
     aiVoice: 'एआई वॉइस',
+    support: 'सहायता',
+    helpFaqs: 'मदद / FAQs',
+    userGuide: 'यूजर गाइड',
+    contactSupport: 'संपर्क सहायता',
+    feedback: 'फीडबैक',
     login: 'लॉग इन',
     register: 'रजिस्टर',
 
@@ -172,6 +177,11 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     docScanner: 'Doc & Bill Scanner',
     voiceAi: 'Multilingual Voice AI',
     aiVoice: 'AI Voice',
+    support: 'Support',
+    helpFaqs: 'Help / FAQs',
+    userGuide: 'User Guide',
+    contactSupport: 'Contact Support',
+    feedback: 'Feedback',
     login: 'Login',
     register: 'Register',
 

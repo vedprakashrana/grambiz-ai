@@ -49,3 +49,9 @@ Thumbs.db
 !.env.example
 *.tsbuildinfo
 
+# Loose root temp files
+/model1
+/model2
+/model3
+/model4-financial calculator
+playground-1.mongodb.js

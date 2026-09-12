@@ -1,6 +1,6 @@
-# GramBiz AI — AI-Driven Hyper-Local Business Advisory and Financial Structuring Assistant
+# UDYAM-SETU — AI-Driven Hyper-Local Business Advisory and Financial Structuring Assistant
 
-**GramBiz AI** is a complete, production-ready full-stack enterprise application designed for rural entrepreneurs and the **Ministry of Social Justice and Empowerment (MoSJE)** under **Problem Statement 26091** (Agriculture, FoodTech & Rural Development).
+**UDYAM-SETU** is a complete, production-ready full-stack enterprise application designed for rural entrepreneurs and the **Ministry of Social Justice and Empowerment (MoSJE)** under **Problem Statement 26091** (Agriculture, FoodTech & Rural Development).
 
 ---
 

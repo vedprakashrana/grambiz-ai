@@ -3,7 +3,7 @@ from typing import List
 import os
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "GramBiz AI API"
+    PROJECT_NAME: str = "UDYAM-SETU API"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
     ENVIRONMENT: str = "development"
@@ -35,10 +35,11 @@ class Settings(BaseSettings):
 
 
     # AI Providers
-    LLM_PROVIDER: str = "mock"
+    LLM_PROVIDER: str = "gemini"
     LLM_API_KEY: str = ""
-    LLM_MODEL: str = "gpt-4o-mini"
-    EMBEDDING_PROVIDER: str = "mock"
+    GEMINI_API_KEY: str = ""
+    LLM_MODEL: str = "gemini-3.5-flash"
+    EMBEDDING_PROVIDER: str = "gemini"
     EMBEDDING_API_KEY: str = ""
 
     class Config:

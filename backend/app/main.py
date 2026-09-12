@@ -39,7 +39,7 @@ app.include_router(api_v1_router, prefix=settings.API_V1_STR)
 def root():
     return {
         "status": "healthy",
-        "app": "GramBiz AI Backend API",
+        "app": "UDYAM-SETU Backend API",
         "version": settings.VERSION,
         "docs": f"{settings.API_V1_STR}/docs"
     }

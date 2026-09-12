@@ -1,34 +1,78 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { 
   Globe, 
   ChevronDown, 
+  ChevronUp,
   Menu, 
   X, 
   LogOut,
   Mic,
   LogIn,
   UserPlus,
-  User
+  User,
+  BookOpen,
+  HelpCircle,
+  FileText,
+  Headphones,
+  MessageSquare
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../../context/LanguageContext';
+import SupportModal, { SupportModalType } from './SupportModal';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { currentLang, setLanguage, currentOption, t } = useLanguage();
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [supportMenuOpen, setSupportMenuOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState<SupportModalType>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const supportMenuRef = useRef<HTMLDivElement>(null);
+  const langMenuRef = useRef<HTMLDivElement>(null);
+
   const router = useRouter();
   const pathname = usePathname();
+
+  // Close menus when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (supportMenuRef.current && !supportMenuRef.current.contains(event.target as Node)) {
+        setSupportMenuOpen(false);
+      }
+      if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
+        setLangMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
     setMobileMenuOpen(false);
     router.push('/');
+  };
+
+  const handleHowItWorksClick = () => {
+    setSupportMenuOpen(false);
+    setMobileMenuOpen(false);
+    if (pathname === '/') {
+      const el = document.getElementById('workflow');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        setActiveModal('how-it-works');
+      }
+    } else {
+      router.push('/#workflow');
+    }
   };
 
   return (
@@ -59,7 +103,7 @@ export default function Navbar() {
           </Link>
 
           {/* Center Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-7 text-[13px] font-semibold text-slate-700">
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-7 text-[13px] font-semibold text-slate-700">
             <Link
               href="/"
               className={`transition-colors py-1.5 border-b-2 ${
@@ -104,16 +148,105 @@ export default function Navbar() {
               <Mic className="w-4 h-4 text-amber-500" />
               <span>{t('aiVoice')}</span>
             </Link>
+
+            {/* Support Dropdown - Added after AI Voice */}
+            <div className="relative" ref={supportMenuRef}>
+              <button
+                type="button"
+                onClick={() => setSupportMenuOpen(!supportMenuOpen)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-semibold transition cursor-pointer ${
+                  supportMenuOpen 
+                    ? 'bg-[#f4f7f4] text-[#0d4f3b] font-bold shadow-2xs' 
+                    : 'text-slate-700 hover:text-[#0d4f3b] hover:bg-slate-50'
+                }`}
+                aria-expanded={supportMenuOpen}
+              >
+                <span>{t('support')}</span>
+                {supportMenuOpen ? (
+                  <ChevronUp className="w-3.5 h-3.5 text-[#0d4f3b]" strokeWidth={2.2} />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" strokeWidth={2} />
+                )}
+              </button>
+
+              {/* Support Dropdown Card */}
+              {supportMenuOpen && (
+                <div className="absolute left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50 animate-in fade-in duration-150">
+                  {/* 1. How It Works */}
+                  <button
+                    type="button"
+                    onClick={handleHowItWorksClick}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-800 hover:text-[#0d4f3b] hover:bg-emerald-50/70 transition-colors text-[13.5px] font-medium text-left cursor-pointer group"
+                  >
+                    <BookOpen className="w-[18px] h-[18px] text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                    <span className="group-hover:translate-x-0.5 transition-transform">{t('howItWorks')}</span>
+                  </button>
+
+                  {/* 2. Help / FAQs */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSupportMenuOpen(false);
+                      setActiveModal('faqs');
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-800 hover:text-[#0d4f3b] hover:bg-emerald-50/70 transition-colors text-[13.5px] font-medium text-left cursor-pointer group"
+                  >
+                    <HelpCircle className="w-[18px] h-[18px] text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                    <span className="group-hover:translate-x-0.5 transition-transform">{t('helpFaqs')}</span>
+                  </button>
+
+                  {/* 3. User Guide */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSupportMenuOpen(false);
+                      setActiveModal('guide');
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-800 hover:text-[#0d4f3b] hover:bg-emerald-50/70 transition-colors text-[13.5px] font-medium text-left cursor-pointer group"
+                  >
+                    <FileText className="w-[18px] h-[18px] text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                    <span className="group-hover:translate-x-0.5 transition-transform">{t('userGuide')}</span>
+                  </button>
+
+                  {/* 4. Contact Support */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSupportMenuOpen(false);
+                      setActiveModal('contact');
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-800 hover:text-[#0d4f3b] hover:bg-emerald-50/70 transition-colors text-[13.5px] font-medium text-left cursor-pointer group"
+                  >
+                    <Headphones className="w-[18px] h-[18px] text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                    <span className="group-hover:translate-x-0.5 transition-transform">{t('contactSupport')}</span>
+                  </button>
+
+                  {/* 5. Feedback */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSupportMenuOpen(false);
+                      setActiveModal('feedback');
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-800 hover:text-[#0d4f3b] hover:bg-emerald-50/70 transition-colors text-[13.5px] font-medium text-left cursor-pointer group"
+                  >
+                    <MessageSquare className="w-[18px] h-[18px] text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                    <span className="group-hover:translate-x-0.5 transition-transform">{t('feedback')}</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Right Action Controls */}
           <div className="flex items-center space-x-2 sm:space-x-3">
             
             {/* Language Selector */}
-            <div className="relative">
+            <div className="relative" ref={langMenuRef}>
               <button
+                type="button"
                 onClick={() => setLangMenuOpen(!langMenuOpen)}
-                className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg border border-slate-200 hover:border-[#0d4f3b] text-slate-700 hover:text-slate-900 bg-white transition shadow-2xs"
+                className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg border border-slate-200 hover:border-[#0d4f3b] text-slate-700 hover:text-slate-900 bg-white transition shadow-2xs cursor-pointer"
               >
                 <Globe className="w-3.5 h-3.5 text-slate-500" />
                 <span className="font-medium">{currentOption.nativeName}</span>
@@ -129,11 +262,12 @@ export default function Navbar() {
                     {SUPPORTED_LANGUAGES.map((lang) => (
                       <button
                         key={lang.code}
+                        type="button"
                         onClick={() => {
                           setLanguage(lang.code as LanguageCode);
                           setLangMenuOpen(false);
                         }}
-                        className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-emerald-50 transition ${
+                        className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-emerald-50 transition cursor-pointer ${
                           currentLang === lang.code ? 'bg-emerald-50 text-[#0d4f3b] font-bold' : 'text-slate-700'
                         }`}
                       >
@@ -160,27 +294,27 @@ export default function Navbar() {
                   <span className="max-w-[100px] truncate">{user.name || user.mobile || 'Dashboard'}</span>
                 </Link>
                 <button
+                  type="button"
                   onClick={handleLogout}
+                  className="p-1.5 sm:p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
                   title="Logout"
-                  className="p-1.5 sm:p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition border border-slate-200"
                 >
-                  <LogOut className="w-3.5 h-3.5" />
+                  <LogOut className="w-4 h-4" />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="hidden sm:flex items-center gap-2">
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 hover:text-[#0d4f3b] px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-lg border border-slate-200 hover:border-[#0d4f3b] transition bg-white shadow-2xs"
+                  className="text-xs font-bold text-slate-700 hover:text-[#0d4f3b] px-3 py-2 rounded-lg hover:bg-slate-50 transition"
                 >
-                  <LogIn className="w-3.5 h-3.5 text-slate-500" />
-                  <span>{t('login')}</span>
+                  {t('login')}
                 </Link>
                 <Link
                   href="/register"
-                  className="inline-flex items-center gap-1 text-xs font-bold bg-[#0d4f3b] hover:bg-[#093d2d] text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg shadow-xs hover:shadow transition-all duration-200"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold bg-[#0d4f3b] text-white px-3.5 py-2 rounded-lg shadow-xs hover:bg-[#093d2d] transition"
                 >
-                  <UserPlus className="w-3.5 h-3.5 text-amber-300" />
+                  <UserPlus className="w-3.5 h-3.5 text-emerald-300" />
                   <span>{t('register')}</span>
                 </Link>
               </div>
@@ -188,9 +322,10 @@ export default function Navbar() {
 
             {/* Mobile Menu Button */}
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 lg:hidden border border-slate-200"
-              aria-label="Toggle navigation"
+              className="lg:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition"
+              aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -234,6 +369,71 @@ export default function Navbar() {
               </Link>
             </div>
 
+            {/* Mobile Support Section - After AI Voice */}
+            <div className="pt-2 border-t border-slate-100">
+              <div className="px-1 mb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                {t('support')}
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={handleHowItWorksClick}
+                  className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800 flex items-center gap-2 text-left"
+                >
+                  <BookOpen className="w-4 h-4 text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                  <span>{t('howItWorks')}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setActiveModal('faqs');
+                  }}
+                  className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800 flex items-center gap-2 text-left"
+                >
+                  <HelpCircle className="w-4 h-4 text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                  <span>{t('helpFaqs')}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setActiveModal('guide');
+                  }}
+                  className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800 flex items-center gap-2 text-left"
+                >
+                  <FileText className="w-4 h-4 text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                  <span>{t('userGuide')}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setActiveModal('contact');
+                  }}
+                  className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800 flex items-center gap-2 text-left"
+                >
+                  <Headphones className="w-4 h-4 text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                  <span>{t('contactSupport')}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setActiveModal('feedback');
+                  }}
+                  className="p-2.5 bg-slate-50 hover:bg-emerald-50 rounded-lg text-slate-800 flex items-center gap-2 text-left col-span-2"
+                >
+                  <MessageSquare className="w-4 h-4 text-[#0d4f3b] shrink-0" strokeWidth={1.8} />
+                  <span>{t('feedback')}</span>
+                </button>
+              </div>
+            </div>
+
             <div className="pt-2 border-t border-slate-100">
               {user ? (
                 <div className="flex items-center gap-2">
@@ -245,6 +445,7 @@ export default function Navbar() {
                     Dashboard
                   </Link>
                   <button
+                    type="button"
                     onClick={handleLogout}
                     className="px-4 py-2.5 text-xs font-bold text-rose-600 border border-rose-200 bg-rose-50 rounded-lg hover:bg-rose-100"
                   >
@@ -275,7 +476,13 @@ export default function Navbar() {
         )}
 
       </div>
+
+      {/* Interactive Support Modal for FAQs, Guide, Contact, Feedback & How It Works */}
+      <SupportModal
+        activeModal={activeModal}
+        onClose={() => setActiveModal(null)}
+        onSelectTab={(tab) => setActiveModal(tab)}
+      />
     </header>
   );
 }
-

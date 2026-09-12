@@ -9,7 +9,7 @@ from app.engines.scheme.rules import SchemeRuleEngine
 
 def run_all_tests():
     print("========================================")
-    print("RUNNING GRAMBIZ AI FINANCIAL ENGINE TESTS")
+    print("RUNNING UDYAM-SETU FINANCIAL ENGINE TESTS")
     print("========================================")
 
     # 1. Project Cost Calculation

@@ -19,7 +19,7 @@ from pydantic import BaseModel, Field
 import httpx
 
 logger = logging.getLogger("GramBizBackend")
-app = FastAPI(title="GramBiz AI Backend API", version="1.0.0")
+app = FastAPI(title="UDYAM-SETU Backend API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -81,7 +81,7 @@ def calculate_emi(principal: float, rate_pa: float, tenure_m: int, moratorium_m:
 def root():
     return {
         "status": "healthy",
-        "service": "GramBiz AI FastAPI Backend",
+        "service": "UDYAM-SETU FastAPI Backend",
         "database": "PostgreSQL"
     }
 

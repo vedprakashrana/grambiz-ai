@@ -54,8 +54,8 @@ export default function AssistantPage() {
       id: 'welcome-init-1',
       role: 'assistant',
       content: currentLang === 'en' 
-        ? "Hello! I am GramBiz AI — your rural enterprise and financial planning assistant. You can ask about business ideas, local market competition, loan eligibility, MoSJE schemes, operational risks, and financial structuring."
-        : "नमस्ते! मैं GramBiz AI हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय योजना सलाहकार। आप मुझसे बिजनेस आइडिया, लोकल मार्केट कॉम्पिटिशन, लोन पात्रता, MoSJE सरकारी योजनाओं, रिस्क और फाइनेंशियल प्लानिंग के बारे में पूछ सकते हैं।",
+        ? "Hello! I am UDYAM-SETU — your rural enterprise and financial planning assistant. You can ask about business ideas, local market competition, loan eligibility, MoSJE schemes, operational risks, and financial structuring."
+        : "नमस्ते! मैं UDYAM-SETU हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय योजना सलाहकार। आप मुझसे बिजनेस आइडिया, लोकल मार्केट कॉम्पिटिशन, लोन पात्रता, MoSJE सरकारी योजनाओं, रिस्क और फाइनेंशियल प्लानिंग के बारे में पूछ सकते हैं।",
       citations: [
         { source: 'MoSJE Scheme Guidelines 2024 (NBCFDC Policy)', section: 'Section 4.1 - Eligibility & Margin Contribution', confidence: 'Verified' }
       ],
@@ -224,8 +224,8 @@ export default function AssistantPage() {
       id: 'welcome-' + Date.now(),
       role: 'assistant',
       content: currentLang === 'en'
-        ? "Hello! I am GramBiz AI — your rural enterprise and financial planning assistant. How can I help you today?"
-        : "नमस्ते! मैं GramBiz AI हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय योजना सलाहकार। आज मैं आपकी क्या सहायता कर सकता हूँ?",
+        ? "Hello! I am UDYAM-SETU — your rural enterprise and financial planning assistant. How can I help you today?"
+        : "नमस्ते! मैं UDYAM-SETU हूँ — आपका ग्रामीण व्यवसाय एवं वित्तीय योजना सलाहकार। आज मैं आपकी क्या सहायता कर सकता हूँ?",
       citations: [
         { source: 'MoSJE Scheme Guidelines 2024 (NBCFDC Policy)', section: 'Section 4.1 - Eligibility & Margin Contribution', confidence: 'Verified' }
       ],
@@ -261,7 +261,7 @@ export default function AssistantPage() {
     setLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://grambiz-api.onrender.com/api/v1';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
       const res = await fetch(`${apiUrl}/ai/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -313,8 +313,8 @@ export default function AssistantPage() {
         suggestedActions = isHi ? ['डेयरी बिजनेस से तुलना करें', 'ब्याज दर और सब्सिडी नियम'] : ['Compare with Dairy Business', 'Interest Rates & Subsidies'];
       } else {
         fallbackReply = isHi
-          ? `नमस्ते! आपके प्रश्न (*"${trimmed}"*) के संबंध में:\n\nGramBiz AI आपके ग्रामीण उद्यम के लिए MoSJE ऋण, 10% मार्जिन गणना, ब्याज दर, और जोखिम विश्लेषण की पूरी जानकारी प्रदान करता है। आप नीचे दिए गए विकल्पों पर क्लिक करके तुरंत विस्तृत विवरण देख सकते हैं।`
-          : `Hello! Regarding your query (*"${trimmed}"*):\n\nGramBiz AI provides verified MoSJE loan guidelines, 10% entrepreneur margin structuring, EMI calculation, and local market risk analysis. You can tap on the options below for exact details.`;
+          ? `नमस्ते! आपके प्रश्न (*"${trimmed}"*) के संबंध में:\n\nUDYAM-SETU आपके ग्रामीण उद्यम के लिए MoSJE ऋण, 10% मार्जिन गणना, ब्याज दर, और जोखिम विश्लेषण की पूरी जानकारी प्रदान करता है। आप नीचे दिए गए विकल्पों पर क्लिक करके तुरंत विस्तृत विवरण देख सकते हैं।`
+          : `Hello! Regarding your query (*"${trimmed}"*):\n\nUDYAM-SETU provides verified MoSJE loan guidelines, 10% entrepreneur margin structuring, EMI calculation, and local market risk analysis. You can tap on the options below for exact details.`;
       }
 
       const fallbackMsgId = 'asst_fallback_' + Date.now();
@@ -342,11 +342,15 @@ export default function AssistantPage() {
               <Bot className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-base font-bold flex items-center gap-2">
-                GramBiz Conversational AI Advisor
+              <h2 className="text-base font-bold flex items-center flex-wrap gap-2">
+                UDYAM-SETU Conversational AI Advisor
                 <span className="text-[10px] bg-amber-400 text-slate-950 font-extrabold px-2 py-0.5 rounded shadow-sm">ACTIVE MEMORY</span>
+                <span className="text-[10px] bg-emerald-800 text-amber-300 border border-emerald-600 font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-xs">
+                  <Sparkles className="w-3 h-3 text-amber-400" />
+                  Gemini AI Active
+                </span>
               </h2>
-              <p className="text-[11px] text-emerald-200">Context-Aware Reasoning & Exact Tool-Grounded Calculations</p>
+              <p className="text-[11px] text-emerald-200">Context-Aware Reasoning &amp; Exact Tool-Grounded Calculations</p>
             </div>
           </div>
 
@@ -476,7 +480,7 @@ export default function AssistantPage() {
               <div className="w-2 h-2 rounded-full bg-emerald-700 animate-bounce"></div>
               <div className="w-2 h-2 rounded-full bg-emerald-700 animate-bounce [animation-delay:0.2s]"></div>
               <div className="w-2 h-2 rounded-full bg-emerald-700 animate-bounce [animation-delay:0.4s]"></div>
-              <span>GramBiz AI is analyzing calculations & local data...</span>
+              <span>UDYAM-SETU is analyzing calculations & local data...</span>
             </div>
           )}
           <div ref={messagesEndRef} />

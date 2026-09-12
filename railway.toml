@@ -1,4 +1,4 @@
-# Railway deployment configuration for GramBiz AI (FastAPI Backend + MongoDB)
+# Railway deployment configuration for UDYAM-SETU (FastAPI Backend + MongoDB)
 [build]
 builder = "NIXPACKS"
 buildCommand = "pip install -r apps/api/requirements.txt"

@@ -27,7 +27,7 @@ import {
 } from 'recharts';
 
 export default function ForecastSimulatorPage() {
-  const [category, setCategory] = useState('Dairy');
+  const [category, setCategory] = useState('Dairy & Livestock');
   const [unitPrice, setUnitPrice] = useState(42);
   const [volume, setVolume] = useState(1500);
   const [monthsAhead, setMonthsAhead] = useState(6);
@@ -145,16 +145,16 @@ export default function ForecastSimulatorPage() {
               className="w-full text-xs font-semibold p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500"
             >
               {[
-                'Dairy', 
-                'Poultry', 
-                'Fisheries', 
-                'Agri-input', 
+                'Dairy & Livestock', 
+                'Agri-input & Farm Supply', 
+                'Poultry & Egg Production', 
+                'Fisheries / Aquaculture', 
                 'Food Processing', 
-                'Retail', 
-                'Tailoring', 
-                'Repair Services', 
-                'Digital Services', 
-                'Handicrafts'
+                'Retail / Kirana', 
+                'Tailoring & Garment Services', 
+                'Repair & Maintenance', 
+                'Digital / CSC / Online Services', 
+                'Handicrafts / Artisan Products'
               ].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}

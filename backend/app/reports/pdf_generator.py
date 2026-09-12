@@ -73,7 +73,7 @@ class PDFReportGenerator:
         story.append(Paragraph("GOVERNMENT OF INDIA", subtitle_style))
         story.append(Paragraph("Ministry of Social Justice and Empowerment (MoSJE)", subtitle_style))
         story.append(Spacer(1, 8))
-        story.append(Paragraph("GramBiz AI: Business Feasibility & Financial Dossier", title_style))
+        story.append(Paragraph("UDYAM-SETU: Business Feasibility & Financial Dossier", title_style))
         story.append(Paragraph(f"Generated on {datetime.now().strftime('%d %B %Y, %H:%M IST')} | Assessment Ref: {assessment_data.get('id', 'DEMO-1001')[:8].upper()}", subtitle_style))
         story.append(Spacer(1, 10))
         story.append(HRFlowable(width="100%", thickness=2, color=colors.HexColor('#0F3D3E'), spaceAfter=15))
@@ -153,7 +153,7 @@ class PDFReportGenerator:
         story.append(Paragraph("3. Regulatory & Analytical Disclaimers", section_heading))
         disclaimer_text = (
             "<b>Statutory Notice:</b> This dossier is prepared for advisory and pre-application structuring purposes under the "
-            "GramBiz AI framework. Final credit underwriting, interest subvention approvals, and disbursement conditions "
+            "UDYAM-SETU framework. Final credit underwriting, interest subvention approvals, and disbursement conditions "
             "are subject to physical field verification, statutory KYC, and credit sanction by the respective State Channelising "
             "Agencies (SCAs) and designated commercial/cooperative lending institutions. No statistical projection in this report "
             "constitutes a commercial performance warranty."
@@ -227,7 +227,7 @@ class PDFReportGenerator:
         story.append(Paragraph("GOVERNMENT OF INDIA", subtitle_style))
         story.append(Paragraph("Ministry of Social Justice and Empowerment (MoSJE)", subtitle_style))
         story.append(Spacer(1, 6))
-        story.append(Paragraph("GramBiz AI: Loan Repayment & Financial Structuring Plan", title_style))
+        story.append(Paragraph("UDYAM-SETU: Loan Repayment & Financial Structuring Plan", title_style))
         story.append(Paragraph(f"Generated on {datetime.now().strftime('%d %B %Y, %H:%M IST')} | Ref: FP-{datetime.now().strftime('%Y%m%d%H%M')}", subtitle_style))
         story.append(Spacer(1, 8))
         story.append(HRFlowable(width="100%", thickness=2, color=colors.HexColor('#0F3D3E'), spaceAfter=12))
@@ -308,7 +308,7 @@ class PDFReportGenerator:
         story.append(Spacer(1, 10))
 
         story.append(Paragraph(
-            "<b>Statutory Disclaimer:</b> This financial structuring report is generated deterministically by the GramBiz AI engine based on user-supplied financial parameters and MoSJE lending guidelines. Final loan sanction is subject to formal bank appraisal.",
+            "<b>Statutory Disclaimer:</b> This financial structuring report is generated deterministically by the UDYAM-SETU engine based on user-supplied financial parameters and MoSJE lending guidelines. Final loan sanction is subject to formal bank appraisal.",
             disclaimer_style
         ))
 

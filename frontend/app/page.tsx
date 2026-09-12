@@ -3,12 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { 
-  ArrowRight, 
-  MapPin, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Building2, 
+import {
+  ArrowRight,
+  MapPin,
+  CheckCircle2,
+  ShieldCheck,
+  Building2,
   ChevronRight,
   Store,
   BarChart3,
@@ -36,49 +36,47 @@ import {
   ArrowDown
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import Footer from '../components/layout/Footer';
 
 export default function LandingPage() {
   const router = useRouter();
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const assessmentUrl = user ? '/assessment/new' : '/register?redirect=/assessment/new';
 
   const categories = [
-    { id: 'dairy', name: t('cat_dairy'), icon: '🐄', color: 'bg-purple-50 text-purple-700' },
-    { id: 'poultry', name: t('cat_poultry'), icon: '🐔', color: 'bg-orange-50 text-orange-700' },
-    { id: 'fisheries', name: t('cat_fisheries'), icon: '🐟', color: 'bg-cyan-50 text-cyan-700' },
-    { id: 'food', name: t('cat_food'), icon: '⚙️', color: 'bg-amber-50 text-amber-700' },
-    { id: 'retail', name: t('cat_retail'), icon: '🛒', color: 'bg-indigo-50 text-indigo-700' },
-    { id: 'textiles', name: t('cat_textiles'), icon: '👕', color: 'bg-blue-50 text-blue-700' },
-    { id: 'tailoring', name: t('cat_tailoring'), icon: '🧵', color: 'bg-fuchsia-50 text-fuchsia-700' },
-    { id: 'handicrafts', name: t('cat_handicrafts'), icon: '🏺', color: 'bg-amber-50 text-amber-800' },
-    { id: 'repair', name: t('cat_repair'), icon: '🔧', color: 'bg-sky-50 text-sky-700' },
-    { id: 'transport', name: t('cat_transport'), icon: '🚐', color: 'bg-yellow-50 text-yellow-700' },
-    { id: 'digital', name: t('cat_digital'), icon: '💻', color: 'bg-violet-50 text-violet-700' },
-    { id: 'agri_inputs', name: t('cat_agri_inputs'), icon: '🌱', color: 'bg-emerald-50 text-emerald-700' },
-    { id: 'wellness', name: t('cat_wellness'), icon: '🪷', color: 'bg-pink-50 text-pink-700' },
-    { id: 'education', name: t('cat_education'), icon: '📖', color: 'bg-teal-50 text-teal-700' },
-    { id: 'custom', name: t('cat_custom'), icon: '🏪', color: 'bg-rose-50 text-rose-700' },
+    { id: 'dairy', name: 'Dairy & Livestock', icon: '🐄', color: 'bg-purple-50 text-purple-700' },
+    { id: 'agri_inputs', name: 'Agri-input & Farm Supply', icon: '🌱', color: 'bg-emerald-50 text-emerald-700' },
+    { id: 'poultry', name: 'Poultry & Egg Production', icon: '🐔', color: 'bg-orange-50 text-orange-700' },
+    { id: 'fisheries', name: 'Fisheries / Aquaculture', icon: '🐟', color: 'bg-cyan-50 text-cyan-700' },
+    { id: 'food', name: 'Food Processing', icon: '⚙️', color: 'bg-amber-50 text-amber-700' },
+    { id: 'retail', name: 'Retail / Kirana', icon: '🛒', color: 'bg-indigo-50 text-indigo-700' },
+    { id: 'tailoring', name: 'Tailoring & Garment Services', icon: '🧵', color: 'bg-fuchsia-50 text-fuchsia-700' },
+    { id: 'handicrafts', name: 'Handicrafts / Artisan Products', icon: '🏺', color: 'bg-amber-50 text-amber-800' },
+    { id: 'repair', name: 'Repair & Maintenance', icon: '🔧', color: 'bg-sky-50 text-sky-700' },
+    { id: 'digital', name: 'Digital / CSC / Online Services', icon: '💻', color: 'bg-violet-50 text-violet-700' },
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f8fafc] text-slate-900 font-sans antialiased">
-      
+
       {/* 1. HERO SECTION - Light Mint / Pastel Aesthetic matching user reference */}
-      <section className="relative bg-gradient-to-b from-[#eaf6f0] via-[#f5faf6] to-[#ebf6ef] text-slate-900 pt-10 sm:pt-12 overflow-hidden border-b border-emerald-100/60">
-        
+      <section className="relative bg-gradient-to-b from-[#eaf6f0] via-[#f5faf6] to-[#ebf6ef] text-slate-900 pt-10 sm:pt-12 pb-14 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-emerald-100/60">
+
         {/* Soft Background Concentric Circles */}
         <div className="absolute -top-16 -left-16 w-72 h-72 rounded-full border border-emerald-200/50 bg-white/40 pointer-events-none"></div>
         <div className="absolute top-8 left-12 w-48 h-48 rounded-full border border-emerald-200/40 bg-white/30 pointer-events-none"></div>
         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-emerald-200/20 blur-[100px] pointer-events-none rounded-full"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
-            
-            {/* Left Column (6 cols): Hero Copy & Action */}
-            <div className="lg:col-span-6 space-y-5 sm:space-y-6">
-              
+
+            {/* Left Column (7 cols): Hero Copy & Action */}
+            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-black tracking-tight text-slate-900 leading-tight sm:leading-[1.12]">
+              <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-black tracking-tight text-slate-900 leading-tight sm:leading-[1.12]">
                 Turn Your Business Idea{' '}
                 <span className="block mt-1">
                   into a{' '}
@@ -96,11 +94,11 @@ export default function LandingPage() {
                 AI-powered business intelligence for rural entrepreneurs. From idea validation to finance, government schemes and a ready-to-use business plan.
               </p>
 
-              {/* Primary Action Button: Start Assessment */}
-              <div className="pt-1">
+              {/* Action Buttons: Start Assessment */}
+              <div className="flex flex-wrap items-center gap-3.5 pt-1">
                 <Link
-                  href="/assessment/new"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-200 group"
+                  href={assessmentUrl}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200 group"
                 >
                   <span>Start Business Assessment</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -129,117 +127,120 @@ export default function LandingPage() {
 
             </div>
 
-            {/* Right Column (6 cols): Floating Sample Analysis Card + Farmer Image & Slogan */}
-            <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end pt-4 lg:pt-0">
-              <div className="relative flex flex-col sm:flex-row items-center sm:items-end justify-center">
-                
+            {/* Right Column (5 cols): Floating Sample Analysis Card + Farmer Image & Slogan */}
+            <div className="lg:col-span-5 relative flex items-center justify-center pt-4 lg:pt-0">
+              <div className="relative flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
+
                 {/* Floating Live Demo Card */}
-                <div className="w-full max-w-[360px] sm:max-w-[380px] bg-white rounded-3xl p-5 sm:p-6 shadow-2xl text-slate-900 border border-slate-100 relative z-20 flex-shrink-0">
-                  
+                <div className="w-full max-w-[340px] sm:max-w-[350px] bg-white rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-900 border border-slate-100 relative z-20 flex-shrink-0">
+
                   {/* Card Header */}
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3.5">
-                    <h2 className="text-base sm:text-lg font-black tracking-tight text-slate-900">
-                      AI Business Analysis
-                    </h2>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#e6f7ef] text-[#0f6345] text-xs font-bold border border-emerald-200/60">
-                      <span className="w-2 h-2 rounded-full bg-[#eab308]"></span>
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-black tracking-wide text-slate-800">
+                        AI Business Analysis
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-medium">(Sample)</span>
+                    </div>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                       Live Demo
                     </span>
                   </div>
 
                   {/* Business Idea & Location */}
-                  <div className="grid grid-cols-2 gap-2.5 mb-3.5 text-xs">
-                    <div className="p-3 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
-                      <span className="text-[10px] text-slate-400 block font-semibold uppercase tracking-wider">Business Idea</span>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-emerald-700 text-lg">🌱</span>
-                        <span className="text-xs sm:text-sm font-black text-slate-900 truncate">Dairy Farming</span>
+                  <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+                    <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                      <span className="text-[9.5px] text-slate-400 block font-medium">Business Idea</span>
+                      <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
+                        <span className="text-emerald-700">🐄</span>
+                        <span className="truncate text-xs">Dairy &amp; Livestock</span>
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
-                      <span className="text-[10px] text-slate-400 block font-semibold uppercase tracking-wider">Location</span>
-                      <div className="flex items-center gap-2 mt-1">
-                        <MapPin className="w-4 h-4 text-emerald-700 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm font-black text-slate-900 whitespace-nowrap">Dhanbad, Jharkhand</span>
+                    <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                      <span className="text-[9.5px] text-slate-400 block font-medium">Location</span>
+                      <div className="flex items-center gap-1.5 mt-0.5 font-bold text-slate-800 truncate">
+                        <MapPin className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
+                        <span className="truncate text-xs">Dhanbad, Jharkhand</span>
                       </div>
                     </div>
                   </div>
 
                   {/* 4 Green Stat Tiles */}
-                  <div className="grid grid-cols-4 gap-2 mb-3.5 text-center">
-                    <div className="p-2.5 rounded-2xl bg-[#edf8f2] border border-[#d2edd9]/70">
-                      <span className="text-sm sm:text-base font-black text-[#0f6345] block">87%</span>
-                      <span className="text-[9px] text-[#157352] font-bold block leading-tight mt-0.5">Feasibility<br />Score</span>
+                  <div className="grid grid-cols-4 gap-1.5 mb-3 text-center">
+                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                      <span className="text-xs font-black text-emerald-800 block">82%</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Feasibility Score</span>
                     </div>
-                    <div className="p-2.5 rounded-2xl bg-[#edf8f2] border border-[#d2edd9]/70">
-                      <span className="text-sm sm:text-base font-black text-[#0f6345] block">HIGH</span>
-                      <span className="text-[9px] text-[#157352] font-bold block leading-tight mt-0.5">Market<br />Demand</span>
+                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                      <span className="text-xs font-black text-emerald-800 block">HIGH</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Market Demand</span>
                     </div>
-                    <div className="p-2.5 rounded-2xl bg-[#edf8f2] border border-[#d2edd9]/70">
-                      <span className="text-sm sm:text-base font-black text-[#0f6345] block">LOW</span>
-                      <span className="text-[9px] text-[#157352] font-bold block leading-tight mt-0.5">Competition</span>
+                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                      <span className="text-xs font-black text-emerald-800 block">LOW</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Competition</span>
                     </div>
-                    <div className="p-2.5 rounded-2xl bg-[#edf8f2] border border-[#d2edd9]/70">
-                      <span className="text-sm sm:text-base font-black text-[#0f6345] block">7</span>
-                      <span className="text-[9px] text-[#157352] font-bold block leading-tight mt-0.5">Schemes<br />Matched</span>
+                    <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80">
+                      <span className="text-xs font-black text-emerald-800 block">3</span>
+                      <span className="text-[8px] text-emerald-700 font-semibold block leading-tight">Schemes Matched</span>
                     </div>
                   </div>
 
                   {/* Key Metrics Rows */}
-                  <div className="space-y-2 text-xs border-t border-slate-100 pt-3 mb-4">
+                  <div className="space-y-1.5 text-xs border-t border-slate-100 pt-2.5 mb-3.5">
                     <div className="flex items-center justify-between text-slate-600">
-                      <span className="text-xs flex items-center gap-2 font-medium text-slate-600">
-                        <span>💼</span> Estimated Finance Need
+                      <span className="text-[11px] flex items-center gap-1">
+                        <span>🏦</span> Project Setup Cost
                       </span>
-                      <span className="font-black text-slate-900 text-xs sm:text-sm">₹8.5 Lakh</span>
+                      <span className="font-bold text-slate-900 text-xs">₹1,10,625</span>
                     </div>
                     <div className="flex items-center justify-between text-slate-600">
-                      <span className="text-xs flex items-center gap-2 font-medium text-slate-600">
-                        <span>💰</span> Potential Monthly Revenue
+                      <span className="text-[11px] flex items-center gap-1">
+                        <span>📈</span> Expected Monthly Revenue
                       </span>
-                      <span className="font-black text-slate-900 text-xs sm:text-sm">₹1.2 Lakh</span>
+                      <span className="font-bold text-slate-900 text-xs">₹68,625</span>
                     </div>
                     <div className="flex items-center justify-between text-slate-600">
-                      <span className="text-xs flex items-center gap-2 font-medium text-slate-600">
-                        <span>📍</span> Suggested Area
+                      <span className="text-[11px] flex items-center gap-1">
+                        <span>📍</span> Model 1 Market Reach
                       </span>
-                      <span className="font-black text-slate-900 text-xs sm:text-sm">5 – 10 km (GIS Scan)</span>
+                      <span className="font-bold text-slate-900 text-xs">5 – 10 km</span>
                     </div>
                   </div>
 
                   {/* View Full Analysis CTA */}
                   <Link
-                    href="/assessment/new"
-                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#064e3b] hover:bg-[#043d2e] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all group"
+                    href={assessmentUrl}
+                    className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#0a3e30] hover:bg-[#072d23] text-white font-bold text-xs shadow-sm hover:shadow transition"
                   >
                     <span>View Full Analysis</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
 
                 </div>
 
                 {/* Farmer Visual & Slogan on the Right */}
-                <div className="relative z-10 mt-6 sm:mt-0 sm:-ml-14 md:-ml-16 lg:-ml-20 flex flex-col items-center sm:items-end flex-shrink-0">
-                  
+                <div className="flex flex-col items-center sm:-ml-6 z-10">
+
                   {/* Slogan */}
-                  <div className="text-center sm:text-right mb-3 pr-2 sm:pr-4">
-                    <p className="font-serif italic font-black text-[#124734] text-base sm:text-lg lg:text-xl leading-[1.16]">
+                  <div className="text-center sm:text-right mb-2 pr-1">
+                    <p className="font-serif italic font-extrabold text-[#0a3e30] text-xs sm:text-sm leading-tight">
                       Stronger<br />
                       Rural India<br />
                       Brighter<br />
                       Tomorrow
                     </p>
-                    <svg className="w-20 sm:w-24 h-2.5 text-amber-400 mt-1 ml-auto" viewBox="0 0 90 10" fill="none">
-                      <path d="M2 7C25 1.5 65 1.5 88 7" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" />
+                    <svg className="w-16 h-2 text-amber-400 mt-0.5 ml-auto" viewBox="0 0 80 8" fill="none">
+                      <path d="M2 6C25 2 55 2 78 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
                     </svg>
                   </div>
 
                   {/* Farmer Arch Cutout Image */}
-                  <div className="w-60 sm:w-72 md:w-80 h-72 sm:h-84 md:h-[390px] rounded-t-[130px] sm:rounded-t-[150px] rounded-b-3xl overflow-hidden shadow-2xl flex-shrink-0 relative bg-emerald-50">
-                    <img 
-                      src="/farmer-hero.jpg" 
-                      alt="Rural Entrepreneur" 
+                  <div className="w-36 h-48 sm:w-44 sm:h-56 rounded-t-full overflow-hidden border-2 border-white shadow-xl bg-emerald-100 flex-shrink-0 relative">
+                    <img
+                      src="/farmer-hero.jpg"
+                      alt="Rural Entrepreneur"
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
@@ -251,107 +252,98 @@ export default function LandingPage() {
 
           </div>
 
-          {/* Row of 4 White Rounded Stat Cards matching reference */}
-          <div className="mt-12 sm:mt-14 mb-8 sm:mb-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-              
-              {/* Card 1: Typical Project Range */}
-              <div className="bg-white rounded-3xl p-5 shadow-sm hover:shadow-md border border-slate-100 flex items-center gap-4 transition-all">
-                <div className="w-14 h-14 rounded-2xl bg-[#e6f7ef] text-emerald-800 flex items-center justify-center flex-shrink-0">
-                  <BarChart3 className="w-7 h-7 stroke-[2.2]" />
-                </div>
-                <div>
-                  <span className="text-lg sm:text-xl font-black text-slate-900 block leading-tight tracking-tight">₹1L – ₹10L</span>
-                  <span className="text-xs font-medium text-slate-500 block mt-0.5">Typical Project Range</span>
-                </div>
-              </div>
-
-              {/* Card 2: Subsidized MoSJE Schemes */}
-              <div className="bg-white rounded-3xl p-5 shadow-sm hover:shadow-md border border-slate-100 flex items-center gap-4 transition-all">
-                <div className="w-14 h-14 rounded-2xl bg-[#fff8ea] text-amber-500 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl font-black text-amber-500">%</span>
-                </div>
-                <div>
-                  <span className="text-lg sm:text-xl font-black text-slate-900 block leading-tight tracking-tight">6.5% – 8.0%</span>
-                  <span className="text-xs font-medium text-slate-500 block mt-0.5">Subsidized MoSJE Schemes</span>
-                </div>
-              </div>
-
-              {/* Card 3: Hyperlocal Market Scan */}
-              <div className="bg-white rounded-3xl p-5 shadow-sm hover:shadow-md border border-slate-100 flex items-center gap-4 transition-all">
-                <div className="w-14 h-14 rounded-2xl bg-[#e6f7ef] flex items-center justify-center flex-shrink-0">
-                  <div className="w-7 h-7 rounded-full bg-emerald-800 flex items-center justify-center text-white">
-                    <div className="w-2.5 h-2.5 rounded-full bg-white"></div>
-                  </div>
-                </div>
-                <div>
-                  <span className="text-lg sm:text-xl font-black text-slate-900 block leading-tight tracking-tight">5km / 10km</span>
-                  <span className="text-xs font-medium text-slate-500 block mt-0.5">Hyperlocal Market Scan</span>
-                </div>
-              </div>
-
-              {/* Card 4: Deterministic Analysis */}
-              <div className="bg-white rounded-3xl p-5 shadow-sm hover:shadow-md border border-slate-100 flex items-center gap-4 transition-all">
-                <div className="w-14 h-14 rounded-2xl bg-[#e6f7ef] text-emerald-800 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck className="w-7 h-7 stroke-[2.2]" />
-                </div>
-                <div>
-                  <span className="text-lg sm:text-xl font-black text-slate-900 block leading-tight tracking-tight">100%</span>
-                  <span className="text-xs font-medium text-slate-500 block mt-0.5">Deterministic Analysis</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
-        {/* Panoramic Rural Landscape & Government Attribution Strip matching reference */}
-        <div 
-          className="relative w-full border-t border-emerald-200/50 bg-[#eaf5ef] overflow-hidden py-4 sm:py-5 px-4 sm:px-8"
-          style={{
-            backgroundImage: `url('/rural-strip-clean.png')`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'bottom center',
-            backgroundSize: 'cover'
-          }}
-        >
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
-            {/* Left spacer so the left village trees/cottages/windmill are visible */}
-            <div className="hidden md:block w-48 lg:w-72"></div>
-
-            {/* Slogan Center */}
-            <div className="text-center">
-              <p className="font-serif italic font-bold text-slate-800 text-xs sm:text-sm md:text-base">
-                &ldquo;Ideas Today. Stronger Rural India Tomorrow.&rdquo;
-              </p>
-              <svg className="w-36 sm:w-44 h-2.5 text-amber-400 mx-auto mt-1" viewBox="0 0 160 12" fill="none">
-                <path d="M2 10C50 2 110 2 158 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          {/* Bottom Village Silhouette & Government Attribution Strip */}
+          <div className="mt-10 sm:mt-12 pt-6 border-t border-emerald-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+            {/* Rural landscape silhouette */}
+            <div className="hidden sm:block opacity-35 text-emerald-800">
+              <svg className="h-9 w-48" viewBox="0 0 240 36" fill="currentColor">
+                <path d="M0 36h240v-6c-25-3-35-10-60-10s-30 8-50 8-35-12-60-12-50 14-70 14v6z" />
+                <circle cx="24" cy="16" r="10" />
+                <circle cx="58" cy="22" r="7" />
+                <polygon points="140,10 134,30 146,30" />
+                <polygon points="175,14 169,30 181,30" />
+                <circle cx="210" cy="18" r="8" />
               </svg>
             </div>
 
-            {/* Supported by GoI on Right */}
-            <div className="flex items-center gap-3 text-right">
-              <img 
-                src="/india-emblem.png" 
-                alt="Emblem of India" 
-                className="h-10 sm:h-12 w-auto object-contain flex-shrink-0" 
+            {/* Slogan Center */}
+            <div className="text-center">
+              <p className="font-serif italic font-bold text-slate-700 text-xs sm:text-sm">
+                &ldquo;Ideas Today. Stronger Rural India Tomorrow.&rdquo;
+              </p>
+              <div className="w-24 h-1 bg-amber-400 mx-auto rounded-full mt-1"></div>
+            </div>
+
+            {/* Supported by MoSJE, Government of India */}
+            <div className="flex items-center justify-end flex-shrink-0">
+              <img
+                src="/supported-by-mosje.png"
+                alt="Supported by Ministry of Social Justice & Empowerment, Government of India"
+                className="h-10 sm:h-12 md:h-13 w-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
               />
-              <div className="text-left leading-tight">
-                <span className="block text-slate-500 text-[10px] font-medium">Supported by</span>
-                <span className="font-bold text-slate-900 block text-[11px] sm:text-xs">Ministry of Social Justice &amp; Empowerment</span>
-                <span className="text-slate-600 block text-[10px]">Government of India</span>
-              </div>
             </div>
           </div>
-        </div>
 
+        </div>
+      </section>
+
+      {/* 2. STATS RIBBON (4 White Floating Cards) */}
+      <section className="relative -mt-6 z-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            {/* Stat 1 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                <BarChart3 className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-black text-slate-900 block leading-tight">₹1L &rarr; ₹10L</span>
+                <span className="text-xs font-semibold text-slate-600 block">{t('typicalProjectRange')}</span>
+              </div>
+            </div>
+
+            {/* Stat 2 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                <Percent className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-black text-slate-900 block leading-tight">6.5% &ndash; 8.0%</span>
+                <span className="text-xs font-semibold text-slate-600 block">{t('subsidizedSchemes')}</span>
+              </div>
+            </div>
+
+            {/* Stat 3 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-black text-slate-900 block leading-tight">5km / 10km</span>
+                <span className="text-xs font-semibold text-slate-600 block">{t('hyperlocalScan')}</span>
+              </div>
+            </div>
+
+            {/* Stat 4 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-3.5 hover:shadow-md transition">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-black text-slate-900 block leading-tight">100%</span>
+                <span className="text-xs font-semibold text-slate-600 block">{t('deterministicAnalysis')}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </section>
 
       {/* 3. WORKFLOW PIPELINE: "How UDYAM-SETU AI Works in 4 Steps" */}
       <section id="workflow" className="py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          
+
           {/* Section Header */}
           <div className="text-center mb-10">
             <span className="text-[11px] font-black uppercase tracking-widest text-emerald-800 block mb-1">
@@ -364,7 +356,7 @@ export default function LandingPage() {
 
           {/* 4 Connected Step Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative">
-            
+
             {/* Step 1 */}
             <div className="bg-white rounded-xl p-5 shadow-xs border border-slate-200/80 relative flex flex-col justify-between hover:border-emerald-400 hover:shadow-sm transition">
               <div>
@@ -453,7 +445,7 @@ export default function LandingPage() {
       {/* 4. SYSTEM ARCHITECTURE & DECISION FLOW (INFOGRAPHIC) */}
       <section className="py-16 bg-[#f1f8f5] px-4 sm:px-6 lg:px-8 border-t border-b border-emerald-900/10">
         <div className="max-w-6xl mx-auto">
-          
+
           {/* Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center justify-center gap-2 mb-2">
@@ -482,7 +474,7 @@ export default function LandingPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mt-2">
-                
+
                 {/* Input 1: Location */}
                 <div className="bg-white rounded-xl p-3.5 text-center border border-emerald-100 shadow-2xs hover:shadow-xs transition">
                   <div className="w-8 h-8 mx-auto rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-1.5">
@@ -748,7 +740,7 @@ export default function LandingPage() {
       {/* 5. SUPPORTED RURAL & SEMI-URBAN CATEGORIES (15 CATEGORIES) */}
       <section className="py-12 bg-white px-4 sm:px-6 lg:px-8 border-t border-b border-slate-200/70">
         <div className="max-w-7xl mx-auto">
-          
+
           {/* Section Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
             <div>
@@ -774,7 +766,7 @@ export default function LandingPage() {
             {categories.map((cat) => (
               <Link
                 key={cat.id}
-                href={`/assessment/new?category=${encodeURIComponent(cat.name)}`}
+                href={user ? `/assessment/new?category=${encodeURIComponent(cat.name)}` : `/register?redirect=${encodeURIComponent(`/assessment/new?category=${cat.name}`)}`}
                 className="p-3.5 rounded-xl bg-slate-50/70 hover:bg-white border border-slate-200/80 hover:border-emerald-400 hover:shadow-md transition flex items-center gap-3 group"
               >
                 <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base ${cat.color} group-hover:scale-110 transition duration-200`}>
@@ -792,13 +784,13 @@ export default function LandingPage() {
 
       {/* 6. CALL TO ACTION BANNER: "Ready to evaluate your rural enterprise?" */}
       <section className="bg-[#08382b] text-white py-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        
+
         {/* Background Subtle Gradient & Glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#062c22] via-[#094132] to-[#062d23] opacity-95"></div>
         <div className="absolute top-0 right-10 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
-          
+
           {/* Cursive right badge */}
           <div className="font-serif italic text-emerald-200 font-bold text-sm tracking-wide">
             {t('ctaQuote1')} <br />
@@ -818,7 +810,7 @@ export default function LandingPage() {
           {/* Banner Button */}
           <div className="flex items-center justify-center pt-2">
             <Link
-              href="/assessment/new"
+              href={assessmentUrl}
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#f59e0b] hover:bg-[#d97706] text-slate-950 font-bold text-sm shadow-md hover:shadow-lg transition-all duration-200"
             >
               <span>{t('launchWizardBtn')}</span>

@@ -168,13 +168,18 @@ class LocationInput(BaseModel):
     district: str
     block: str
     village: str
-    latitude: float = Field(..., ge=-90, le=90)
-    longitude: float = Field(..., ge=-180, le=180)
+    latitude: Optional[float] = Field(default=23.7957, ge=-90, le=90)
+    longitude: Optional[float] = Field(default=86.4304, ge=-180, le=180)
 
 class AssessmentCreateRequest(BaseModel):
     title: Optional[str] = None
     location: LocationInput
-    margin_capital: Decimal = Field(..., gt=0)
+    margin_capital: Optional[Decimal] = Field(default=None)
+    own_capital: Optional[Decimal] = Field(default=None)
+    entrepreneur_name: Optional[str] = Field(default="Rural Entrepreneur")
+    prior_experience: Optional[bool] = Field(default=False)
+    annual_household_income: Optional[Decimal] = Field(default=Decimal("120000"))
+    social_category: Optional[str] = Field(default="OBC")
     existing_investment: Decimal = Field(default=Decimal("0"), ge=0)
     existing_loans: Decimal = Field(default=Decimal("0"), ge=0)
     expected_monthly_income: Optional[Decimal] = None
@@ -263,6 +268,10 @@ class AssessmentDetailResponse(BaseModel):
     ai_strategy: dict
     sources_and_confidence: dict
     download_report_url: str
+    model1_prediction: Optional[dict] = None
+    model2_forecast: Optional[dict] = None
+    model3_risk: Optional[dict] = None
+    model4_advisory: Optional[dict] = None
 
 # ----------------- AI Schemas -----------------
 class AIChatMessage(BaseModel):

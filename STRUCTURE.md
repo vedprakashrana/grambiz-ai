@@ -1,8 +1,8 @@
 # ==============================================================================
-# 🚀 GramBiz AI - Project Architecture & Team Guide
+# 🚀 UDYAM-SETU - Project Architecture & Team Guide
 # ==============================================================================
 
-Welcome to **GramBiz AI** (Rural Micro-Enterprise & Financial Structuring Platform under MoSJE Concessional Credit guidelines).
+Welcome to **UDYAM-SETU** (Rural Micro-Enterprise & Financial Structuring Platform under MoSJE Concessional Credit guidelines).
 
 This document serves as an exhaustive blueprint for all team members (Frontend Engineers, Backend Developers, Data Engineers, AI Engineers, and DevOps).
 

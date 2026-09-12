@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Landmark, ArrowRight, Lock, Mail, Sparkles } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Landmark, ArrowRight, Lock, Mail, Sparkles, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTarget = searchParams.get('redirect') || '/dashboard';
   const { login, loginAsGuest } = useAuth();
   
   const [email, setEmail] = useState('demo@grambiz.in');
@@ -33,13 +35,13 @@ export default function LoginPage() {
 
     setTimeout(() => {
       login(verifiedUser);
-      router.push('/dashboard');
+      router.push(redirectTarget);
     }, 300);
   };
 
   const handleGuest = () => {
     loginAsGuest();
-    router.push('/dashboard');
+    router.push(redirectTarget);
   };
 
   return (
@@ -55,6 +57,18 @@ export default function LoginPage() {
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-6 shadow-sm rounded-2xl border border-slate-200 sm:px-10 space-y-5">
           
+          {redirectTarget.includes('assessment') && (
+            <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-950">
+                <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                <span>Sign In to Continue to Assessment</span>
+              </div>
+              <p className="text-[11px] text-emerald-900 leading-tight">
+                Log in with your credentials or try as a demo guest to open the assessment tool.
+              </p>
+            </div>
+          )}
+
           {/* Guest Evaluator / Judge Fast Action */}
           <div className="p-3.5 bg-amber-50/80 border border-amber-300 rounded-xl space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-bold text-amber-950">
@@ -67,7 +81,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={handleGuest}
-              className="w-full py-2 px-3 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-sm"
+              className="w-full py-2 px-3 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-sm cursor-pointer"
             >
               🚀 Try Demo as Guest Judge
             </button>
@@ -109,20 +123,35 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-emerald-800 hover:bg-emerald-900 shadow transition"
+              className="w-full flex justify-center py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-emerald-800 hover:bg-emerald-900 shadow transition cursor-pointer"
             >
-              {loading ? 'Authenticating...' : 'Sign In & Open Dashboard'}
+              {loading ? 'Authenticating...' : 'Sign In & Continue'}
             </button>
           </form>
 
           <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
             Don't have an account?{' '}
-            <Link href="/register" className="font-bold text-emerald-700 hover:underline">
+            <Link 
+              href={`/register${redirectTarget ? `?redirect=${encodeURIComponent(redirectTarget)}` : ''}`} 
+              className="font-bold text-emerald-700 hover:underline"
+            >
               Create New Account
             </Link>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <div className="w-8 h-8 border-4 border-emerald-700 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

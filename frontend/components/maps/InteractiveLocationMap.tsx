@@ -22,23 +22,39 @@ export default function InteractiveLocationMap({
   const markerRef = useRef<L.Marker | null>(null);
   const circle5kmRef = useRef<L.Circle | null>(null);
   const circle10kmRef = useRef<L.Circle | null>(null);
+  const onCoordinatesChangeRef = useRef(onCoordinatesChange);
 
-  // Setup / Initialize Leaflet Map once
+  // Keep callback ref updated to avoid re-triggering effect
+  useEffect(() => {
+    onCoordinatesChangeRef.current = onCoordinatesChange;
+  }, [onCoordinatesChange]);
+
+  // Initialize or update Leaflet map whenever coordinates or locationName change
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    delete (L.Icon.Default.prototype as any)._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-    });
+    // 1. Ensure Map instance exists and is attached to the current container element
+    if (!mapInstanceRef.current || (mapInstanceRef.current.getContainer() !== mapContainerRef.current)) {
+      if (mapInstanceRef.current) {
+        try {
+          mapInstanceRef.current.remove();
+        } catch (e) {
+          console.warn('Leaflet map remove warning:', e);
+        }
+        mapInstanceRef.current = null;
+      }
 
-    const initialLat = latitude ?? 20.5937;
-    const initialLng = longitude ?? 78.9629;
-    const initialZoom = (latitude && longitude) ? 12 : 5;
+      delete (L.Icon.Default.prototype as any)._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      });
 
-    if (!mapInstanceRef.current) {
+      const initialLat = latitude ?? 20.5937;
+      const initialLng = longitude ?? 78.9629;
+      const initialZoom = (latitude !== null && longitude !== null) ? 13 : 5;
+
       const map = L.map(mapContainerRef.current, {
         center: [initialLat, initialLng],
         zoom: initialZoom,
@@ -54,17 +70,17 @@ export default function InteractiveLocationMap({
       mapInstanceRef.current = map;
     }
 
-    return () => {
-      // Keep map instance alive across rerenders
-    };
-  }, []);
-
-  // Synchronize Map, Marker, and 5km/10km Radius whenever coordinates change
-  useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
 
-    // Clean up old circles & marker first
+    // Invalidate size on next tick to ensure tiles render properly after DOM mutations
+    const resizeTimer = setTimeout(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    }, 100);
+
+    // 2. Remove old marker & circles
     if (markerRef.current) {
       markerRef.current.remove();
       markerRef.current = null;
@@ -78,49 +94,50 @@ export default function InteractiveLocationMap({
       circle10kmRef.current = null;
     }
 
+    // 3. If no coordinates, center on India overview
     if (latitude === null || longitude === null) {
-      // No coordinates - show default country overview
       map.setView([20.5937, 78.9629], 5);
-      return;
+      return () => clearTimeout(resizeTimer);
     }
 
-    // Move map to the exact selected location
-    map.setView([latitude, longitude], 12, { animate: true });
+    // 4. Move map to the updated location
+    map.setView([latitude, longitude], 13, { animate: true });
 
-    // Create Custom Pin
+    // 5. Create Custom Enterprise Pin
     const customIcon = L.divIcon({
       className: 'custom-leaflet-marker',
       html: `
         <div style="
           background-color: #065f46;
           color: #ffffff;
-          width: 32px;
-          height: 32px;
+          width: 34px;
+          height: 34px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           border: 3px solid #ffffff;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.35);
+          box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.4);
+          cursor: grab;
         ">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
             <circle cx="12" cy="10" r="3"/>
           </svg>
         </div>
       `,
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-      popupAnchor: [0, -32]
+      iconSize: [34, 34],
+      iconAnchor: [17, 34],
+      popupAnchor: [0, -34]
     });
 
     const marker = L.marker([latitude, longitude], { icon: customIcon, draggable: true }).addTo(map);
-    marker.bindPopup(`<b>${locationName}</b><br/>${latitude.toFixed(4)}° N, ${longitude.toFixed(4)}° E`).openPopup();
+    marker.bindPopup(`<b>${locationName || 'Selected Location'}</b><br/>${latitude.toFixed(4)}° N, ${longitude.toFixed(4)}° E`).openPopup();
 
     marker.on('dragend', () => {
       const pos = marker.getLatLng();
-      if (onCoordinatesChange) {
-        onCoordinatesChange(Number(pos.lat.toFixed(6)), Number(pos.lng.toFixed(6)));
+      if (onCoordinatesChangeRef.current) {
+        onCoordinatesChangeRef.current(Number(pos.lat.toFixed(6)), Number(pos.lng.toFixed(6)));
       }
     });
 
@@ -130,7 +147,7 @@ export default function InteractiveLocationMap({
       fillColor: '#10b981',
       fillOpacity: 0.14,
       radius: 5000,
-      weight: 1.5,
+      weight: 2,
       dashArray: '4, 6'
     }).addTo(map);
 
@@ -148,23 +165,36 @@ export default function InteractiveLocationMap({
     circle5kmRef.current = circle5;
     circle10kmRef.current = circle10;
 
-  }, [latitude, longitude, locationName, onCoordinatesChange]);
+    return () => {
+      clearTimeout(resizeTimer);
+    };
+  }, [latitude, longitude, locationName]);
 
-  if (latitude === null || longitude === null) {
-    return (
-      <div className="space-y-3">
-        <div className="relative w-full h-64 sm:h-72 rounded-xl overflow-hidden border border-dashed border-slate-300 bg-slate-100 flex flex-col items-center justify-center text-center p-4">
-          <p className="text-xs font-bold text-slate-700">Map coordinates are unavailable for this selection.</p>
-          <p className="text-[11px] text-slate-500 mt-1">Please select a village or click "Use My Current Location".</p>
-        </div>
-      </div>
-    );
-  }
+  // Clean up Leaflet on component unmount
+  useEffect(() => {
+    return () => {
+      if (mapInstanceRef.current) {
+        try {
+          mapInstanceRef.current.remove();
+        } catch (e) {}
+        mapInstanceRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className="space-y-3">
-      <div className="relative w-full h-64 sm:h-72 rounded-xl overflow-hidden border border-slate-200 shadow-inner">
+      {/* Map Container - always maintained in DOM to preserve Leaflet instance */}
+      <div className="relative w-full h-64 sm:h-72 rounded-xl overflow-hidden border border-slate-200 shadow-inner bg-slate-100">
         <div ref={mapContainerRef} className="w-full h-full z-0" />
+
+        {/* Overlay if coordinates are pending */}
+        {(latitude === null || longitude === null) && (
+          <div className="absolute inset-0 bg-slate-100/90 backdrop-blur-xs flex flex-col items-center justify-center text-center p-4 z-10 border border-dashed border-slate-300 rounded-xl">
+            <p className="text-xs font-bold text-slate-700">Map coordinates are unavailable for this selection.</p>
+            <p className="text-[11px] text-slate-500 mt-1">Please select a village or click &ldquo;Use My GPS Location&rdquo;.</p>
+          </div>
+        )}
       </div>
 
       {/* Legend & 5km / 10km Visual Scope Description */}

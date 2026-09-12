@@ -1,6 +1,6 @@
-# GramBiz AI — Authoritative Master Data Sources Registry
+# UDYAM-SETU — Authoritative Master Data Sources Registry
 
-This document records the complete, unified data architecture of **GramBiz AI**, documenting official sources, URLs, geographic levels, baseline data years, licenses, and confidence ratings.
+This document records the complete, unified data architecture of **UDYAM-SETU**, documenting official sources, URLs, geographic levels, baseline data years, licenses, and confidence ratings.
 
 ---
 

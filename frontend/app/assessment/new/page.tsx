@@ -18,6 +18,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { LocationService, VillageEntity, SelectedLocationState } from '../../../services/locationService';
+import { useAuth } from '../../../context/AuthContext';
 
 // Dynamically import Leaflet Map to avoid SSR window errors
 const InteractiveLocationMap = dynamic(
@@ -33,22 +34,33 @@ const InteractiveLocationMap = dynamic(
 );
 
 const BUSINESS_CATEGORIES = [
-  { id: 'Dairy', label: '1. Dairy & Livestock', subs: ['Cow / Buffalo Chilling', 'Paneer & Ghee Unit', 'Cattle Feed Supply'] },
-  { id: 'Poultry', label: '2. Poultry & Egg Production', subs: ['Broiler Unit (1000 birds)', 'Layer Egg Farming', 'Desi Poultry Hatchery'] },
-  { id: 'Fisheries', label: '3. Fisheries / Aquaculture', subs: ['Freshwater Fish Pond', 'Biofloc Fish Farming', 'Fish Seed Hatchery'] },
-  { id: 'Agri-input', label: '4. Agri-input & Farm Supply', subs: ['Fertilizer & Seeds Hub', 'Pesticide Retail Depot', 'Farm Machinery Tools'] },
-  { id: 'Food Processing', label: '5. Food Processing', subs: ['Atta Chakki & Oil Expeller', 'Spice Grinding & Packaging', 'Pickle & Papad Unit'] },
-  { id: 'Retail', label: '6. Retail / Kirana', subs: ['General Merchant Store', 'Daily Needs & FMCG', 'Stationery & Provisions'] },
-  { id: 'Tailoring', label: '7. Tailoring & Garment Services', subs: ['Garment Stitching Center', 'Embroidery & Uniform Making', 'Boutique Store'] },
-  { id: 'Repair Services', label: '8. Repair & Maintenance', subs: ['Two-Wheeler Service Center', 'Solar / Electric Appliance Repair', 'Tractor & Pump Mechanic'] },
-  { id: 'Digital Services', label: '9. Digital / CSC / Online Services', subs: ['Common Service Center (CSC)', 'Photocopy & Online Filing', 'Banking Correspondent Kiosk'] },
-  { id: 'Handicrafts', label: '10. Handicrafts / Artisan Products', subs: ['Clay Pottery', 'Wood & Bamboo Craft', 'Handloom Weaving'] }
+  { id: 'Dairy & Livestock', label: '1. Dairy & Livestock', typicalCost: 110625, expectedRevenue: 68625, subs: ['Cow / Buffalo Chilling', 'Paneer & Ghee Unit', 'Cattle Feed Supply'] },
+  { id: 'Poultry & Egg Production', label: '2. Poultry & Egg Production', typicalCost: 89375, expectedRevenue: 62188, subs: ['Broiler Unit (1000 birds)', 'Layer Egg Farming', 'Desi Poultry Hatchery'] },
+  { id: 'Fisheries / Aquaculture', label: '3. Fisheries / Aquaculture', typicalCost: 141562, expectedRevenue: 33250, subs: ['Freshwater Fish Pond', 'Biofloc Fish Farming', 'Fish Seed Hatchery'] },
+  { id: 'Agri-input & Farm Supply', label: '4. Agri-input & Farm Supply', typicalCost: 161250, expectedRevenue: 50688, subs: ['Fertilizer & Seeds Hub', 'Pesticide Retail Depot', 'Farm Machinery Tools'] },
+  { id: 'Food Processing', label: '5. Food Processing', typicalCost: 137188, expectedRevenue: 46625, subs: ['Atta Chakki & Oil Expeller', 'Spice Grinding & Packaging', 'Pickle & Papad Unit'] },
+  { id: 'Retail / Kirana', label: '6. Retail / Kirana', typicalCost: 97812, expectedRevenue: 86375, subs: ['General Merchant Store', 'Daily Needs & FMCG', 'Stationery & Provisions'] },
+  { id: 'Tailoring & Garment Services', label: '7. Tailoring & Garment Services', typicalCost: 66250, expectedRevenue: 30688, subs: ['Garment Stitching Center', 'Embroidery & Uniform Making', 'Boutique Store'] },
+  { id: 'Repair & Maintenance', label: '8. Repair & Maintenance', typicalCost: 91562, expectedRevenue: 32625, subs: ['Two-Wheeler Service Center', 'Solar / Electric Appliance Repair', 'Tractor & Pump Mechanic'] },
+  { id: 'Digital / CSC / Online Services', label: '9. Digital / CSC / Online Services', typicalCost: 55312, expectedRevenue: 26750, subs: ['Common Service Center (CSC)', 'Photocopy & Online Filing', 'Banking Correspondent Kiosk'] },
+  { id: 'Handicrafts / Artisan Products', label: '10. Handicrafts / Artisan Products', typicalCost: 54688, expectedRevenue: 19000, subs: ['Clay Pottery', 'Wood & Bamboo Craft', 'Handloom Weaving'] }
 ];
 
 export default function AssessmentWizard() {
   const router = useRouter();
+  const { user } = useAuth();
+  const [authChecked, setAuthChecked] = useState(false);
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('grambiz_user') : null;
+    if (!user && !saved) {
+      router.replace('/register?redirect=/assessment/new');
+    } else {
+      setAuthChecked(true);
+    }
+  }, [user, router]);
 
   // 1. SINGLE SOURCE OF TRUTH FOR LOCATION STATE
   const [selectedLocation, setSelectedLocation] = useState<SelectedLocationState>({
@@ -84,6 +96,7 @@ export default function AssessmentWizard() {
     existing_loans: 0,
     business_category: 'Dairy',
     business_subcategory: 'Cow / Buffalo Chilling',
+    prior_experience: true,
     experience_years: 2,
     land_available: true,
     water_available: true,
@@ -388,24 +401,24 @@ export default function AssessmentWizard() {
     setIsSubmitting(true);
     try {
       const payload = {
-        state: selectedLocation.state,
-        district: selectedLocation.district,
-        block: selectedLocation.block,
-        village: selectedLocation.village,
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
-        location_source: selectedLocation.location_source,
-        margin_capital: financialData.margin_capital,
+        location: {
+          state: selectedLocation.state,
+          district: selectedLocation.district,
+          block: selectedLocation.block,
+          village: selectedLocation.village,
+          latitude: Number(selectedLocation.latitude),
+          longitude: Number(selectedLocation.longitude)
+        },
+        margin_capital: Number(financialData.margin_capital),
         business_category: financialData.business_category,
         business_subcategory: financialData.business_subcategory,
-        experience_years: financialData.experience_years,
-        infrastructure: {
-          water: financialData.water_available,
-          electricity: financialData.electricity_available,
-          transport: financialData.transport_available,
-          land: financialData.land_available,
-          storage: financialData.storage_available
-        }
+        prior_experience: Boolean(financialData.prior_experience),
+        experience_years: financialData.prior_experience ? (Number(financialData.experience_years) || 2) : 0,
+        land_available: Boolean(financialData.land_available),
+        water_available: Boolean(financialData.water_available),
+        electricity_available: Boolean(financialData.electricity_available),
+        transport_available: Boolean(financialData.transport_available),
+        storage_available: Boolean(financialData.storage_available)
       };
 
       const res = await fetch('http://localhost:8000/api/v1/assessments', {
@@ -428,6 +441,18 @@ export default function AssessmentWizard() {
   const estimatedProjectCost = financialData.margin_capital ? (financialData.margin_capital / 0.10) : 0;
   const estimatedLoan = estimatedProjectCost * 0.90;
 
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <div className="p-8 bg-white rounded-2xl border border-slate-200 shadow-sm text-center max-w-sm w-full space-y-3">
+          <div className="w-10 h-10 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-sm font-bold text-slate-800">Checking Entrepreneur Registration...</p>
+          <p className="text-xs text-slate-500">Business assessment requires registration. Redirecting to register...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -443,7 +468,7 @@ export default function AssessmentWizard() {
                 {step === 1 && "Geographic Location & Village Profile"}
                 {step === 2 && "Available Margin Capital (10% Structuring)"}
                 {step === 3 && "Proposed Business Category (10 Core Sectors)"}
-                {step === 4 && "Experience & Village Infrastructure"}
+                {step === 4 && "Entrepreneur Experience"}
                 {step === 5 && "Review & Generate Dossier"}
               </h2>
             </div>
@@ -630,26 +655,6 @@ export default function AssessmentWizard() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-black text-slate-700 uppercase mb-1.5">Existing Investment (₹)</label>
-                  <input
-                    type="number"
-                    value={financialData.existing_investment}
-                    onChange={e => setFinancialData({ ...financialData, existing_investment: Number(e.target.value) })}
-                    className="w-full px-4 py-3 text-xs font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-black text-slate-700 uppercase mb-1.5">Existing Outstanding Loans (₹)</label>
-                  <input
-                    type="number"
-                    value={financialData.existing_loans}
-                    onChange={e => setFinancialData({ ...financialData, existing_loans: Number(e.target.value) })}
-                    className="w-full px-4 py-3 text-xs font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                  />
-                </div>
-              </div>
             </div>
           )}
 
@@ -675,7 +680,8 @@ export default function AssessmentWizard() {
                       onClick={() => setFinancialData({
                         ...financialData,
                         business_category: cat.id,
-                        business_subcategory: cat.subs[0]
+                        business_subcategory: cat.subs[0],
+                        margin_capital: financialData.margin_capital || Math.round(cat.typicalCost * 0.10)
                       })}
                       className={`p-4 rounded-2xl border text-left transition-all duration-150 ${
                         isSelected 
@@ -686,6 +692,10 @@ export default function AssessmentWizard() {
                       <span className={`text-xs font-black block mb-1 ${isSelected ? 'text-emerald-950' : 'text-slate-900'}`}>
                         {cat.label}
                       </span>
+                      <div className="flex items-center gap-2 text-[10.5px] font-bold text-emerald-800 mb-1.5">
+                        <span className="bg-emerald-100/80 px-1.5 py-0.5 rounded">Setup: ₹{cat.typicalCost.toLocaleString('en-IN')}</span>
+                        <span className="bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Rev: ~₹{cat.expectedRevenue.toLocaleString('en-IN')}/mo</span>
+                      </div>
                       <span className="text-[11px] text-slate-500 block truncate">
                         e.g., {cat.subs.join(', ')}
                       </span>
@@ -713,36 +723,40 @@ export default function AssessmentWizard() {
           {step === 4 && (
             <div className="space-y-6">
               <div>
-                <label className="block text-xs font-black text-slate-700 uppercase mb-1.5">Years of Prior Experience</label>
-                <input
-                  type="number"
-                  value={financialData.experience_years}
-                  onChange={e => setFinancialData({ ...financialData, experience_years: Number(e.target.value) })}
-                  className="w-36 px-4 py-3 text-xs font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-black text-slate-700 uppercase mb-2">Available Infrastructure</label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  {[
-                    { key: 'water_available', label: 'Reliable Water Connection' },
-                    { key: 'electricity_available', label: 'Commercial / 3-Phase Electricity' },
-                    { key: 'transport_available', label: 'All-Weather Road & Transport Access' },
-                    { key: 'land_available', label: 'Dedicated Land / Workshop Shed' },
-                    { key: 'storage_available', label: 'Cold Storage / Storage Warehouse' }
-                  ].map(infra => (
-                    <label key={infra.key} className="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                      <input
-                        type="checkbox"
-                        checked={financialData[infra.key as keyof typeof financialData] as boolean}
-                        onChange={e => setFinancialData({ ...financialData, [infra.key]: e.target.checked })}
-                        className="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-500 border-slate-300"
-                      />
-                      <span className="font-bold text-slate-800">{infra.label}</span>
-                    </label>
-                  ))}
+                <label className="block text-xs font-black text-slate-700 uppercase mb-2">
+                  Previous Experience <span className="text-rose-500">*</span>
+                </label>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setFinancialData({ ...financialData, prior_experience: true, experience_years: 2 })}
+                    className={`flex-1 sm:flex-initial sm:w-44 py-3 px-4 rounded-xl border font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
+                      financialData.prior_experience
+                        ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
+                        : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span className={`w-2.5 h-2.5 rounded-full ${financialData.prior_experience ? 'bg-amber-400' : 'bg-slate-300'}`}></span>
+                    <span>Yes (Experienced)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFinancialData({ ...financialData, prior_experience: false, experience_years: 0 })}
+                    className={`flex-1 sm:flex-initial sm:w-44 py-3 px-4 rounded-xl border font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
+                      !financialData.prior_experience
+                        ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
+                        : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span className={`w-2.5 h-2.5 rounded-full ${!financialData.prior_experience ? 'bg-amber-400' : 'bg-slate-300'}`}></span>
+                    <span>No (First-Time)</span>
+                  </button>
                 </div>
+                <p className="text-[11px] text-slate-500 mt-1.5">
+                  {financialData.prior_experience 
+                    ? "✓ Prior sector experience recorded (lowers operational risk rating)."
+                    : "ℹ First-time enterprise / new sector applicant."}
+                </p>
               </div>
             </div>
           )}
@@ -758,7 +772,7 @@ export default function AssessmentWizard() {
                   <div><span className="text-slate-400 text-[10px] uppercase font-bold block">Total Outlay</span><span className="font-bold text-slate-800">₹{estimatedProjectCost.toLocaleString('en-IN')}</span></div>
                   <div><span className="text-slate-400 text-[10px] uppercase font-bold block">Category</span><span className="font-bold text-slate-800">{financialData.business_category}</span></div>
                   <div><span className="text-slate-400 text-[10px] uppercase font-bold block">Subcategory</span><span className="font-bold text-slate-800">{financialData.business_subcategory}</span></div>
-                  <div><span className="text-slate-400 text-[10px] uppercase font-bold block">Experience</span><span className="font-bold text-slate-800">{financialData.experience_years} Years</span></div>
+                  <div><span className="text-slate-400 text-[10px] uppercase font-bold block">Previous Experience</span><span className="font-bold text-slate-800">{financialData.prior_experience ? 'Yes' : 'No'}</span></div>
                 </div>
               </div>
             </div>

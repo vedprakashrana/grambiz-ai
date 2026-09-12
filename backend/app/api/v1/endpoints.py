@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime, timezone
 from decimal import Decimal
 from typing import List, Optional
+from pydantic import BaseModel
 from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.responses import Response
 
@@ -25,7 +26,8 @@ from app.schemas.all_schemas import (
     AssessmentCreateRequest,
     AssessmentDetailResponse,
     AIChatRequest,
-    AIChatResponse
+    AIChatResponse,
+    SWOTResponse
 )
 from app.engines.financial.calculator import FinancialEngine, format_inr
 from app.engines.scheme.rules import SchemeRuleEngine, SEEDED_SCHEMES
@@ -33,6 +35,19 @@ from app.engines.scoring.feasibility import ScoringEngine, RiskEngine
 from app.gis.spatial import GISEngine
 from app.ai.orchestrator import AIOrchestrator
 from app.reports.pdf_generator import PDFReportGenerator
+from app.models.unified_models import (
+    predict_model1_feasibility,
+    predict_model2_price_demand,
+    predict_model3_risk,
+    run_model4_advisory,
+    run_unified_advisory_pipeline,
+    generate_swot_from_models,
+    estimate_operating_cost,
+    normalize_category,
+    PROJECT_COST_TABLE,
+    REVENUE_TABLE,
+    COMMODITY_MAP
+)
 
 router = APIRouter()
 
@@ -43,11 +58,12 @@ ASSESSMENTS_DB = {}
 # Seed a default demo assessment matching the prompt flow
 def seed_default_assessment():
     demo_id = "demo-dairy-assessment-101"
+    cat = "Dairy & Livestock"
     fin_cost = FinancialEngine.calculate_project_cost(Decimal("100000.00"))
     scheme_rec = SchemeRuleEngine.evaluate_scheme(fin_cost.project_cost, Decimal("100000.00"))
     
     score_breakdown = ScoringEngine.compute_feasibility(
-        category="Dairy",
+        category=cat,
         margin_capital=Decimal("100000.00"),
         experience_years=2,
         infra_flags={"water_available": True, "electricity_available": True, "transport_available": True, "land_available": True, "storage_available": False},
@@ -55,7 +71,7 @@ def seed_default_assessment():
     )
 
     risks = RiskEngine.evaluate_risks(
-        category="Dairy",
+        category=cat,
         margin_capital=Decimal("100000.00"),
         infra_flags={"water_available": True, "electricity_available": True, "transport_available": True},
         experience_years=2
@@ -64,8 +80,23 @@ def seed_default_assessment():
     comp_5km = GISEngine.find_competitors_within_radius(28.6139, 77.2090, "Dairy", 5.0)
     comp_10km = GISEngine.find_competitors_within_radius(28.6139, 77.2090, "Dairy", 10.0)
     pricing = GISEngine.get_pricing_benchmarks("Dairy")
-    swot = AIOrchestrator.generate_swot("Dairy", {})
-    strategy = AIOrchestrator.generate_strategy("Dairy", {})
+    # Execute chained 4-Model Pipeline matching exact data architecture
+    m1_pred = predict_model1_feasibility(cat, 100000.0, True, 8420, 2)
+    m2_pred = predict_model2_price_demand(cat, 6, "Monsoon")
+    m4_pred = run_model4_advisory("Uttar Pradesh", cat, 100000.0, True, override_revenue=m2_pred.get("expected_monthly_revenue"))
+    m3_pred = predict_model3_risk(
+        cat,
+        100000.0,
+        True,
+        2,
+        demand_trend=0.65 if m2_pred.get("price_trend") == "Rising" else 0.50,
+        price_volatility=float(m2_pred.get("price_volatility", 0.08)),
+        monthly_rev=float(m2_pred.get("expected_monthly_revenue", 68625.0)),
+        monthly_fixed_cost=estimate_operating_cost(cat)
+    )
+    swot_dict = generate_swot_from_models(m1_pred, m2_pred, m3_pred, cat)
+    swot = SWOTResponse(**swot_dict)
+    strategy = AIOrchestrator.generate_strategy(cat, {})
 
     ASSESSMENTS_DB[demo_id] = {
         "id": demo_id,
@@ -73,7 +104,7 @@ def seed_default_assessment():
         "created_at": datetime.now(timezone.utc),
         "status": "COMPLETED",
         "user_inputs": {
-            "business_category": "Dairy",
+            "business_category": cat,
             "business_subcategory": "Cow & Buffalo Milk Chilling",
             "margin_capital": 100000.00,
             "location": {
@@ -100,6 +131,10 @@ def seed_default_assessment():
         "competitors_10km": [c.model_dump() for c in comp_10km],
         "pricing_data": [p.model_dump() for p in pricing],
         "ai_strategy": strategy,
+        "model1_prediction": m1_pred,
+        "model2_forecast": m2_pred,
+        "model3_risk": m3_pred,
+        "model4_advisory": m4_pred,
         "sources_and_confidence": {
             "population_data": "Estimated from Census & Village Directory [2021-24 Projection]",
             "scheme_rules": "MoSJE Policy Gazette 2024 [Verified]",
@@ -265,22 +300,28 @@ def get_competitors(lat: float, lon: float, category: Optional[str] = None, radi
 def create_assessment(payload: AssessmentCreateRequest):
     assessment_id = f"asm-{uuid.uuid4().hex[:8]}"
     
+    capital_amount = payload.margin_capital or payload.own_capital or Decimal("25000")
+    has_experience = payload.prior_experience or (payload.experience_years > 0)
+    exp_years = payload.experience_years if payload.experience_years > 0 else (2 if has_experience else 0)
+    lat = payload.location.latitude if payload.location.latitude is not None else 23.7957
+    lon = payload.location.longitude if payload.location.longitude is not None else 86.4304
+    
     # 1. Deterministic Financial Calculation
-    fin_cost = FinancialEngine.calculate_project_cost(payload.margin_capital)
+    fin_cost = FinancialEngine.calculate_project_cost(capital_amount)
     
     # 2. Scheme Rule Evaluation
-    scheme_rec = SchemeRuleEngine.evaluate_scheme(fin_cost.project_cost, payload.margin_capital)
+    scheme_rec = SchemeRuleEngine.evaluate_scheme(fin_cost.project_cost, capital_amount)
     
     # 3. GIS Competitor Scan
     comp_5km = GISEngine.find_competitors_within_radius(
-        payload.location.latitude,
-        payload.location.longitude,
+        lat,
+        lon,
         payload.business_category,
         5.0
     )
     comp_10km = GISEngine.find_competitors_within_radius(
-        payload.location.latitude,
-        payload.location.longitude,
+        lat,
+        lon,
         payload.business_category,
         10.0
     )
@@ -295,24 +336,61 @@ def create_assessment(payload: AssessmentCreateRequest):
     }
     score_breakdown = ScoringEngine.compute_feasibility(
         category=payload.business_category,
-        margin_capital=payload.margin_capital,
-        experience_years=payload.experience_years,
+        margin_capital=capital_amount,
+        experience_years=exp_years,
         infra_flags=infra_flags,
         competitor_count_5km=len(comp_5km)
     )
     risks = RiskEngine.evaluate_risks(
         category=payload.business_category,
-        margin_capital=payload.margin_capital,
+        margin_capital=capital_amount,
         infra_flags=infra_flags,
-        experience_years=payload.experience_years
+        experience_years=exp_years
     )
     
     # 5. Pricing benchmarks
     pricing = GISEngine.get_pricing_benchmarks(payload.business_category)
     
-    # 6. AI SWOT & Strategy
-    swot = AIOrchestrator.generate_swot(payload.business_category, payload.model_dump())
-    strategy = AIOrchestrator.generate_strategy(payload.business_category, payload.model_dump())
+    # 7. Execute 4-Model Pipeline matching exact data architecture
+    norm_cat = normalize_category(payload.business_category)
+    m1_pred = predict_model1_feasibility(
+        category=norm_cat,
+        own_capital=float(capital_amount),
+        prior_experience=has_experience,
+        population=8420,
+        competitors_5km=len(comp_5km),
+        has_road=payload.transport_available,
+        has_power=payload.electricity_available,
+        has_infra=payload.water_available and payload.electricity_available,
+        competitors_10km=len(comp_10km)
+    )
+    m2_pred = predict_model2_price_demand(category=norm_cat)
+    expected_rev = float(m2_pred.get("expected_monthly_revenue", 50000.0))
+    opex = estimate_operating_cost(norm_cat)
+
+    m4_pred = run_model4_advisory(
+        state=payload.location.state,
+        business_category=norm_cat,
+        own_capital=float(capital_amount),
+        prior_experience=has_experience,
+        override_revenue=expected_rev
+    )
+    m3_pred = predict_model3_risk(
+        category=norm_cat,
+        own_capital=float(capital_amount),
+        prior_experience=has_experience,
+        competitors_5km=len(comp_5km),
+        has_road=payload.transport_available,
+        has_power=payload.electricity_available,
+        has_infra=payload.water_available and payload.electricity_available,
+        demand_trend=0.65 if m2_pred.get("price_trend") == "Rising" else (0.35 if m2_pred.get("price_trend") == "Falling" else 0.50),
+        price_volatility=float(m2_pred.get("price_volatility", 0.08)),
+        monthly_rev=expected_rev,
+        monthly_fixed_cost=opex
+    )
+    swot_dict = generate_swot_from_models(m1_pred, m2_pred, m3_pred, norm_cat)
+    swot = SWOTResponse(**swot_dict)
+    strategy = AIOrchestrator.generate_strategy(payload.business_category, {})
 
     record = {
         "id": assessment_id,
@@ -329,6 +407,10 @@ def create_assessment(payload: AssessmentCreateRequest):
         "competitors_10km": [c.model_dump() for c in comp_10km],
         "pricing_data": [p.model_dump() for p in pricing],
         "ai_strategy": strategy,
+        "model1_prediction": m1_pred,
+        "model2_forecast": m2_pred,
+        "model3_risk": m3_pred,
+        "model4_advisory": m4_pred,
         "sources_and_confidence": {
             "population_data": "Estimated from Census & Panchayat Registry",
             "scheme_rules": "MoSJE Policy Guideline 2024 [Verified]",
@@ -519,30 +601,124 @@ def get_live_mandi_feed(category: Optional[str] = None, district: Optional[str] 
     res = RealtimeMandiEngine.get_live_mandi_prices(category=category, district=district)
     return res
 
+class AdvisoryAPIRequest(BaseModel):
+    state: str = "Jharkhand"
+    business_category: str = "Dairy & Livestock"
+    own_capital: float = 40000.0
+    prior_experience: bool = True
+    district: Optional[str] = "Dhanbad"
+    block: Optional[str] = "Govindpur"
+    village: Optional[str] = "Pratappur"
+    repayment_strategy_pct: float = 50.0
+    cash_reserve: float = 0.0
+
+@router.post("/ai/advisory")
+def get_business_advisory_endpoint(payload: AdvisoryAPIRequest):
+    """
+    Model 4 End-to-End Advisory Flow matching specification:
+    Chains Model 1 (Feasibility) -> Model 2 (Forecast & Revenue) ->
+    Financial Calculator (Repayment) -> Model 3 (Risk) -> Scheme Engine -> Dynamic SWOT
+    """
+    return run_unified_advisory_pipeline(
+        state=payload.state,
+        district=payload.district or "Dhanbad",
+        block=payload.block or "Govindpur",
+        village=payload.village or "Pratappur",
+        business_category=payload.business_category,
+        prior_experience=payload.prior_experience,
+        own_capital=payload.own_capital,
+        repayment_strategy_pct=payload.repayment_strategy_pct,
+        cash_reserve=payload.cash_reserve
+    )
+
+class UnifiedPipelineAPIRequest(BaseModel):
+    state: str = "Jharkhand"
+    district: str = "Dhanbad"
+    block: str = "Govindpur"
+    village: str = "Pratappur"
+    business_category: str = "Dairy & Livestock"
+    prior_experience: bool = False
+    own_capital: float = 40000.0
+    population: int = 5000
+    competitors_count: int = 3
+    road_available: bool = True
+    electricity_available: bool = True
+    basic_infra_available: bool = True
+    repayment_strategy_pct: float = 50.0
+    cash_reserve: float = 0.0
+
+@router.post("/models/pipeline")
+def run_model_pipeline_endpoint(payload: UnifiedPipelineAPIRequest):
+    """
+    Executes the unified 4-Model + Scheme Engine + Dynamic SWOT pipeline
+    strictly according to the 5-component specification.
+    """
+    return run_unified_advisory_pipeline(
+        state=payload.state,
+        district=payload.district,
+        block=payload.block,
+        village=payload.village,
+        business_category=payload.business_category,
+        prior_experience=payload.prior_experience,
+        own_capital=payload.own_capital,
+        population=payload.population,
+        competitors_count=payload.competitors_count,
+        road_available=payload.road_available,
+        electricity_available=payload.electricity_available,
+        basic_infra_available=payload.basic_infra_available,
+        repayment_strategy_pct=payload.repayment_strategy_pct,
+        cash_reserve=payload.cash_reserve
+    )
+
 @router.get("/pro/compare/all")
 def get_business_comparison_matrix():
     """
     Pro Multi-Business Evaluation: Returns side-by-side ROI, CapEx, and break-even metrics
+    for all 10 supported categories powered by Models 1, 2, 3, and 4.
     """
-    categories = ["Dairy", "Poultry", "Fisheries", "Tailoring", "Food Processing"]
     comparison = []
     
-    for cat in categories:
-        cost_calc = FinancialEngine.calculate_project_cost(Decimal("100000.00"))
-        rec = SchemeRuleEngine.evaluate_scheme(cost_calc.project_cost, Decimal("100000.00"))
-        
+    for cat, p_cost in PROJECT_COST_TABLE.items():
+        m2_res = predict_model2_price_demand(cat)
+        exp_rev = float(m2_res.get("expected_monthly_revenue", REVENUE_TABLE.get(cat, 50000.0)))
+        m4_adv = run_model4_advisory("Uttar Pradesh", cat, 50000.0, True, override_revenue=exp_rev)
+        m1_res = predict_model1_feasibility(cat, 50000.0, True, 6000, 3)
+        m3_res = predict_model3_risk(
+            cat,
+            50000.0,
+            True,
+            3,
+            demand_trend=0.65 if m2_res.get("price_trend") == "Rising" else 0.50,
+            price_volatility=float(m2_res.get("price_volatility", 0.08)),
+            monthly_rev=exp_rev,
+            monthly_fixed_cost=estimate_operating_cost(cat)
+        )
+
+        loan_amt = m4_adv.get("loan_amount_needed", max(0, p_cost - 50000))
+        rec_scheme = m4_adv.get("recommended_scheme") or {}
+        repay = m4_adv.get("repayment_advice") or {}
+
         comparison.append({
             "category": cat,
-            "margin_equity": "₹1,00,000",
-            "project_cost": f"₹{cost_calc.project_cost:,.2f}",
-            "scheme_loan": f"₹{rec.actual_eligible_financing:,.2f} ({rec.interest_rate}% p.a.)",
-            "moratorium": f"{rec.moratorium_months} Months",
-            "tenure_years": f"{rec.tenure_months // 12} Years",
-            "demand_score": 85 if cat in ["Dairy", "Poultry"] else 78,
-            "risk_score": 75 if cat != "Poultry" else 58,
-            "estimated_monthly_net_profit": "₹28,000 - ₹36,000" if cat == "Dairy" else "₹20,000 - ₹30,000",
-            "gestation_period": "Immediate" if cat in ["Dairy", "Tailoring"] else "45-60 Days",
-            "suitability_tag": "High Feasibility & Daily Liquidity" if cat == "Dairy" else "High Growth Potential"
+            "margin_equity": "₹50,000",
+            "project_cost": f"₹{p_cost:,.2f}",
+            "expected_monthly_revenue": f"₹{REVENUE_TABLE.get(cat, 0):,.2f}",
+            "scheme_loan": f"₹{loan_amt:,.2f} ({rec_scheme.get('interest_rate', 6.5)}% p.a.)",
+            "scheme_name": rec_scheme.get("name", "MoSJE Concessional Credit"),
+            "moratorium": f"{rec_scheme.get('moratorium_months', 3)} Months",
+            "tenure_years": f"{rec_scheme.get('tenure_months', 36) // 12} Years",
+            "demand_score": round(m1_res.get("feasibility_score", 75.0), 1),
+            "opportunity_class": m1_res.get("opportunity_class", "Good"),
+            "risk_score": round(m3_res.get("risk_score", 30.0), 1),
+            "risk_level": m3_res.get("risk_level", "Low"),
+            "price_trend": m2_res.get("price_trend", "Stable"),
+            "pricing_recommendation": m2_res.get("pricing_recommendation", "Hold / Expand"),
+            "estimated_monthly_net_profit": f"₹{repay.get('potential_monthly_profit', 20000):,.2f}",
+            "monthly_emi": f"₹{repay.get('emi', 0):,.2f}",
+            "surplus_after_emi": f"₹{repay.get('surplus_after_emi', 0):,.2f}",
+            "can_afford_emi": repay.get("can_afford_emi", True),
+            "gestation_period": "Immediate" if "Dairy" in cat or "Tailoring" in cat else "30-45 Days",
+            "suitability_tag": "High Feasibility & Daily Cashflow" if m1_res.get("feasibility_score", 0) > 75 else "Moderate Growth Potential"
         })
     return comparison
 
